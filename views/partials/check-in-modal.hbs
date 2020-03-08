@@ -1,0 +1,48 @@
+<div class="modal modal--hidden" id="check-in-modal">
+    <div class="modal__content">
+        <div class="modal__close modal__close--upper-right-x">&times;</div>
+        <div class="container container--padded container--fill">
+            <form class="form">
+                <div class="form__header form__header--start-centered-horizontal">
+                    <h2 class="form__title">Check-In</h2>
+                </div>
+                <div class="form__input-group">
+                    <div>
+                        <label for="reservation-date" class="form__label">Date</label>
+                        <input type="date" class="form__input form__input--sm" id="reservation-date">
+                    </div>
+                    <div>
+                        <label for="reservation-location" class="form__label">Source and Destination</label>
+                        <select onchange="getTimeSlots()" class="form__input form__input--sm" id="reservation-location">
+                            <option value="MNL-to-LAG">Manila to Laguna</option>
+                            <option value="LAG-to-MNL">Laguna to Manila</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form__input-group">
+                    <div>
+                        <label for="reservation-time" class="form__label">Time</label>
+                        <select class="form__input form__input--sm" id="reservation-time">
+                            <option value="0600">6:00 AM</option>
+                            <option value="0730">7:30 AM</option>
+                            <option value="0930">9:30 AM</option>
+                            <option value="1100">11:00 AM</option>
+                            <option value="1300">1:00 PM</option>
+                            <option value="1430">2:30 PM</option>
+                            <option value="1530">3:30 PM</option>
+                            <option value="1700">5:00 PM</option>
+                            <option value="1815">6:15 PM</option>
+                        </select>
+                    </div>
+                    <div>	
+                        <label for="id-number" class="form__label">ID Number</label>
+                        <input type="text" id="id-number" name="id-number" class="form__input form__input--sm numonly">
+                    </div>
+                </div>
+                <div class="form__footer form__footer--end-horizontal">
+                    <button type="submit" class="button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

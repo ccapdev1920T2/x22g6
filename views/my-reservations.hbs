@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="styles/components.css">
+    <link rel="stylesheet" type="text/css" href="styles/navigation.css">
+    <link rel="stylesheet" type="text/css" href="styles/forms.css">
+    <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script> 
+    <script type="text/javascript" src="scripts/reservation.js"></script>
+    <title>My Reservations</title>
+</head>
+<body class="nav-side">
+    {{> reservation_modal}}
+    {{> deletion_confirmation_modal}}
+    {{> navbar}}
+
+    <div class="nav-side__main-section">
+        <div class="nav-side__sidebar-section">
+            {{> sidebar_regular}}
+        </div>
+        <div class="nav-side__content-section">
+            <!-- Today's Reservation -->
+            <div class="container container--fill container--bordered">
+                <div class="container__header-section">
+                    <h2 class="container__title">Today's Reservation</h2>
+                </div>
+                <div class="container__content-section">
+                    <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                        <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                        <p>6:00 A.M.</p>
+                    </div>
+                    <div class="time-slot time-slot--MNL-to-LAG time-slot--fill">
+                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                        <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
+                        <p>1:00 P.M.</p>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <!-- All Reservations -->
+            <div class="container container--fill container--bordered">
+                <div class="container__header-section">
+                    <h2 class="container__title">My Reservations</h2>
+                </div>
+                <div class="container__content-section">
+                    <div class="calendar">
+                        <div class="calendar__month-reservations">
+                            <p class="calendar__month-name">February 2020</p>
+                            <div class="calendar__day-reservations">
+                                <div class="calendar__day-info">
+                                    <p class="calendar__day-number">20</p>
+                                    <p>Thurs</p>
+                                </div>
+                                <div class="calendar__time-slots">
+                                    <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                        <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                        <p>6:00 A.M.</p>
+                                    </div>
+                                    <div class="time-slot time-slot--MNL-to-LAG time-slot--fill">
+                                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                        <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
+                                        <p>1:00 P.M.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calendar__day-reservations">
+                                <div class="calendar__day-info">
+                                    <p class="calendar__day-number">21</p>
+                                    <p>Fri</p>
+                                </div>
+                                <div class="calendar__time-slots">
+                                    <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                        <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                        <p>6:00 A.M.</p>
+                                    </div>
+                                    <div class="time-slot time-slot--MNL-to-LAG time-slot--fill">
+                                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                        <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
+                                        <p>1:00 P.M.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calendar__day-reservations">
+                                <div class="calendar__day-info">
+                                    <p class="calendar__day-number">20</p>
+                                    <p>Thurs</p>
+                                </div>
+                                <div class="calendar__time-slots">
+                                    <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                        <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                        <p>6:00 A.M.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calendar__month-reservations">
+                        <p class="calendar__month-name">March 2020</p>
+                        <div class="calendar__day-reservations">
+                            <div class="calendar__day-info">
+                                <p class="calendar__day-number">2</p>
+                                <p>Mon</p>
+                            </div>
+                            <div class="calendar__time-slots">
+                                <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                    <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                    <p>4:00 P.M.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calendar__day-reservations">
+                            <div class="calendar__day-info">
+                                <p class="calendar__day-number">6</p>
+                                <p>Fri</p>
+                            </div>
+                            <div class="calendar__time-slots">
+                                <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                    <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                    <p>6:00 A.M.</p>
+                                </div>
+                                <div class="time-slot time-slot--MNL-to-LAG time-slot--fill">
+                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                    <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
+                                    <p>1:00 P.M.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calendar__day-reservations">
+                            <div class="calendar__day-info">
+                                <p class="calendar__day-number">9</p>
+                                <p>Mon</p>
+                            </div>
+                            <div class="calendar__time-slots">
+                                <div class="time-slot time-slot--LAG-to-MNL time-slot--fill">
+                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                    <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
+                                    <p>6:00 A.M.</p>
+                                </div>
+                                <div class="time-slot time-slot--MNL-to-LAG time-slot--fill">
+                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                                    <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
+                                    <p>1:00 P.M.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript" src="scripts/time-slot-delete.js"></script>
+    <script type="text/javascript" src="scripts/modal.js"></script>
+</body>
+</html>
