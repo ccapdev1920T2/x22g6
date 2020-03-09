@@ -1,16 +1,17 @@
-let modalToggles = document.getElementsByClassName("modal-toggle");
+connectModalToggles();
+connectModalClosers();
 
-for(let i=0; i<modalToggles.length; ++i){
-    modalToggles[i].addEventListener("click", function(){
+// Connects the modal toggles to their corresponding modals
+function connectModalToggles(){
+    $(".modal-toggle").click(function(){
         let targetId = this.getAttribute("data-modal-target");
-        document.getElementById(targetId).classList.remove("modal--hidden");
+        $(`#${targetId}`).removeClass("modal--hidden");
     });
 }
 
-let modalCloser = document.getElementsByClassName("modal__close");
-
-for(let i=0; i<modalCloser.length; ++i){
-    modalCloser[i].addEventListener("click", function(){
+// Connects the modal closers to their corresponding modals
+function connectModalClosers(){
+    $(".modal__close").click(function(){
         this.closest(".modal").classList.add("modal--hidden");
     });
 }
