@@ -1,29 +1,28 @@
-let timeSlotsDeleteIcons = document.getElementsByClassName("time-slot__delete");
-let deletionConfirmationModal = document.getElementById("deletion-confirmation-modal");
-for(let i=0; i<timeSlotsDeleteIcons.length; ++i){
-    timeSlotsDeleteIcons[i].addEventListener("click", function(){
-        this.parentElement.id = "time-slot-to-delete";
-        deletionConfirmationModal.setAttribute("data-time-slot-target", "time-slot-to-delete");
+$(document).ready(function(){
+
+    // For time-slot deletion
+    let toDelete;
+    // Marks the time-slot that would be deleted upon clicking the delete symbol for the corresponding time-slot
+    $(".time-slot__delete").click(function(){
+        toDelete = $(this.closest(".time-slot"));
     });
-}
 
-let reject = document.getElementById("reject-deletion");
-let accept = document.getElementById("accept-deletion")
+    // When the deletion is cancelled
+    $("#reject-deletion").click(function(){
+        toDelete = null;
+    });
 
-reject.addEventListener("click", function(){
-    document.getElementById("time-slot-to-delete").removeAttribute("id");
-});
-
-accept.addEventListener("click", function(){
-    let toDelete = document.getElementById("time-slot-to-delete");
-    let day = toDelete.closest(".calendar__time-slots");
-    let month = toDelete.closest(".calendar__month-reservations");
-    toDelete.remove();
-    if(day && day.children.length === 0){
-        day.closest(".calendar__day-reservations").remove();
-    }
-    if(month && month.children.length === 1){
-        month.remove();
-    }
-    
+    // When the deletion is confirmed
+    $("#accept-deletion").click(function(){
+        let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
+        let monthContainer = $(toDelete.closest(".calendar__month-reservations"));
+        toDelete.remove();
+        console.log(timeSlotsContainer);
+        //Checks if there is any more reservations in a given day
+        if(timeSlotsContainer && timeSlotsContainer.children().length === 0){
+            timeSlotsContainer.closest(".calendar__day-reservations").remove(); //Removes section for a day without any reservations
+            if(monthContainer && monthContainer.children(".calendar__day-reservations").length === 0)
+                monthContainer.remove(); //Removes section for a month without any reservations
+        }
+    });
 });
