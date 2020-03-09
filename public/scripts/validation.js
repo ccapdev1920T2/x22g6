@@ -22,15 +22,13 @@ $(document).ready(function(){
 		}
 
 		else{
-			checkInputs(e);
+			checkText(e);
 			checkEmail(e);
-			checkID(e);
-			checkPassword(e);
 		}
 	});
 
 	$("#register").click(function(e){
-		checkInputs(e);
+		checkText(e);
 		checkEmail(e);
 		checkID(e);
 		checkPassword(e);		
@@ -66,7 +64,7 @@ function checkID(e){
 function checkPassword(e){
 	var password = $("#password");
 	var confirmpassword = $("#confirm-password");
-	if(password.val() !== confirmpassword.val() || password.val() === ""){
+	if(password.val() !== confirmpassword.val() || password.val() === "" || confirmpassword.val() == ""){
 		password.css("border-color", "red");
 		confirmpassword.css("border-color", "red");
 		e.preventDefault();
@@ -78,9 +76,9 @@ function checkPassword(e){
 	}
 }
 
-function checkInputs(e){
+function checkText(e){
 	var valid = true;
-	$('input[type="text"],[type="email"],[type="password"]').each(function(){
+	$('input[type="text"]').each(function(){
 		if($.trim($(this).val()) === ""){
 			valid = false;
 			$(this).css("border-color", "red");
