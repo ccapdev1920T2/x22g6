@@ -259,6 +259,9 @@
     box-sizing: border-box;
 }
 
+.modal__confirmation-choices--centered{
+    justify-content: center;
+}
 .modal__confirmation-choices>*{
     margin-left: 0.5em;
 }
