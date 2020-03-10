@@ -1,5 +1,8 @@
-connectModalToggles();
-connectModalClosers();
+$(document).ready(function(){
+    connectModalToggles();
+    connectModalClosers();
+});
+
 
 // Connects the modal toggles to their corresponding modals
 function connectModalToggles(){
