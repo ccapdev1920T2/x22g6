@@ -19,8 +19,31 @@ $(document).ready(function(){
 		checkText(e);
 	});
 
+	// When user wants to change password
 	changePasswordSubmit.click(function(e){
-		checkPassword(e);
+		e.preventDefault();
+		let changePasswordForm = $("#change-password-form");
+		//Validates inputs
+		let isValid = Validator.checkRequired(changePasswordForm) &&
+			Validator.checkEqual($("#new-password"), $("#confirm-new-password"));
+		if(isValid){
+			Modal.closeModal($("#change-password-modal"));
+			// POST request to change password
+			$.ajax({
+				type: "POST",
+				url: "/change-password",
+				data: changePasswordForm.serialize(),
+				success: function(){
+					Modal.displayModalMessage("Password was successfully changed");
+				},
+				error: function(jqxhr){
+					Modal.displayModalMessage(jqxhr.responseText);
+				},
+				complete: function(){
+					changePasswordForm.find("input").val("");
+				}
+			});
+		}
 	});
 
 	// Prevents the profile from being edited
