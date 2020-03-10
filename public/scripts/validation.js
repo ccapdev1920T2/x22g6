@@ -29,7 +29,7 @@ $(document).ready(function(){
 		checkText(e);
 		checkEmail(e);
 		checkID(e);
-		checkPassword(e);		
+		checkPassword(e);
 	});
 });
 function checkEmail(e){
@@ -76,7 +76,7 @@ function checkPassword(e){
 
 function checkText(e){
 	var valid = true;
-	$('input[type="text"]').each(function(){
+	$('input[type="text"]').not("#id-number__check-in").each(function(){
 		if($.trim($(this).val()) === ""){
 			valid = false;
 			$(this).css("border-color", "red");
