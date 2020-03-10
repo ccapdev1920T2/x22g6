@@ -1,29 +1,47 @@
 $(document).ready(function(){
-    $("#cancel_profile").click(function(e){
-		$("#edit_profile").html("Edit Profile");
-		$("#change_password").show();
-		$("#form__profile input").attr('disabled', 'disabled');
-		$("#cancel_profile").hide();
-		e.preventDefault();
+	//Retrieves elements from DOM
+	let cancelButton = $("#cancel-edit-profile");
+	let editProfileButton = $("#edit-profile-toggle");
+	let saveButton = $("#edit-profile-save");
+	let changePasswordSubmit = $("#change-password-submit");
+	let changePasswordToggle = $("#change-password-toggle");
+	let editableInputs = $(".editable");
+
+	// When the user wants to edit the profile
+	editProfileButton.click(enableProfileEdit);
+
+	// When the cancel button is clicked
+    cancelButton.click(lockProfileEdit);
+
+	// When the user wants to save changes made to profile
+	saveButton.click(function(e){
+		checkEmail(e);
+		checkText(e);
+		lockProfileEdit(e);
 	});
 
-	$("#change-password").click(function(e){
+	changePasswordSubmit.click(function(e){
 		checkPassword(e);
 	});
 
-	$("#edit_profile").click(function(e){
-		if($("#edit_profile").text() == "Edit Profile"){
-			$("#edit_profile").html("Save");
-			$("#form__profile input").removeAttr('disabled');
-			$("#change_password").hide();
-			$("#id-number").attr('disabled', 'disabled');
-			$("#cancel_profile").show();
-			e.preventDefault();
-		}
+	// Prevents the profile from being edited
+	function lockProfileEdit(){
+		editProfileButton.show();
+		changePasswordToggle.show();
+		editableInputs.attr('disabled', 'disabled');
+		cancelButton.hide();
+		saveButton.hide();
+	}
 
-		else{
-			checkText(e);
-			checkEmail(e);
-		}
-	});
-})
+	// Renders the profile editable
+	function enableProfileEdit(){
+		editableInputs.removeAttr('disabled');
+		changePasswordToggle.hide();
+		saveButton.show();
+		cancelButton.show();
+		editProfileButton.hide();
+	}
+});
+
+
+		
