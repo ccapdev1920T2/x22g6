@@ -1,28 +1,3 @@
-$(document).ready(function(){
-	$(".numonly").keypress(function(e){
-		var key = e.keyCode;
-		if(!(key >= 48 && key <= 57)){
-			e.preventDefault();
-		}
-	});
-
-	$(".textonly").keypress(function(e){
-		var key = e.keyCode;
-		if(key >= 48 && key <= 57){
-			e.preventDefault();
-		}
-	});
-
-	$(".required").blur(function(){
-		let input = $(this);
-		if(input.val() == ""){
-			markInput(input);
-		}else{
-			unmarkInput(input)
-		}
-	});
-});
-
 let Validator = function() {
 	// Marks the input as invalid
 	function markInput(input){
@@ -33,6 +8,31 @@ let Validator = function() {
 	function unmarkInput(input){
 		input.removeClass("form__input--invalid");
 	}
+
+	$(document).ready(function(){
+		$(".numonly").keypress(function(e){
+			var key = e.keyCode;
+			if(!(key >= 48 && key <= 57)){
+				e.preventDefault();
+			}
+		});
+	
+		$(".textonly").keypress(function(e){
+			var key = e.keyCode;
+			if(key >= 48 && key <= 57){
+				e.preventDefault();
+			}
+		});
+	
+		$(".required").blur(function(){
+			let input = $(this);
+			if(input.val() == ""){
+				markInput(input);
+			}else{
+				unmarkInput(input)
+			}
+		});
+	});
 
 	return {
 		// Takes a JQuery input object and checks if value follows the appropiate input format and marks it if not
