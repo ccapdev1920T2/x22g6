@@ -25,6 +25,10 @@
     width: 7em;
 }
 
+.form__input--invalid{
+    border-color: red;
+}
+
 .form__label{
     font-family: inherit;
     display: block;

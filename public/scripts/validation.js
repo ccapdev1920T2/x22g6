@@ -14,80 +14,75 @@ $(document).ready(function(){
 	});
 
 	$(".required").blur(function(){
-
-		if($(this).val() == ""){
-			$(this).css("border-color", "red");
+		let input = $(this);
+		if(input.val() == ""){
+			markInput(input);
+		}else{
+			unmarkInput(input)
 		}
-
-		else{
-			$(this).css("border-color", "#707070")
-		}
-	});
-
-	
-	$("#register").click(function(e){
-		checkText(e);
-		checkEmail(e);
-		checkID(e);
-		checkPassword(e);
 	});
 });
-function checkEmail(e){
-	var email = $("#email").val();
+
+// Marks the input as invalid
+function markInput(input){
+	input.addClass("form__input--invalid");
+}
+
+// Reverts the input back to its normal state
+function unmarkInput(input){
+	input.removeClass("form__input--invalid");
+}
+
+// Takes a JQuery input object and checks if value follows the appropiate input format and marks it if not
+function checkEmail(emailInput){
 	var emailFormat = /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/;
 
-	if(!emailFormat.test(email)){
-		$("#email").css("border-color", "red");
-		e.preventDefault();
-	}
-
-	else{
-		$("#email").css("border-color", "#707070");
-	}
-}
-
-function checkID(e){
-	var id = $("#id-number").val();
-
-	if(id.length != 8){
-		$("#id-number").css("border-color", "red");
-		e.preventDefault();
-	}
-
-	else{
-		$("#id-number").css("border-color", "#707070");
+	if(!emailFormat.test(emailInput.val())){
+		markInput(emailInput);
+		return false;
+	}else{
+		unmarkInput(emailInput);
+		return true;
 	}
 }
 
-function checkPassword(e){
-	var password = $("#password");
-	var confirmpassword = $("#confirm-password");
-	if(password.val() !== confirmpassword.val() || password.val() === "" || confirmpassword.val() == ""){
-		password.css("border-color", "red");
-		confirmpassword.css("border-color", "red");
-		e.preventDefault();
-	}
-
-	else{
-		password.css("border-color", "#707070");
-		confirmpassword.css("border-color", "#707070");
+// Takes a JQuery input object and checks if value is a valid ID and marks it if not
+function checkID(idInput){
+	if(idInput.val().length != 8){
+		markInput(idInput);
+		return false;
+	}else{
+		unmarkInput(idInput);
+		return true;
 	}
 }
 
-function checkText(e){
-	var valid = true;
-	$('input[type="text"]').not("#id-number__check-in").each(function(){
-		if($.trim($(this).val()) === ""){
-			valid = false;
-			$(this).css("border-color", "red");
-		}
-		else{
-			$(this).css("border-color", "#707070");
+// Takes a two JQuery input objects and checks if values are the same and marks it if not
+function checkEqual(input1, input2){
+	console.log(input1);
+	if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
+		markInput(input1);
+		markInput(input2);
+		return false;
+	}else{
+		unmarkInput(input1);
+		unmarkInput(input2);
+		return true;
+	}
+}
+
+// Checks if all the inputs in a given form is filled
+function checkRequired(form){
+	let isValid = true;
+	form.find(".required").each(function(){
+		let currentInput = $(this);
+		if($.trim(currentInput.val()).length === 0){
+			isValid = false;
+			markInput(currentInput);
+		}else{
+			unmarkInput(currentInput);
 		}
 	});
-
-	if(valid == false){
-		e.preventDefault();
-	}
+	return isValid;
 }
 
