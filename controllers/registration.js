@@ -6,4 +6,8 @@ module.exports = function(app){
     app.get("/register-professor", function(req, res){
         res.render("register-professor");
     });
+
+    app.post("/register-professor", function(req, res){
+    	res.render("register-professor");
+    });
 }
