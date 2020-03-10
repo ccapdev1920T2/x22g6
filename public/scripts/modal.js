@@ -37,7 +37,11 @@ let Modal = function(){
                 this.closest(".modal").remove();
             });
             $("body").append(modalContainer);
-        }    
+        },
+
+        closeModal(modal){
+            modal.addClass("modal--hidden");
+        }
     };
     
 }();
