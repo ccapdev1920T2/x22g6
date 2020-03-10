@@ -26,11 +26,4 @@ $(document).ready(function(){
 			checkEmail(e);
 		}
 	});
-
-	$("#register").click(function(e){
-		checkText(e);
-		checkEmail(e);
-		checkID(e);
-		checkPassword(e);		
-	});
 })

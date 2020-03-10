@@ -23,6 +23,14 @@ $(document).ready(function(){
 			$(this).css("border-color", "#707070")
 		}
 	});
+
+	
+	$("#register").click(function(e){
+		checkText(e);
+		checkEmail(e);
+		checkID(e);
+		checkPassword(e);		
+	});
 });
 function checkEmail(e){
 	var email = $("#email").val();
