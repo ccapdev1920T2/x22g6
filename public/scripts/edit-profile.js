@@ -17,7 +17,6 @@ $(document).ready(function(){
 	saveButton.click(function(e){
 		checkEmail(e);
 		checkText(e);
-		lockProfileEdit(e);
 	});
 
 	changePasswordSubmit.click(function(e){
