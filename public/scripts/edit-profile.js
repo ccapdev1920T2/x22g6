@@ -7,6 +7,11 @@ $(document).ready(function(){
 	let changePasswordToggle = $("#change-password-toggle");
 	let editableInputs = $(".editable");
 
+	// For storing the actual profile values
+	let firstName = $("#first-name").val();
+	let lastName = $("#last-name").val();
+	let email = $("#email").val();
+
 	// When the user wants to edit the profile
 	editProfileButton.click(enableProfileEdit);
 
@@ -28,12 +33,11 @@ $(document).ready(function(){
 				data: editProfileForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Profile edited successfully");
-					$(editProfileForm.find(".editable")).each(function(){
-						let currentInput = $(this);
-						let currentValue = currentInput.val();
-						if(currentValue !== currentInput.attr("value"))
-							currentInput.attr("value", currentValue);
-					});
+					firstName = $("#first-name").val();
+					lastName = $("#last-name").val();
+					email = $("#email").val();
+					console.log(firstName);
+					revertProfile();
 				},
 				error: function(jqxhr){
 					Modal.displayModalMessage(jqxhr.responseText);
@@ -88,6 +92,13 @@ $(document).ready(function(){
 		saveButton.show();
 		cancelButton.show();
 		editProfileButton.hide();
+	}
+
+	// Revert the inputs to the values that is stored on firstName, lastName, and email
+	function revertProfile(){
+		$("#first-name").attr("value", firstName).val(firstName);
+		$("#last-name").attr("value", lastName).val(lastName);
+		$("#email").attr("value", email).val(email);
 	}
 });
 
