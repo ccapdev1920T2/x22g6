@@ -36,7 +36,6 @@ $(document).ready(function(){
 					firstName = $("#first-name").val();
 					lastName = $("#last-name").val();
 					email = $("#email").val();
-					console.log(firstName);
 					revertProfile();
 				},
 				error: function(jqxhr){
