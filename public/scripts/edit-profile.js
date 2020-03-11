@@ -15,8 +15,34 @@ $(document).ready(function(){
 
 	// When the user wants to save changes made to profile
 	saveButton.click(function(e){
-		checkEmail(e);
-		checkText(e);
+		e.preventDefault();
+		let editProfileForm = $("#edit-profile-form");
+		// Validates inputs
+		let isValid = Validator.checkRequired(editProfileForm) &&
+			Validator.checkEmail($("#email"));
+		if(isValid){
+			// POST request to edit profile
+			$.ajax({
+				type: "POST",
+				url: "/profile",
+				data: editProfileForm.serialize(),
+				success: function(){
+					Modal.displayModalMessage("Profile edited successfully");
+					$(editProfileForm.find(".editable")).each(function(){
+						let currentInput = $(this);
+						let currentValue = currentInput.val();
+						if(currentValue !== currentInput.attr("value"))
+							currentInput.attr("value", currentValue);
+					});
+				},
+				error: function(jqxhr){
+					Modal.displayModalMessage(jqxhr.responseText);
+				},
+				complete: function(){
+					lockProfileEdit();
+				}
+			});
+		}
 	});
 
 	// When user wants to change password
