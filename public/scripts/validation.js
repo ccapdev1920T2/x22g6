@@ -61,7 +61,6 @@ let Validator = function() {
 
 		// Takes a two JQuery input objects and checks if values are the same and marks it if not
 		checkEqual(input1, input2){
-			console.log(input1);
 			if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
 				markInput(input1);
 				markInput(input2);
