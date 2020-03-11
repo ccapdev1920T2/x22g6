@@ -4,7 +4,8 @@ module.exports = function(app){
     });
 
     app.post("/profile", function(req, res){
-    	res.render("profile");
+        res.status(200);
+        res.end();
     });
 
     app.post("/change-password", function(req, res){
