@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	let timeSelector = $("#reservation-time");
 	let locationSelector = $("#reservation-location");
+	let reservationForm = $("#reservation-form");
 
 	locationSelector.change(function(){
 		$.ajax({
@@ -15,4 +16,28 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	// When the user submits the reservation form
+	$("#reservation-form button[type=\"submit\"").click(function(e){
+		e.preventDefault();
+		console.log("test");
+		let isValid = Validator.checkRequired(reservationForm);
+		if(isValid){
+			$.ajax({
+				type: "POST",
+				url: "/reserve",
+				success: function(){
+					Modal.displayModalMessage("You reservation has been made");
+				},
+				error: function(jqxhr){
+					Modal.displayModalMessage(jqxhr.responseText);
+				},
+				complete: function(){
+					Modal.closeModal($("#reservation-modal"));
+				}
+			});
+		}
+	});
+
+
 });
