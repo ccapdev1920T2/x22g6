@@ -8,6 +8,11 @@ const reservation = new Schema({
         required: true
     },
 
+    destination: {
+        type: Number,
+        required: true
+    },
+    
     date: {
         type: Date,
         required: true
