@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("#check-in-form button[type=\"submit\"]").click(function(e){
         e.preventDefault();
         let checkInForm = $("#check-in-form");
-        let isValid = Validator.checkRequired(checkInForm);
+        let isValid = Validator.checkRequired(checkInForm) && Validator.checkID($("#id-number-check-in"));
         if(isValid){
             // POST request for check in
             $.ajax({
