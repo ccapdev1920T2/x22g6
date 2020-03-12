@@ -27,6 +27,12 @@ module.exports = function(app){
         res.render("user-reservations");
     });
 
+    //For handling request to make a reservation
+    app.post("/reserve", function(req, res){
+        res.status(200);
+        res.end();
+    });
+
     //For handling change in reservation time
     app.get("/location/:location", function(req, res){
         switch(req.params.location){
