@@ -2,7 +2,6 @@ $(document).ready(function(){
 	let timeSelector = $("#reservation-time");
 	let locationSelector = $("#reservation-location");
 
-	console.log("test");
 	locationSelector.change(function(){
 		$.ajax({
 			type: "GET",
