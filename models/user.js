@@ -30,6 +30,15 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
 
+    user_type: {
+        type: String,
+        default: Student
+    },
+
+    reputation_points: {
+        type: Number,
+        default: 100
+    }
 });
