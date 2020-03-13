@@ -14,6 +14,7 @@ module.exports = function(app){
     });
 
     app.post("/register-professor", function(req, res){
-    	res.render("register-professor");
+    	res.status(200);
+        res.end();
     });
 }

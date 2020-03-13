@@ -5,9 +5,10 @@
     <link rel="stylesheet" type="text/css" href="styles/layout.css">
     <link rel="stylesheet" type="text/css" href="styles/navigation.css">
     <link rel="stylesheet" type="text/css" href="styles/forms.css">
-    <script type="text/javascript" src="scripts/modules/jquery-3.4.1.min.js"></script>    
+    <script type="text/javascript" src="scripts/modules/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="scripts/modules/validation.js"></script>
     <script type="text/javascript" src="scripts/modules/modal.js"></script>
+	<script type="text/javascript" src="scripts/register-professor.js"></script>
 	<title>Register Professor</title>
 </head>
 <body class="nav-side">
@@ -22,7 +23,7 @@
         </div>
         <div class="nav-side__content-section">
             <div class="container container--padded container--fill">
-                <form action="register-professor" class="form" method="POST">
+                <form class="form" method="POST" id="professor-registration-form">
                     <div class="form__header">
                         <h2 class="container__title container__title--bg">Professor Registration</h2>
                     </div>
@@ -57,7 +58,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="form__footer form__footer--end-horizontal">
                         <button type="submit" class="button" id="register">Sign Up</button>
                     </div>
