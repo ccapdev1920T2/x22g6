@@ -14,15 +14,32 @@ $(document).ready(function(){
 
     // When the deletion is confirmed
     $("#accept-deletion").click(function(){
+        let toSend = {
+            date : toDelete.attr("data-reservation-date")
+        }
+        $.ajax({
+            type: "DELETE",
+            url: "/delete-reservation",
+            data: toSend,
+            success: function(){
+                Modal.displayModalMessage("Your reservation at <b>" + toSend.date + "</b> has been deleted");
+                deleteTimeSlot();
+            },
+            error: function(jqxhr){
+                Modal.displayModalMessage(jqxhr.responseText);
+            }
+        })
+    });
+
+    function deleteTimeSlot(){
         let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
         let monthContainer = $(toDelete.closest(".calendar__month-reservations"));
         toDelete.remove();
-        console.log(timeSlotsContainer);
         //Checks if there is any more reservations in a given day
         if(timeSlotsContainer && timeSlotsContainer.children().length === 0){
             timeSlotsContainer.closest(".calendar__day-reservations").remove(); //Removes section for a day without any reservations
             if(monthContainer && monthContainer.children(".calendar__day-reservations").length === 0)
                 monthContainer.remove(); //Removes section for a month without any reservations
         }
-    });
+    }
 });
