@@ -23,6 +23,12 @@ module.exports = function(app){
         res.render("my-reservations");
     });
 
+    // For handling deletion of a user's reservation
+    app.delete("/delete-reservation", function(req, res){
+        res.status(200);
+        res.end();
+    })
+
     app.get("/user-reservations", function(req, res){
         res.render("user-reservations");
     });
