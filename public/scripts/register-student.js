@@ -7,6 +7,7 @@ $(document).ready(function(){
             Validator.checkEmail($("#email")) && Validator.checkID($("#id-number")) &&
             Validator.checkEqual($("#password"), $("#confirm-password"));
         if(isValid){
+            let bufferModal = Modal.displayBufferModal("Registering");
             // POST request to register student
             $.ajax({
                 type: "POST",
@@ -23,6 +24,7 @@ $(document).ready(function(){
                     $(studenRegistrationForm.find("input")).each(function(){
                         $(this).val("");
                     });
+                    Modal.removeModal(bufferModal);
                 }
             })
         }

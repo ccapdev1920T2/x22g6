@@ -23,6 +23,8 @@ $(document).ready(function(){
 		console.log("test");
 		let isValid = Validator.checkRequired(reservationForm);
 		if(isValid){
+			Modal.closeModal($("#reservation-modal"));
+			let bufferModal = Modal.displayBufferModal("Making Reservation");
 			$.ajax({
 				type: "POST",
 				url: "/reserve",
@@ -33,7 +35,7 @@ $(document).ready(function(){
 					Modal.displayModalMessage(jqxhr.responseText);
 				},
 				complete: function(){
-					Modal.closeModal($("#reservation-modal"));
+					Modal.removeModal(bufferModal);
 				}
 			});
 		}

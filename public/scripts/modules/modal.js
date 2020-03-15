@@ -39,8 +39,23 @@ let Modal = function(){
             $("body").append(modalContainer);
         },
 
+        displayBufferModal(message){
+            let modalContainer = $("<div>").addClass("modal");
+            let messageElement = $("<p>").append(message).addClass("modal__message");
+            let modalContent = $("<div>").addClass("container container--padded").css({display: "flex", "justify-conent": "center", "flex-direction": "column"});
+            let buffer = $("<img>").attr("src", "../../images/buffer.gif").css({width: "2em", margin: "0 auto 0.7em auto"});
+
+            modalContainer.append(modalContent.append(buffer).append(messageElement));
+            $("body").append(modalContainer);
+            return modalContainer;
+        },
+
         closeModal(modal){
             modal.addClass("modal--hidden");
+        },
+
+        removeModal(modal){
+            modal.remove();
         }
     };
     
