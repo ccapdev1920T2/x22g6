@@ -11,6 +11,7 @@
     <script type="text/javascript" src="scripts/modules/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="scripts/modules/validation.js"></script>
     <script type="text/javascript" src="scripts/modules/modal.js"></script>
+    <script type="text/javascript" src="scripts/schedule.js"></script>
 
 </head>
 
@@ -29,24 +30,24 @@
                 </div>
                 <div class="container__content-section container__content-section--heavy-padding">
                     <div class="table table--full">
-                        <form class="form  table__filters">
-                            <label for="date" class="form__label">Date:</label>
-                            <input type="date" id="date" class="form__input form__input--xs">
+                        <form class="form  table__filters" id="schedule-selectors">
+                            <label for="schedule-date" class="form__label">Date:</label>
+                            <input type="date" id="schedule-date" class="form__input form__input--xs">
 
-                            <label for="trip" class="form__label">Trip:</label>
-                            <select id="trip" class="form__input form__input--xs">
-                                <option>Laguna to Manila</option>
-                                <option>Manila to Laguna</option>
+                            <label for="schedule-trip" class="form__label">Trip:</label>
+                            <select id="schedule-trip" class="form__input form__input--xs">
+                                <option value="LAG_TO_MNL">Laguna to Manila</option>
+                                <option value="MNL_TO_LG">Manila to Laguna</option>
                             </select>
                         </form>
 
-                        <div class="table__content">
+                        <div class="table__content" id="schedule-table">
                             <table>
                                 <thead class="table__heading">
                                     <tr>
                                         <th>Time</th>
-                                        <th>Premium Slots</th>
-                                        <th>Regular Slots</th>
+                                        <th>Open Premium Slots</th>
+                                        <th>Open Regular Slots</th>
                                     </tr>
                                 </thead>
 
