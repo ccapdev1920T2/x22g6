@@ -13,6 +13,15 @@ app.use(express.static('./public'));
 //Body parsing middleware
 app.use(bodyParser.urlencoded({extended: false}));
 
+// TO DELETE.  For simulating slow responses
+app.post("*", function(req, res, next){
+    setTimeout(() => next(), 3000);
+});
+// TO DELETE.  For simulating slow responses
+app.delete("*", function(req, res, next){
+    setTimeout(() => next(), 3000);
+});
+
 //Partial Registration
 hbs.registerPartials(__dirname + "/views/partials");
 
