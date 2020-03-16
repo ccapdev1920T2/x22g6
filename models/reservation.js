@@ -18,11 +18,6 @@ const reservation = new Schema({
         required: true
     },
 
-    time: {
-        type: Number,
-        required: true
-    },
-
     is_premium: {
         type: Boolean,
         default: false
