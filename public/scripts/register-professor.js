@@ -7,7 +7,7 @@ $(document).ready(function(){
             Validator.checkEmail($("#email")) && Validator.checkID($("#id-number")) &&
             Validator.checkEqual($("#password"), $("#confirm-password"));
         if(isValid){
-            let bufferModal = Modal.displayBufferModal("Registering Professor");
+            Modal.displayBufferModal("Registering Professor");
             // POST request to register professor
             $.ajax({
                 type: "POST",
@@ -20,7 +20,7 @@ $(document).ready(function(){
                     Modal.displayModalMessage(jqxhr.responseText);
                 },
                 complete: function(){
-                    Modal.removeModal(bufferModal);
+                    Modal.closeBufferModal();
                 }
             });
         }

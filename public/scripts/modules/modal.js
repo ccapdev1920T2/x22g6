@@ -40,14 +40,12 @@ let Modal = function(){
         },
 
         displayBufferModal(message){
-            let modalContainer = $("<div>").addClass("modal");
-            let messageElement = $("<p>").append(message).addClass("modal__message");
-            let modalContent = $("<div>").addClass("container container--padded").css({display: "flex", "justify-conent": "center", "flex-direction": "column"});
-            let buffer = $("<img>").attr("src", "../../images/buffer.gif").css({width: "2em", margin: "0 auto 0.7em auto"});
+            $("#buffer-modal #buffer-modal-message").html(message);
+            $("#buffer-modal").removeClass("modal--hidden");
+        },
 
-            modalContainer.append(modalContent.append(buffer).append(messageElement));
-            $("body").append(modalContainer);
-            return modalContainer;
+        closeBufferModal(){
+            $("#buffer-modal").addClass("modal--hidden");
         },
 
         closeModal(modal){

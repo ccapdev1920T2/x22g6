@@ -20,11 +20,10 @@ $(document).ready(function(){
 	// When the user submits the reservation form
 	$("#reservation-form button[type=\"submit\"").click(function(e){
 		e.preventDefault();
-		console.log("test");
 		let isValid = Validator.checkRequired(reservationForm);
 		if(isValid){
 			Modal.closeModal($("#reservation-modal"));
-			let bufferModal = Modal.displayBufferModal("Making Reservation");
+			Modal.displayBufferModal("Making Reservation");
 			$.ajax({
 				type: "POST",
 				url: "/reserve",
@@ -35,7 +34,7 @@ $(document).ready(function(){
 					Modal.displayModalMessage(jqxhr.responseText);
 				},
 				complete: function(){
-					Modal.removeModal(bufferModal);
+					Modal.closeBufferModal();
 				}
 			});
 		}

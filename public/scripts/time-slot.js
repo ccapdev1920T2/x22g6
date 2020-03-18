@@ -17,7 +17,7 @@ $(document).ready(function(){
         let toSend = {
             date : toDelete.attr("data-reservation-date")
         }
-        let bufferModal = Modal.displayBufferModal("Deleting Reservations");
+        Modal.displayBufferModal("Deleting Reservation");
         $.ajax({
             type: "DELETE",
             url: "/delete-reservation",
@@ -30,7 +30,7 @@ $(document).ready(function(){
                 Modal.displayModalMessage(jqxhr.responseText);
             },
             complete: function(){
-                Modal.removeModal(bufferModal);
+                Modal.closeBufferModal();
             }
         })
     });

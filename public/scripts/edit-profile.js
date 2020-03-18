@@ -26,7 +26,7 @@ $(document).ready(function(){
 		let isValid = Validator.checkRequired(editProfileForm) &&
 			Validator.checkEmail($("#email"));
 		if(isValid){
-			let bufferModal = Modal.displayBufferModal("Editing Profile");
+			Modal.displayBufferModal("Editing Profile");
 			// POST request to edit profile
 			$.ajax({
 				type: "POST",
@@ -43,7 +43,7 @@ $(document).ready(function(){
 					Modal.displayModalMessage(jqxhr.responseText);
 				},
 				complete: function(){
-					Modal.removeModal(bufferModal);
+					Modal.closeBufferModal();
 					lockProfileEdit();
 				}
 			});
@@ -59,7 +59,7 @@ $(document).ready(function(){
 			Validator.checkEqual($("#new-password"), $("#confirm-new-password"));
 		if(isValid){
 			Modal.closeModal($("#change-password-modal"));
-			let bufferModal = Modal.displayBufferModal("Changing Password");
+			Modal.displayBufferModal("Changing Password");
 			// POST request to change password
 			$.ajax({
 				type: "POST",
@@ -73,7 +73,7 @@ $(document).ready(function(){
 				},
 				complete: function(){
 					changePasswordForm.find("input").val("");
-					Modal.removeModal(bufferModal);
+					Modal.closeBufferModal();
 				}
 			});
 		}

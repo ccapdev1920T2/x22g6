@@ -6,7 +6,7 @@ $(document).ready(function(){
         let isValid = Validator.checkRequired(checkInForm) && Validator.checkID($("#id-number-check-in"));
         if(isValid){
             Modal.closeModal($("#check-in-modal"));
-            let bufferModal = Modal.displayBufferModal("Checking-in User");
+            Modal.displayBufferModal("Checking-in User");
             // POST request for check in
             $.ajax({
                 type: "POST",
@@ -19,7 +19,7 @@ $(document).ready(function(){
                     Modal.displayModalMessage(jqxhr.responseText);
                 },
                 complete: function(){
-                    Modal.removeModal(bufferModal);
+                    Modal.closeBufferModal();
                 }
             })
         }
