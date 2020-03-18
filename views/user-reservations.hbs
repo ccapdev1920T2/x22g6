@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="scripts/modules/jquery-3.4.1.min.js"></script> 
     <script type="text/javascript" src="scripts/modules/validation.js"></script>
     <script type="text/javascript" src="scripts/modules/modal.js"></script>
+    <script type="text/javascript" src="scripts/user-reservations.js"></script>
 	<title>Reservations</title>
 
 </head>
@@ -28,9 +29,9 @@
                 </div>
                 <div class="container__content-section container__content-section--heavy-padding">
                     <div class="table table--full">
-                        <form class="form  table__filters">
+                        <form class="form  table__filters" id="user-reservations-filters">
                             <label for="date" class="form__label">Date:</label>
-                            <input type="date" id="date" class="form__input form__input--xs">
+                            <input type="date" id="date" class="form__input form__input--xs required">
                     
                             <label for="trip" class="form__label">Trip:</label>
                             <select id="trip" class="form__input form__input--xs">
@@ -39,7 +40,7 @@
                             </select>
                             
                             <label for="time" class="form__label">Time: </label>
-                            <select id="trip" class="form__input form__input--xxs">
+                            <select id="time" class="form__input form__input--xxs">
                                 <option value="0545">5:45 AM</option>
                                 <option value="0700">7:00 AM</option>
                                 <option value="0730">7:30 AM</option>

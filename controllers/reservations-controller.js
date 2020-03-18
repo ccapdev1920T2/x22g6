@@ -33,6 +33,14 @@ module.exports = function(app){
         res.render("user-reservations");
     });
 
+    // For getting users that reserve for a specific date, time, and trip
+    app.get("/user-reservations/:date/:time/:trip", function(req, res){
+        console.log(req.params.date);
+        console.log(req.params.time);
+        console.log(req.params.trip);
+        res.send("successs");
+    });
+
     //For handling request to make a reservation
     app.post("/reserve", function(req, res){
         res.status(200);
