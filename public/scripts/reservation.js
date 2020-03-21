@@ -1,37 +1,44 @@
+$(document).ready(function(){
+	let timeSelector = $("#reservation-time");
+	let locationSelector = $("#reservation-location");
+	let reservationForm = $("#reservation-form");
 
-function getTimeSlots(){
+	locationSelector.change(function(){
+		$.ajax({
+			type: "GET",
+			url: "/reservation/time-slots/" + locationSelector.val(),
+			success: function(data){
+				timeSelector.children().remove();
+				for(let i=0; i<data.length; ++i){
+					let text = document.createTextNode(data[i].presentation);
+					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
+				}
+			}
+		});
+	});
 
-	$("#reservation-time").empty();
-	if($("#reservation-location").val() == "LAG-to-MNL"){
-		$("#reservation-time").append(LAG_to_MNL);
-	}
+	// When the user submits the reservation form
+	$("#reservation-form button[type=\"submit\"").click(function(e){
+		e.preventDefault();
+		let isValid = Validator.checkRequired(reservationForm);
+		if(isValid){
+			Modal.closeModal($("#reservation-modal"));
+			Modal.displayBufferModal("Making Reservation");
+			$.ajax({
+				type: "POST",
+				url: "/reservation/create",
+				success: function(){
+					Modal.displayModalMessage("You reservation has been made");
+				},
+				error: function(jqxhr){
+					Modal.displayModalMessage(jqxhr.responseText);
+				},
+				complete: function(){
+					Modal.closeBufferModal();
+				}
+			});
+		}
+	});
 
-	else{
-		$("#reservation-time").append(MNL_to_LAG);
-	}
-}
 
-var LAG_to_MNL = '';
-
-LAG_to_MNL += ('<option value="0545">5:45 AM</option>');
-LAG_to_MNL += ('<option value="0700">7:00 AM</option>');
-LAG_to_MNL += ('<option value="0730">7:30 AM</option>');
-LAG_to_MNL += ('<option value="0900">9:00 AM</option>');
-LAG_to_MNL += ('<option value="1100">11:00 AM</option>');
-LAG_to_MNL += ('<option value="1300">1:00 PM</option>');
-LAG_to_MNL += ('<option value="1430">2:30 PM</option>');
-LAG_to_MNL += ('<option value="1530">3:30 PM</option>');
-LAG_to_MNL += ('<option value="1700">5:00 PM</option>');
-LAG_to_MNL += ('<option value="1815">6:15 PM</option>');
-
-var MNL_to_LAG = '';
-
-MNL_to_LAG += ('<option value="0600">6:00 AM</option>');
-MNL_to_LAG += ('<option value="0730">7:30 AM</option>');
-MNL_to_LAG += ('<option value="0930">9:30 AM</option>');
-MNL_to_LAG += ('<option value="1100">11:00 AM</option>');
-MNL_to_LAG += ('<option value="1300">1:00 PM</option>');
-MNL_to_LAG += ('<option value="1430">2:30 PM</option>');
-MNL_to_LAG += ('<option value="1530">3:30 PM</option>');
-MNL_to_LAG += ('<option value="1700">5:30 PM</option>');
-MNL_to_LAG += ('<option value="1815">6:15 PM</option>');
+});

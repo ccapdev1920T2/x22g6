@@ -26,10 +26,11 @@ $(document).ready(function(){
 		let isValid = Validator.checkRequired(editProfileForm) &&
 			Validator.checkEmail($("#email"));
 		if(isValid){
+			Modal.displayBufferModal("Editing Profile");
 			// POST request to edit profile
 			$.ajax({
 				type: "POST",
-				url: "/profile",
+				url: "/profile/edit",
 				data: editProfileForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Profile edited successfully");
@@ -42,6 +43,7 @@ $(document).ready(function(){
 					Modal.displayModalMessage(jqxhr.responseText);
 				},
 				complete: function(){
+					Modal.closeBufferModal();
 					lockProfileEdit();
 				}
 			});
@@ -57,10 +59,11 @@ $(document).ready(function(){
 			Validator.checkEqual($("#new-password"), $("#confirm-new-password"));
 		if(isValid){
 			Modal.closeModal($("#change-password-modal"));
+			Modal.displayBufferModal("Changing Password");
 			// POST request to change password
 			$.ajax({
 				type: "POST",
-				url: "/change-password",
+				url: "/profile/change-password",
 				data: changePasswordForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Password was successfully changed");
@@ -70,6 +73,7 @@ $(document).ready(function(){
 				},
 				complete: function(){
 					changePasswordForm.find("input").val("");
+					Modal.closeBufferModal();
 				}
 			});
 		}

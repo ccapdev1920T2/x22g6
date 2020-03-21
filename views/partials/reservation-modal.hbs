@@ -2,18 +2,18 @@
     <div class="modal__content">
         <div class="modal__close modal__close--upper-right-x">&times;</div>
         <div class="container container--padded container--fill">
-            <form class="form">
+            <form class="form" id="reservation-form">
                 <div class="form__header form__header--start-centered-horizontal">
                     <h2 class="form__title">Reservation</h2>
                 </div>
                 <div class="form__input-group">
                     <div>
                         <label for="reservation-date" class="form__label">Date</label>
-                        <input type="date" class="form__input form__input--sm" id="reservation-date">
+                        <input type="date" class="form__input form__input--sm required" id="reservation-date">
                     </div>
                     <div>
                         <label for="reservation-location" class="form__label">Source and Destination</label>
-                        <select onchange="getTimeSlots()" class="form__input form__input--sm" id="reservation-location">
+                        <select class="form__input form__input--sm" id="reservation-location">
                             <option value="MNL-to-LAG">Manila to Laguna</option>
                             <option value="LAG-to-MNL">Laguna to Manila</option>
                         </select>
@@ -40,3 +40,5 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/scripts/reservation.js"></script>

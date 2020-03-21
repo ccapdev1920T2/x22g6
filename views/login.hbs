@@ -2,30 +2,32 @@
 <html>
 <head>
     <title>Re: Arrows</title>
-    <link rel="stylesheet" type="text/css" href="styles/components.css">
-    <link rel="stylesheet" type="text/css" href="styles/layout.css">
-    <link rel="stylesheet" type="text/css" href="styles/forms.css">
-    <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="scripts/validation.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/components.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/forms.css">
+    <script type="text/javascript" src="/scripts/modules/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/scripts/modules/validation.js"></script>
+    <script type="text/javascript" src="/scripts/modules/modal.js"></script>
+    <script type="text/javascript" src="/scripts/login.js"></script>
 </head>
 <body id="one-container-body">
+    {{> buffer_modal}}
     <div class="container container--padded">
-        <form action="" method="POST" class="form">
+        <form id="login-form" class="form">
             <div class="form__header">
-                <img src="images/logo-van.png" alt="Arrow Express Logo" class="logo--sm">
+                <img src="/images/logo-van.png" alt="Arrow Express Logo" class="logo--sm">
                 <h2 class="form__title">Re: ARROWS</h2>
                 <p class="form__description">A reservation system for DLSU's Arrow Express</p>
             </div>
             <label class="form__label" for="email">Email</label>
-            <input type="email" name="email" id="email" class="form__input form__input--md required" required>
+            <input type="email" name="email" id="email" class="form__input form__input--md required">
 
             <label class="form__label" for="password">Password</label>
-            <input type="password" name="password" id="password" class="form__input form__input--md required" required>
+            <input type="password" name="password" id="password" class="form__input form__input--md required">
 
             <div class="form__footer form__footer--end-horizontal">
-                <a href="register-student" class="link">Create an Account (Student)</a>
+                <a href="/register/student" class="link">Create an Account (Student)</a>
                 <button type="submit" class="button">Sign In</button>
-                
             </div>
         </form>
     </div>

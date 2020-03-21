@@ -39,8 +39,21 @@ let Modal = function(){
             $("body").append(modalContainer);
         },
 
+        displayBufferModal(message){
+            $("#buffer-modal #buffer-modal-message").html(message);
+            $("#buffer-modal").removeClass("modal--hidden");
+        },
+
+        closeBufferModal(){
+            $("#buffer-modal").addClass("modal--hidden");
+        },
+
         closeModal(modal){
             modal.addClass("modal--hidden");
+        },
+
+        removeModal(modal){
+            modal.remove();
         }
     };
     
