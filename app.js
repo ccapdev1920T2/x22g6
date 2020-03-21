@@ -25,12 +25,11 @@ app.delete("*", function(req, res, next){
 //Partial Registration
 hbs.registerPartials(__dirname + "/views/partials");
 
-// Controllers
-require("./controllers/login-controller.js")(app);
-require("./controllers/profile-controller.js")(app);
-require("./controllers/registration-controller.js")(app);
-require("./controllers/reservations-controller.js")(app);
-require("./controllers/arrows-schedule-controller.js")(app);
-
+// Routes
+app.use("/login", require("./routes/login-routes"));
+app.use("/profile", require("./routes/profile-routes"));
+app.use("/register", require("./routes/register-routes"));
+app.use("/reservation", require("./routes/reservation-routes"));
+app.use("/schedule", require("./routes/schedule-routes"));
 
 app.listen(PORT, () => console.log("Listening at port " + PORT));
