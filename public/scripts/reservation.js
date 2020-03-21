@@ -6,7 +6,7 @@ $(document).ready(function(){
 	locationSelector.change(function(){
 		$.ajax({
 			type: "GET",
-			url: "/location/" + locationSelector.val(),
+			url: "/reservation/time-slots/" + locationSelector.val(),
 			success: function(data){
 				timeSelector.children().remove();
 				for(let i=0; i<data.length; ++i){
@@ -26,7 +26,7 @@ $(document).ready(function(){
 			Modal.displayBufferModal("Making Reservation");
 			$.ajax({
 				type: "POST",
-				url: "/reserve",
+				url: "/reservation/create",
 				success: function(){
 					Modal.displayModalMessage("You reservation has been made");
 				},

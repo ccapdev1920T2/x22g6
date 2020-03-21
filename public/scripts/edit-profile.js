@@ -30,7 +30,7 @@ $(document).ready(function(){
 			// POST request to edit profile
 			$.ajax({
 				type: "POST",
-				url: "/profile",
+				url: "/profile/edit",
 				data: editProfileForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Profile edited successfully");
@@ -63,7 +63,7 @@ $(document).ready(function(){
 			// POST request to change password
 			$.ajax({
 				type: "POST",
-				url: "/change-password",
+				url: "/profile/change-password",
 				data: changePasswordForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Password was successfully changed");

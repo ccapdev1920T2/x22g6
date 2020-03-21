@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="styles/components.css">
-    <link rel="stylesheet" type="text/css" href="styles/layout.css">
-    <link rel="stylesheet" type="text/css" href="styles/forms.css">
-    <script type="text/javascript" src="scripts/modules/jquery-3.4.1.min.js"></script>    
-    <script type="text/javascript" src="scripts/modules/validation.js"></script>
-    <script type="text/javascript" src="scripts/modules/modal.js"></script>
-    <script type="text/javascript" src="scripts/register-student.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/components.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/forms.css">
+    <script type="text/javascript" src="/scripts/modules/jquery-3.4.1.min.js"></script>    
+    <script type="text/javascript" src="/scripts/modules/validation.js"></script>
+    <script type="text/javascript" src="/scripts/modules/modal.js"></script>
+    <script type="text/javascript" src="/scripts/register-student.js"></script>
 </head>
 <body id="one-container-body">
     {{> buffer_modal}}
@@ -16,7 +16,7 @@
         
         <form action="login" class="form" method="POST" id="student-registration-form">
             <div class="form__header .form__header--start-centered-horizontal">
-                <img src="images/logo-van.png" class="logo logo--sm">
+                <img src="/images/logo-van.png" class="logo logo--sm">
                 <h2 class="form__title">STUDENT REGISTRATION</h2>
             </div>
             
@@ -53,7 +53,7 @@
             </p>
             <br>
             <div class="form__footer form__footer--end-horizontal">
-                <a href="login" class="link">Have an account? Log in</a>
+                <a href="/login" class="link">Have an account? Log in</a>
                 <button type="Submit" class="button">Sign Up</button>
             </div>
         </form>

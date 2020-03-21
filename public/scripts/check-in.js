@@ -10,7 +10,7 @@ $(document).ready(function(){
             // POST request for check in
             $.ajax({
                 type: "POST",
-                url: "/check-in",
+                url: "/reservation/check-in",
                 data: checkInForm.serialize(),
                 success: function(){
                     Modal.displayModalMessage("The user was checked in");

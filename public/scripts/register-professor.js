@@ -11,7 +11,7 @@ $(document).ready(function(){
             // POST request to register professor
             $.ajax({
                 type: "POST",
-                url: "/register-professor",
+                url: "/register/professor",
                 data: professorRegistrationForm.serialize(),
                 success: function(){
                     Modal.displayModalMessage("Professor was successfully registered");

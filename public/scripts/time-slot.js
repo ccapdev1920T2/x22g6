@@ -20,7 +20,7 @@ $(document).ready(function(){
         Modal.displayBufferModal("Deleting Reservation");
         $.ajax({
             type: "DELETE",
-            url: "/delete-reservation",
+            url: "/reservation/delete",
             data: toSend,
             success: function(){
                 Modal.displayModalMessage("Your reservation at <b>" + toSend.date + "</b> has been deleted");

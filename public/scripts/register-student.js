@@ -11,7 +11,7 @@ $(document).ready(function(){
             // POST request to register student
             $.ajax({
                 type: "POST",
-                url: "register-student",
+                url: "/register/student",
                 data: studenRegistrationForm.serialize(),
                 success: function(){
                     Modal.displayModalMessage(`You're account has been created.  Click <a href="/login">here</a> to login`);
