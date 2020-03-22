@@ -10,6 +10,10 @@ $(document).ready(function(){
             $.ajax({
                 type: "POST",
                 url: "/login",
+                data: loginForm.serialize(),
+                success: function(data){
+                    window.location.href = data;
+                },
                 error: function(jqxhr){
                     Modal.displayModalMessage(jqxhr.responseText);
                 },
