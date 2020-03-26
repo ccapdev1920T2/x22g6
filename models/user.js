@@ -9,7 +9,9 @@ const STAFF_TYPE = "Staff"
 const userSchema = new Schema({
     _id: {
         type: Number,
-        required: true
+        required: true,
+        min: 10000000,
+        max: 99999999
     },
     firstName: {
         type: String,
@@ -21,6 +23,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
+        match: /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/,
         required : true
     },
     password: {
@@ -34,6 +37,7 @@ const userSchema = new Schema({
     },
     reputationPoints: {
         type: Number,
-        default: 100
+        required: function() {return this.type === STUDENT_TYPE},
+        default: function() {if (this.type === STUDENT_TYPE) return 100}
     }
 });
