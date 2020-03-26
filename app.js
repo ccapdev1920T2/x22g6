@@ -5,6 +5,18 @@ let mongoose = require("mongoose");
 let app = express();
 const PORT =  3000;
 
+//Database Connection
+const dbUrl = "mongodb://localhost:27017/arrowsTest" // Temporary local database 
+const dbOptions = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true
+}
+mongoose.connect(dbUrl, dbOptions);
+mongoose.connection.on("connected", () => console.log("Mongoose connected to " + dbUrl));
+mongoose.connection.on("error", () => console.log("Mongoose cannot connect to " + dbUrl));
+mongoose.connection.on("disconnected", () => console.log("Mongoose disconnected from " + dbUrl));
+
 //Template engine
 app.set("view engine", "hbs");
 
