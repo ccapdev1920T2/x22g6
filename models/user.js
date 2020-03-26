@@ -1,10 +1,19 @@
 const mongoose = require('mongoose');
+const crypto = require("crypto");
+const util = require("util");
 
 const Schema = mongoose.Schema;
 
 const STUDENT_TYPE = "Student";
 const PROF_TYPE = "Professor";
 const STAFF_TYPE = "Staff"
+
+// For password hasing
+const ITERATIONS = 100000;
+const DIGEST = "sha512";
+const SALT_SIZE = 64;
+const KEY_LEN = 128;
+const ENCODING = "base64"
 
 const userSchema = new Schema({
     _id: {
@@ -31,6 +40,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    salt: {
+        type: String,
+        required: true
+    },
     type: {
         type: String,
         enum: [STUDENT_TYPE, PROF_TYPE, STAFF_TYPE],
@@ -43,20 +56,44 @@ const userSchema = new Schema({
     }
 });
 
+// For Password hasing.  returns a promise that resolves to the derived key as a Buffer
+function hashPassword(password, salt){
+    return util.promisify(crypto.pbkdf2)(password, salt, ITERATIONS, KEY_LEN, DIGEST);
+}
+
+/***************** User model static functions ******************/
 /*
     Adds a new user to the db.  If successful, returns a promise that resolves to
-    an instance of the userSchema's model corresponding to the newly
-    inserted document; otherwise would throw an error
+    an instance of the User model corresponding to the newly
+    inserted document; otherwise would reject the promise
 */
-userSchema.statics.createUser = function(idNumber, firstName, lastName, email, password, type){
+userSchema.statics.createUser = async function(idNumber, firstName, lastName, email, password, type){
+    let salt = await util.promisify(crypto.randomBytes)(SALT_SIZE);
+    let derivedKey = await hashPassword(password, salt);
     let user = new this({
-        firstName, lastName, email, password, type,
-        _id: idNumber
+        firstName, lastName, email, type,
+        _id: idNumber,
+        password: derivedKey.toString(ENCODING),
+        salt: salt.toString(ENCODING)
     });
     return user.save();
 };
+
+/***************** User model instance methods ******************/
+/*
+    Checks whether the specified password is the same as the instance of the
+    User model.  Returns a promise that resolves to true if the password is the same
+    and resolves to false otherwise.
+*/
+userSchema.methods.isCorrectPassword = async function(password){
+    let derivedKey = await hashPassword(password, Buffer.from(this.salt, ENCODING));
+    return derivedKey.toString(ENCODING) === this.password;
+}
+
 
 
 
 
 const User = mongoose.model("User", userSchema);
+
+module.exports = User;
