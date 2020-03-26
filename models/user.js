@@ -24,7 +24,8 @@ const userSchema = new Schema({
     email: {
         type: String,
         match: /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/,
-        required : true
+        required : true,
+        unique : true
     },
     password: {
         type: String,
