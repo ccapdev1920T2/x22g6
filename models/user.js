@@ -89,10 +89,22 @@ userSchema.methods.isCorrectPassword = async function(password){
     let derivedKey = await hashPassword(password, Buffer.from(this.salt, ENCODING));
     return derivedKey.toString(ENCODING) === this.password;
 }
-
-
-
-
+/*
+    Changes the user's password.  Returns a promise that resolves to a Boolean value depending
+    on whether the change was successful.  The change would only occur if the oldPassword argument
+    is equal to the user's current password
+*/
+userSchema.methods.changePassword = async function(oldPassword, newPassword){
+    let saltBuffer = Buffer.from(this.salt, ENCODING);
+    let oldDerivedKey = await hashPassword(oldPassword, saltBuffer);
+    if(oldDerivedKey.toString(ENCODING) === this.password){
+        let newDerivedKey = await hashPassword(newPassword, saltBuffer);
+        this.password = newDerivedKey.toString(ENCODING);
+        await this.save();
+        return true;
+    }else
+        return false;
+}
 
 const User = mongoose.model("User", userSchema);
 
