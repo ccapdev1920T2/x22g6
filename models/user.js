@@ -30,7 +30,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    userType: {
+    type: {
         type: String,
         enum: [STUDENT_TYPE, PROF_TYPE, STAFF_TYPE],
         required: true
@@ -41,3 +41,21 @@ const userSchema = new Schema({
         default: function() {if (this.type === STUDENT_TYPE) return 100}
     }
 });
+
+/*
+    Adds a new user to the db.  If successful, returns a promise that resolves to
+    an instance of the userSchema's model corresponding to the newly
+    inserted document; otherwise would throw an error
+*/
+userSchema.statics.createUser = function(idNumber, firstName, lastName, email, password, type){
+    let user = new this({
+        firstName, lastName, email, password, type,
+        _id: idNumber
+    });
+    return user.save();
+};
+
+
+
+
+const User = mongoose.model("User", userSchema);
