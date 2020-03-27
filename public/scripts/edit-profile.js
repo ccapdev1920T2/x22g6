@@ -38,13 +38,13 @@ $(document).ready(function(){
 					lastName = $("#last-name").val();
 					email = $("#email").val();
 					revertProfile();
+					lockProfileEdit();
 				},
 				error: function(jqxhr){
 					Modal.displayModalMessage(jqxhr.responseText);
 				},
 				complete: function(){
 					Modal.closeBufferModal();
-					lockProfileEdit();
 				}
 			});
 		}
