@@ -1,20 +1,26 @@
 const mongoose = require('mongoose');
 
+var User = require('./user.js');
+var Schedule = require('./schedule.js');
+
+var userSchema = mongoose.model('User').schema;
+var scheduleSchema = mongoose.model('Schedule').schema;
+
 const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
-    id_number: {
-        type: Number,
-        required: true
-    },
-
-    destination: {
-        type: Number,
+    user: {
+        type: [userSchema],
         required: true
     },
     
     date: {
         type: Date,
+        required: true
+    },
+
+    schedule: {
+        type: [scheduleSchema],
         required: true
     },
 
