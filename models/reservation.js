@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const reservation = new Schema({
+const reservationSchema = new Schema({
     id_number: {
         type: Number,
         required: true
@@ -28,3 +28,7 @@ const reservation = new Schema({
         default: false
     }
 });
+
+const Reservation = mongoose.model("Reservation", userSchema);
+
+module.exports = Reservation;
