@@ -108,8 +108,7 @@ userSchema.methods.changePassword = async function(oldPassword, newPassword){
 
 //Checks if input is empty
 function isEmpty(input){
-    if (input == "") return true;
-    return false;
+    return (input === "");
 }
 
 //Changes user's profile. Does not return any but will change the value properties
