@@ -106,6 +106,15 @@ userSchema.methods.changePassword = async function(oldPassword, newPassword){
         return false;
 }
 
+//Changes user's profile. Does not return any but will change the value properties
+userSchema.methods.updateProfile = async function(firstName, lastName, email){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+
+    await this.save();
+}
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
