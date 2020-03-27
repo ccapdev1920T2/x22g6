@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const schedule = new Schema({
+const scheduleSchema = new Schema({
     origin: {
         type: String,
         enum: ['Laguna', 'Manila'],
@@ -20,3 +20,7 @@ const schedule = new Schema({
         required: true
     }
 });
+
+const Schedule = mongoose.model("Schedule", scheduelSchema);
+
+module.exports = Schedule;
