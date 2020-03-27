@@ -23,12 +23,12 @@ const reservationSchema = new Schema({
         required: true
     },
 
-    is_premium: {
+    isPremium: {
         type: Boolean,
         default: false
     },
 
-    is_checkin: {
+    isCheckIn: {
         type: Boolean,
         default: false
     }
