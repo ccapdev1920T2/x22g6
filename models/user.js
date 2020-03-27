@@ -106,11 +106,15 @@ userSchema.methods.changePassword = async function(oldPassword, newPassword){
         return false;
 }
 
+function isEmpty(input){
+    if (input == "") return true;
+    return false;
+}
 //Changes user's profile. Does not return any but will change the value properties
 userSchema.methods.updateProfile = async function(firstName, lastName, email){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
+    if (!isEmpty(firstName)) this.firstName = firstName;
+    if (!isEmpty(lastName)) this.lastName = lastName;
+    if (!isEmpty(email)) this.email = email;
 
     await this.save();
 }
