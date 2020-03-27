@@ -11,7 +11,7 @@ const suspendedSchema = new Schema({
         required: true
     },
 
-    release_date: {
+    releaseDate: {
         type: Date,
         required: true
     }
