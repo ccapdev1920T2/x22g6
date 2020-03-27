@@ -3,14 +3,12 @@ const mongoose = require('mongoose');
 var User = require('./user.js');
 var Schedule = require('./schedule.js');
 
-var userSchema = mongoose.model('User').schema;
-var scheduleSchema = mongoose.model('Schedule').schema;
-
 const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
     user: {
-        type: [userSchema],
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     
@@ -20,7 +18,8 @@ const reservationSchema = new Schema({
     },
 
     schedule: {
-        type: [scheduleSchema],
+        type: Schema.Types.ObjectId,
+        ref: 'Schedule',
         required: true
     },
 
