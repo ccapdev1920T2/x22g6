@@ -37,6 +37,18 @@ scheduleSchema.methods.get12HourFormat = function(){
     return hour + ":" + minute + " " + suffix;
 }
 
+/****************Schedule model static funcitons *******************************/
+// Finds schedules whose properties matches the string "<origin>-to-<destination>"
+scheduleSchema.statics.findByPath = function(path){
+    let splitted = path.split("-to-");
+    let origin = splitted[0];
+    let destination = splitted[1];
+    return this.find({origin, destination});
+}
+
+scheduleSchema.statics.LAG = LAG;
+scheduleSchema.statics.MNL = MNL;
+
 const Schedule = mongoose.model("Schedule", scheduleSchema);
 
 module.exports = Schedule;
