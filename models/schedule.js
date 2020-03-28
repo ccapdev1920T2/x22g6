@@ -35,6 +35,6 @@ scheduleSchema.methods.get12HourFormat = function(){
     return hour + ":" + minute + " " + suffix;
 }
 
-const Schedule = mongoose.model("Schedule", scheduelSchema);
+const Schedule = mongoose.model("Schedule", scheduleSchema);
 
 module.exports = Schedule;
