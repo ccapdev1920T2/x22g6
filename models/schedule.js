@@ -24,6 +24,8 @@ const scheduleSchema = new Schema({
     }
 });
 
+scheduleSchema.index({origin: 1, destination: 1, time: 1}, {unique: true});
+
 /**************Schedule model instance methods *********************/
 // Returns a string that represents the time of the schedule using the 12-hour clock
 scheduleSchema.methods.get12HourFormat = function(){
