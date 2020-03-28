@@ -3,14 +3,14 @@ $(document).ready(function(){
 	let cancelButton = $("#cancel-edit-profile");
 	let editProfileButton = $("#edit-profile-toggle");
 	let saveButton = $("#edit-profile-save");
-	let changePasswordSubmit = $("#change-password-submit");
+	let changePasswordSubmit = $("#change-password-form button[type=\"submit\"]");
 	let changePasswordToggle = $("#change-password-toggle");
 	let editableInputs = $(".editable");
 
 	// For storing the actual profile values
-	let firstName = $("#first-name").val();
-	let lastName = $("#last-name").val();
-	let email = $("#email").val();
+	let firstName = $("#edit-profile-form__first-name").val();
+	let lastName = $("#edit-profile-form__last-name").val();
+	let email = $("#edit-profile-form__email").val();
 
 	// When the user wants to edit the profile
 	editProfileButton.click(enableProfileEdit);
@@ -24,7 +24,7 @@ $(document).ready(function(){
 		let editProfileForm = $("#edit-profile-form");
 		// Validates inputs
 		let isValid = Validator.checkRequired(editProfileForm) &&
-			Validator.checkEmail($("#email"));
+			Validator.checkEmail($("#edit-profile-form__email"));
 		if(isValid){
 			Modal.displayBufferModal("Editing Profile");
 			// POST request to edit profile
@@ -34,9 +34,9 @@ $(document).ready(function(){
 				data: editProfileForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Profile edited successfully");
-					firstName = $("#first-name").val();
-					lastName = $("#last-name").val();
-					email = $("#email").val();
+					firstName = $("#edit-profile-form__first-name").val();
+					lastName = $("#edit-profile-form__last-name").val();
+					email = $("#edit-profile-form__email").val();
 					revertProfile();
 					lockProfileEdit();
 				},
@@ -56,7 +56,7 @@ $(document).ready(function(){
 		let changePasswordForm = $("#change-password-form");
 		//Validates inputs
 		let isValid = Validator.checkRequired(changePasswordForm) &&
-			Validator.checkEqual($("#new-password"), $("#confirm-new-password"));
+			Validator.checkEqual($("#change-password-form__new-password"), $("#change-password-form__confirm-password"));
 		if(isValid){
 			Modal.closeModal($("#change-password-modal"));
 			Modal.displayBufferModal("Changing Password");
@@ -99,9 +99,9 @@ $(document).ready(function(){
 
 	// Revert the inputs to the values that is stored on firstName, lastName, and email
 	function revertProfile(){
-		$("#first-name").attr("value", firstName).val(firstName);
-		$("#last-name").attr("value", lastName).val(lastName);
-		$("#email").attr("value", email).val(email);
+		$("#edit-profile-form__first-name").attr("value", firstName).val(firstName);
+		$("#edit-profile-form__last-name").attr("value", lastName).val(lastName);
+		$("#edit-profile-form__email").attr("value", email).val(email);
 	}
 });
 

@@ -8,12 +8,12 @@
                 </div>
                 <div class="form__input-group">
                     <div>
-                        <label for="reservation-date" class="form__label">Date</label>
-                        <input type="date" class="form__input form__input--sm required" id="reservation-date">
+                        <label for="check-in-form__date" class="form__label">Date</label>
+                        <input type="date" class="form__input form__input--sm required" id="check-in-form__date" name="date">
                     </div>
                     <div>
-                        <label for="reservation-location" class="form__label">Source and Destination</label>
-                        <select onchange="getTimeSlots()" class="form__input form__input--sm" id="reservation-location">
+                        <label for="check-in-form__trip" class="form__label">Source and Destination</label>
+                        <select onchange="getTimeSlots()" class="form__input form__input--sm" id="check-in-form__trip" name="trip">
                             <option value="MNL-to-LAG">Manila to Laguna</option>
                             <option value="LAG-to-MNL">Laguna to Manila</option>
                         </select>
@@ -21,8 +21,8 @@
                 </div>
                 <div class="form__input-group">
                     <div>
-                        <label for="reservation-time" class="form__label">Time</label>
-                        <select class="form__input form__input--sm" id="reservation-time">
+                        <label for="check-in-form__time" class="form__label">Time</label>
+                        <select class="form__input form__input--sm" id="check-in-form__time" name="time">
                             <option value="0600">6:00 AM</option>
                             <option value="0730">7:30 AM</option>
                             <option value="0930">9:30 AM</option>
@@ -35,8 +35,8 @@
                         </select>
                     </div>
                     <div>	
-                        <label for="id-number__check-in" class="form__label">ID Number</label>
-                        <input type="text" id="id-number-check-in" name="id-number" class="form__input form__input--sm numonly required">
+                        <label for="check-in-form__id-number" class="form__label">ID Number</label>
+                        <input type="text" id="check-in-form__id-number" name="id-number" class="form__input form__input--sm numonly required">
                     </div>
                 </div>
                 <div class="form__footer form__footer--end-horizontal">

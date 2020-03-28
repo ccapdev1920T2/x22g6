@@ -5,12 +5,12 @@ const userController = require("../controllers/user-controller");
 router.get("/student", userController.sendStudentRegistrationPage);
 
 // POST request for registering a new student
-router.post("/student", (req, res) => res.sendStatus(501));
+router.post("/student", userController.registerStudent);
 
 // GET request for professor registration page
 router.get("/professor", userController.sendProfessorRegistrationPage);
 
 // POST request for registering a new professor
-router.post("/professor", (req, res) => res.sendStatus(501));
+router.post("/professor", userController.registerProfessor);
 
 module.exports = router;

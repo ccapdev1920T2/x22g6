@@ -1,12 +1,12 @@
 $(document).ready(function(){
-	let timeSelector = $("#reservation-time");
-	let locationSelector = $("#reservation-location");
+	let timeSelector = $("#reservation-form__time");
+	let locationSelector = $("#reservation-form__location");
 	let reservationForm = $("#reservation-form");
 
 	locationSelector.change(function(){
 		$.ajax({
 			type: "GET",
-			url: "/reservation/time-slots/" + locationSelector.val(),
+			url: "/schedule/time-slots/" + locationSelector.val(),
 			success: function(data){
 				timeSelector.children().remove();
 				for(let i=0; i<data.length; ++i){
@@ -27,11 +27,13 @@ $(document).ready(function(){
 			$.ajax({
 				type: "POST",
 				url: "/reservation/create",
+				data: reservationForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("You reservation has been made");
 				},
 				error: function(jqxhr){
 					Modal.displayModalMessage(jqxhr.responseText);
+					console.log(window.location.href);
 				},
 				complete: function(){
 					Modal.closeBufferModal();
@@ -39,6 +41,5 @@ $(document).ready(function(){
 			});
 		}
 	});
-
 
 });

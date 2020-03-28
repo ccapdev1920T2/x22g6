@@ -1,10 +1,10 @@
 $(document).ready(function(){
     const FILTER_FORM_ID = "#user-reservations-filters";
-    let tripFilter = $(FILTER_FORM_ID + " #trip");
+    let tripFilter = $("#user-reservations-filters__trip");
     tripFilter.change(function(){
         $.ajax({
             type: "GET",
-            url: "/reservation/time-slots/" + tripFilter.val(),
+            url: "/schedule/time-slots/" + tripFilter.val(),
             success: function(data){
                 console.log(data);
             }
@@ -13,8 +13,8 @@ $(document).ready(function(){
     $(FILTER_FORM_ID + " input, " +  FILTER_FORM_ID + " select").change(function(){
         let isValid = Validator.checkRequired($(FILTER_FORM_ID));
         if(isValid){
-            let date = $(FILTER_FORM_ID + " #date").val();
-            let time = $(FILTER_FORM_ID + " #time").val();
+            let date = $(FILTER_FORM_ID +"__date").val();
+            let time = $(FILTER_FORM_ID + "__time").val();
             let trip = tripFilter.val();
             $.ajax({
                 type: "GET",

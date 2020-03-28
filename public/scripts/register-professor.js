@@ -1,11 +1,11 @@
 $(document).ready(function(){
-    let professorRegistrationForm = $("#professor-registration-form");
-    $("#professor-registration-form button[type=\"submit\"]").click(function(e){
+    let professorRegistrationForm = $("#prof-registration-form");
+    $("#prof-registration-form button[type=\"submit\"]").click(function(e){
         e.preventDefault();
         //Validates Input
         let isValid = Validator.checkRequired(professorRegistrationForm) &&
-            Validator.checkEmail($("#email")) && Validator.checkID($("#id-number")) &&
-            Validator.checkEqual($("#password"), $("#confirm-password"));
+            Validator.checkEmail($("#prof-registration-form__email")) && Validator.checkID($("#prof-registration-form__id-number")) &&
+            Validator.checkEqual($("#prof-registration-form__password"), $("#prof-registration-form__confirm-password"));
         if(isValid){
             Modal.displayBufferModal("Registering Professor");
             // POST request to register professor

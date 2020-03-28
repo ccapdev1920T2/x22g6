@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("#check-in-form button[type=\"submit\"]").click(function(e){
         e.preventDefault();
         let checkInForm = $("#check-in-form");
-        let isValid = Validator.checkRequired(checkInForm) && Validator.checkID($("#id-number-check-in"));
+        let isValid = Validator.checkRequired(checkInForm) && Validator.checkID($("#check-in-form__id-number"));
         if(isValid){
             Modal.closeModal($("#check-in-modal"));
             Modal.displayBufferModal("Checking-in User");

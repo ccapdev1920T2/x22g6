@@ -5,9 +5,9 @@ const usersController = require("../controllers/user-controller");
 router.get("/", usersController.sendProfilePage);
 
 // POST request for changing user password
-router.post("/change-password", (req, res) => res.sendStatus(501));
+router.post("/change-password", usersController.changeUserPassword);
 
 // POST request for editing profile information
-router.post("/edit", (req, res) => res.sendStatus(501));
+router.post("/edit", usersController.editProfile);
 
 module.exports = router;

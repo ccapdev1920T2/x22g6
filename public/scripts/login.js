@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("#login-form button[type=\"submit\"").click(function(e){
         e.preventDefault();
         // Validates inputs
-        let isValid = Validator.checkRequired(loginForm) && Validator.checkEmail($("#login-form #email"));
+        let isValid = Validator.checkRequired(loginForm) && Validator.checkEmail($("#login-form__email"));
         if(isValid){
             Modal.displayBufferModal("Logging In");
             // POST request for logging ing

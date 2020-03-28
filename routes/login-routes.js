@@ -5,6 +5,6 @@ const usersController = require("../controllers/user-controller");
 router.get("/", usersController.sendLoginPage);
 
 //POST request for authenticating user
-router.post("/", (req, res) => res.sendStatus(501));
+router.post("/", usersController.logInUser);
 
 module.exports = router;

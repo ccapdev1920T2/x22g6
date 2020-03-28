@@ -5,21 +5,18 @@ const reservationController = require("../controllers/reservation-controller");
 router.get("/my-reservations", reservationController.sendMyReservationsPage);
 
 // POST request for creating a reservation
-router.post("/create", (req, res) => res.sendStatus(501));
+router.post("/create", reservationController.createReservation);
 
 // DELETE request for deleting a reservation
 router.delete("/delete", (req, res) => res.sendStatus(501));
-
-// GET request for time-slots for a path
-router.get("/time-slots/:location", (req, res) => res.sendStatus(501));
 
 // GET request for user-reservations page
 router.get("/user-reservations", reservationController.sendUserReservationsPage);
 
 // GET request for user-reservations page showing user reservations at a specific date, trip, and time
-router.get("/user-reservations/:date/:time/:trip", (req, res) => res.sendStatus(501));
+router.get("/user-reservations/:date/:time/:trip", reservationController.sendUserReservations);
 
 // POST request for checking-in a user
-router.post("/check-in", (req, res) => res.sendStatus(501));
+router.post("/check-in", reservationController.checkInUser);
 
 module.exports = router;
