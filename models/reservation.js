@@ -41,6 +41,19 @@ const reservationSchema = new Schema({
     }
 });
 
+/***************Reservation model static functions ***********************/
+/*
+    Adds a new reservation to the db.  The trip argument must be of the form "<origin>-to-<destination>".
+    The time argument must be in military time.  Returns a promise that resolves to a Reservation model 
+    instance if successfully added to the db
+*/
+reservationSchema.statics.createReservation = async function(idNumber, date, trip, time, isPremium){
+    let reservation = new Reservation({userId: idNumber, date, isPremium});
+    let schedule = await Schedule.findOne().byTrip(trip).where({time});
+    reservation.scheduleId = schedule._id;
+    return reservation.save();
+}
+
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
 module.exports = Reservation;
