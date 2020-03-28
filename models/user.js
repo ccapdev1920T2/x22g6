@@ -79,6 +79,10 @@ userSchema.statics.createUser = async function(idNumber, firstName, lastName, em
     return user.save();
 };
 
+userSchema.statics.STUDENT_TYPE = STUDENT_TYPE;
+userSchema.statics.PROF_TYPE = PROF_TYPE;
+userSchema.statics.STAFF_TYPE = STAFF_TYPE;
+
 /***************** User model instance methods ******************/
 /*
     Checks whether the specified password is the same as the instance of the
