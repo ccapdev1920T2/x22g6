@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const SUSPENSION_LENGTH = 30;
 
-const suspendedSchema = new Schema({
+const suspendedUserSchema = new Schema({
     user: {
         type: Schema.Types.Number,
         ref: 'User',
@@ -25,6 +25,6 @@ const suspendedSchema = new Schema({
     }
 });
 
-const Suspended = mongoose.model('Suspended', suspendedSchema);
+const SuspendedUser = mongoose.model('SuspendedUser', suspendedUserSchema, "suspendedUsers");
 
-module.exports = Suspended;
+module.exports = SuspendedUser;
