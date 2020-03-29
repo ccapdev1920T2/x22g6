@@ -4,16 +4,24 @@ var User = require('./user.js');
 
 const Schema = mongoose.Schema;
 
+const SUSPENSION_LENGTH = 30;
+
 const suspendedSchema = new Schema({
     user: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.Number,
         ref: 'User',
-        required: true
+        required: true,
+        validate: async function(value) {return await User.findById(value)}
     },
 
     releaseDate: {
         type: Date,
-        required: true
+        required: true,
+        default: function(){
+            let today = new Date();
+            today.setDate(today.getDate() + SUSPENSION_LENGTH);
+            return today;
+        }
     }
 });
 
