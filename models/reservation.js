@@ -43,6 +43,8 @@ const reservationSchema = new Schema({
     }
 });
 
+reservationSchema.index({userId: 1, date: 1, scheduleId: 1}, {unique: true});
+
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
 reservationSchema.pre("save", async function(){
