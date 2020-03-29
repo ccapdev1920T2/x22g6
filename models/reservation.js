@@ -5,6 +5,8 @@ var Schedule = require('./schedule.js');
 
 const Schema = mongoose.Schema;
 
+const MAX_RESERVATIONS = 2;
+
 const reservationSchema = new Schema({
     userId: {
         type: Schema.Types.Number,
@@ -18,7 +20,7 @@ const reservationSchema = new Schema({
         type: Date,
         required: true,
         // For disregarding the time component of the date
-        set: function(value) {return new Date(value.getFullYear(), value.getMonth(), value.getDate());}
+        set: disregardTime
     },
 
     scheduleId: {
@@ -40,6 +42,18 @@ const reservationSchema = new Schema({
         default: false
     }
 });
+
+/*************** Middlewares ******************/
+// Ensures that the number of reservations in a single day does not exceed the maximum
+reservationSchema.pre("save", async function(){
+    let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
+    if(exisitingReservations.length === MAX_RESERVATIONS)
+        throw new Error("Maximum number of reservations in a single day reached");
+});
+
+function disregardTime(date){
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
 
 /***************Reservation model static functions ***********************/
 /*
