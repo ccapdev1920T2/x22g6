@@ -1,4 +1,9 @@
 const User = require("../models/user");
+const cookieName = "id";
+const cookieOptions = {
+    httpOnly: true,
+    signed: true
+};
 
 // For sending the login page
 exports.sendLoginPage = function(req, res){
@@ -11,7 +16,7 @@ exports.logInUser = async function(req, res){
     try{
         let user = await User.findOne({email: req.body.email}, "_id password salt type");
         if(user && await user.isCorrectPassword(req.body.password)){
-            res.cookie("id", user._id, {httpOnly: true, signed: true});
+            res.cookie(cookieName, user._id, cookieOptions);
             res.setHeader("Location", user.getHomePageRoute());
             res.status(200).send();
         }else
@@ -19,6 +24,12 @@ exports.logInUser = async function(req, res){
     }catch(err){
         res.status(500).send("Cannot Login at this time");
     }
+}
+
+// For logging-out the user
+exports.logOutUser = function(req, res){
+    res.clearCookie(cookieName, cookieOptions);
+    res.redirect("/login");
 }
 
 // For sending the student registration page
