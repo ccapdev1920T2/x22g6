@@ -29,8 +29,23 @@ exports.registerStudent = async function(req, res){
         res.status(200).send();
     }
     catch(err){
+        
         if(err.code === 11000){
-            res.status(400).send("Duplicate ID/Email");
+            User.find({email: req.body.email}, function(err, docs){
+                if(docs.length){
+                    User.find({_id: req.body["id-number"]}, function(err, docs){
+                        if(docs.length){
+                            res.status(400).send("Email Address and ID Number already exists");
+                        }
+                        else{
+                            res.status(400).send("Email Address already exists");
+                        }
+                    });
+                }
+                else{
+                    res.status(400).send("ID Number already exists");
+                }
+            });
         }
         else res.status(500).send("Cannot register at this time");
     }
