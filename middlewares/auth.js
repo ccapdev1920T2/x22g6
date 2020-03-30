@@ -19,3 +19,29 @@ exports.redirectHome = async function(req, res, next){
         res.redirect("/login");
     }
 }
+
+// Checks if user is a non-staff user to see if they authorized to access a resource
+exports.checkNonStaff = async function(req, res, next){
+    try{
+        let user = await User.findById(req.signedCookies.id, "type");
+        if(user.type === User.STUDENT_TYPE || user.type === User.PROF_TYPE)
+            next();
+        else
+            res.status(403).send("You are not authorized to access this resource");
+    }catch(err){
+        res.redirect("/login");
+    }
+}
+
+// Checks if user is a staff user to see if they authorized to access a resource
+exports.checkStaff = async function(req, res, next){
+    try{
+        let user = await User.findById(req.signedCookies.id, "type");
+        if(user.type === User.STAFF_TYPE)
+            next();
+        else
+            res.status(403).send("You are not authorized to access this resource");
+    }catch(err){
+        res.redirect("/login");
+    }
+}

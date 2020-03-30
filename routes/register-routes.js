@@ -12,9 +12,9 @@ router.get("/student", userController.sendStudentRegistrationPage);
 router.post("/student", userController.registerStudent);
 
 // GET request for professor registration page
-router.get("/professor", userController.sendProfessorRegistrationPage);
+router.get("/professor", auth.checkStaff, userController.sendProfessorRegistrationPage);
 
 // POST request for registering a new professor
-router.post("/professor", userController.registerProfessor);
+router.post("/professor", auth.checkStaff, userController.registerProfessor);
 
 module.exports = router;
