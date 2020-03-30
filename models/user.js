@@ -124,6 +124,14 @@ userSchema.methods.updateProfile = async function(firstName, lastName, email){
     await this.save();
 }
 
+// Returns a string of the user's homepage route depending on the user type
+userSchema.methods.getHomePageRoute = function(){
+    if(this.type === STUDENT_TYPE || this.type === PROF_TYPE)
+        return "/reservation/my-reservations";
+    else if(this.type === STAFF_TYPE)
+        return "/reservation/user-reservations";
+}
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
