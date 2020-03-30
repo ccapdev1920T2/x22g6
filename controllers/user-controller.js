@@ -1,3 +1,5 @@
+const User = require("../models/user");
+
 // For sending the login page
 exports.sendLoginPage = function(req, res){
     res.render("login");
@@ -5,10 +7,17 @@ exports.sendLoginPage = function(req, res){
 
 
 // For logging-in the user.  
-exports.logInUser = function(req, res){
-    
-    //The email and password input can be accessed through req.body.email and req.body.password
-    res.status(501).send("NOT IMPLEMENTED: Logging In");
+exports.logInUser = async function(req, res){
+    try{
+        let user = await User.findOne({email: req.body.email}, "_id password salt type");
+        if(user && await user.isCorrectPassword(req.body.password)){
+            res.setHeader("Location", user.getHomePageRoute());
+            res.status(200).send();
+        }else
+            res.status(400).send("Invalid Login Credentials");
+    }catch(err){
+        res.status(500).send("Cannot Login at this time");
+    }
 }
 
 // For sending the student registration page
