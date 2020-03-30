@@ -11,8 +11,8 @@ $(document).ready(function(){
                 type: "POST",
                 url: "/login",
                 data: loginForm.serialize(),
-                success: function(data){
-                    window.location.href = data;
+                success: function(data, status, xhr){
+                    window.location.href = xhr.getResponseHeader("Location");
                 },
                 error: function(jqxhr){
                     Modal.displayModalMessage(jqxhr.responseText);
