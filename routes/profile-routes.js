@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const usersController = require("../controllers/user-controller");
+const auth = require("../middlewares/auth");
+
+router.use(auth.redirectLogin);
 
 // GET request for profile page
 router.get("/", usersController.sendProfilePage);

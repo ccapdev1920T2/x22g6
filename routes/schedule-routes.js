@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const scheduleController = require("../controllers/schedule-controller");
+const auth = require("../middlewares/auth");
+
+router.use(auth.redirectLogin);
 
 // GET request for the Arrow's Schedule Page
 router.get("/", scheduleController.sendArrowsSchedulePage);

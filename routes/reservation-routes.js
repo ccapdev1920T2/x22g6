@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const reservationController = require("../controllers/reservation-controller");
+const auth = require("../middlewares/auth");
+
+router.use(auth.redirectLogin);
 
 // GET request for my-reservations page
 router.get("/my-reservations", reservationController.sendMyReservationsPage);
