@@ -11,6 +11,7 @@ exports.logInUser = async function(req, res){
     try{
         let user = await User.findOne({email: req.body.email}, "_id password salt type");
         if(user && await user.isCorrectPassword(req.body.password)){
+            res.cookie("id", user._id, {httpOnly: true, signed: true});
             res.setHeader("Location", user.getHomePageRoute());
             res.status(200).send();
         }else

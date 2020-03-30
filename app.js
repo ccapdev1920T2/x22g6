@@ -2,6 +2,7 @@ let express = require("express");
 let hbs = require("hbs");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
+let cookieParser = require("cookie-parser");
 
 let app = express();
 const PORT =  3000;
@@ -25,6 +26,8 @@ app.set("view engine", "hbs");
 app.use(express.static('./public'));
 //Body parsing middleware
 app.use(bodyParser.urlencoded({extended: false}));
+//Cookie parser
+app.use(cookieParser("secret")); //TODO: change cookie secret
 
 // TO DELETE.  For simulating slow responses
 app.post("*", function(req, res, next){
