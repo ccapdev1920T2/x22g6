@@ -1,3 +1,5 @@
+const User = require("../models/user.js");
+
 // For sending the login page
 exports.sendLoginPage = function(req, res){
     res.render("login");
@@ -18,11 +20,22 @@ exports.sendStudentRegistrationPage = function(req, res){
 
 // For registering students
 exports.registerStudent = function(req, res){
+    try{
+        var firstName = req.body["first-name"];
+        var lastName = req.body["last-name"];
+        var idNumber = req.body["id-number"];
+        var email = req.body.email;
+        var password = req.body.password;
+        User.createUser(idNumber, firstName, lastName, email, password, "Student");
+        res.status(200).send();
+    }
+    catch{
+        res.status(400).send("There is an existing ID/Email Address");
+    }
     /*
         User inputs are in req.body["first-name"], req.body["last-name"],
         req.body.email, req.body["id-number"], req.body.password
     */
-    res.status(501).send("NOT IMPLEMENTED: Student Registration");
 }
 
 // For sending the professor registration page.
