@@ -19,23 +19,21 @@ exports.sendStudentRegistrationPage = function(req, res){
 }
 
 // For registering students
-exports.registerStudent = function(req, res){
-    try{
-        var firstName = req.body["first-name"];
-        var lastName = req.body["last-name"];
-        var idNumber = req.body["id-number"];
-        var email = req.body.email;
-        var password = req.body.password;
-        User.createUser(idNumber, firstName, lastName, email, password, "Student");
-        res.status(200).send();
-    }
-    catch{
-        res.status(400).send("There is an existing ID/Email Address");
-    }
+exports.registerStudent = async function(req, res){
     /*
         User inputs are in req.body["first-name"], req.body["last-name"],
         req.body.email, req.body["id-number"], req.body.password
     */
+    try{
+        await User.createUser(req.body["id-number"], req.body["first-name"], req.body["last-name"], req.body.email, req.body.password, User.STUDENT_TYPE);
+        res.status(200).send();
+    }
+    catch(err){
+        if(err.code === 11000){
+            res.status(400).send("Duplicate ID/Email");
+        }
+        else res.status(500).send("Cannot register at this time");
+    }
 }
 
 // For sending the professor registration page.
