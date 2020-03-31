@@ -26,7 +26,7 @@ exports.registerStudent = async function(req, res){
     */
     try{
         await User.createUser(req.body["id-number"], req.body["first-name"], req.body["last-name"], req.body.email, req.body.password, User.STUDENT_TYPE);
-        res.status(200).send();
+        res.status(201).send();
     }
     catch(err){
         
