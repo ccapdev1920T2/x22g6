@@ -38,12 +38,25 @@ exports.sendStudentRegistrationPage = function(req, res){
 }
 
 // For registering students
-exports.registerStudent = function(req, res){
+exports.registerStudent = async function(req, res){
     /*
         User inputs are in req.body["first-name"], req.body["last-name"],
         req.body.email, req.body["id-number"], req.body.password
     */
-    res.status(501).send("NOT IMPLEMENTED: Student Registration");
+    try{
+        await User.createUser(req.body["id-number"], req.body["first-name"], req.body["last-name"], req.body.email, req.body.password, User.STUDENT_TYPE);
+        res.status(201).send();
+    }
+    catch(err){
+        
+        if(err.code === 11000){
+            if(err.keyPattern._id === 1) res.status(400).send("ID Number already exists");
+            
+            else if (err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
+            
+        }
+        else res.status(500).send("Cannot register at this time");
+    }
 }
 
 // For sending the professor registration page.
