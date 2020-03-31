@@ -40,7 +40,14 @@ exports.sendStudentRegistrationPage = function(req, res){
 // For registering students
 exports.registerStudent = async function(req, res){
     try{
-        await User.createUser(req.body["id-number"], req.body["first-name"], req.body["last-name"], req.body.email, req.body.password, User.STUDENT_TYPE);
+        await User.createUser(
+            req.body["id-number"], 
+            req.body["first-name"], 
+            req.body["last-name"], 
+            req.body.email, 
+            req.body.password, 
+            User.STUDENT_TYPE);
+            
         res.status(201).send();
     }
     catch(err){
@@ -91,7 +98,10 @@ exports.sendProfilePage = function(req, res){
 // For editing the user profile.  
 exports.editProfile = async function(req, res){
     try{
-        await User.updateOne({_id: req.signedCookies.id}, ({firstName: req.body["first-name"], lastName: req.body["last-name"], email: req.body.email}));
+        await User.updateOne({_id: req.signedCookies.id}, ({
+            firstName: req.body["first-name"], 
+            lastName: req.body["last-name"], 
+            email: req.body.email}));
         res.status(204).send();
     }
     catch(err){
