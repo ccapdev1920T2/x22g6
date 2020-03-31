@@ -13,8 +13,11 @@
 	<title>Profile</title>
 </head>
 <body class="nav-side">
-    
-    {{> reservation_modal}}
+    {{#if (isStaff user.type)}}
+        {{> check_in_modal}}
+    {{else}}
+        {{> reservation_modal}}
+    {{/if}}
     {{> change_password_modal}}
     {{> buffer_modal}}
     {{> navbar}}

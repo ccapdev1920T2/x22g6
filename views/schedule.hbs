@@ -16,7 +16,11 @@
 </head>
 
 <body class="nav-side">
-    {{> reservation_modal}}
+    {{#if (isStaff user.type)}}
+        {{> check_in_modal}}
+    {{else}}
+        {{> reservation_modal}}
+    {{/if}}
     {{> buffer_modal}}
     {{> navbar}}
     <div class="nav-side__main-section">
