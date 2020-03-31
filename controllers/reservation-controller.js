@@ -1,6 +1,5 @@
 // For sending the my-reservations page
 exports.sendMyReservationsPage = function(req, res){
-    console.log(req.user);
     res.render("my-reservations", {user: req.user});
 }
 
