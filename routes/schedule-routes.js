@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth");
 router.use(auth.redirectLogin);
 
 // GET request for the Arrow's Schedule Page
-router.get("/", scheduleController.sendArrowsSchedulePage);
+router.get("/", auth.getUserInfo, scheduleController.sendArrowsSchedulePage);
 
 // GET request for time-slots for a trip
 router.get("/time-slots/:trip", scheduleController.sendTimeSlots);

@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth");
 router.use(auth.redirectLogin);
 
 // GET request for my-reservations page
-router.get("/my-reservations", auth.checkNonStaff, reservationController.sendMyReservationsPage);
+router.get("/my-reservations", auth.checkNonStaff, auth.getUserInfo, reservationController.sendMyReservationsPage);
 
 // POST request for creating a reservation
 router.post("/create", auth.checkNonStaff, reservationController.createReservation);
@@ -14,7 +14,7 @@ router.post("/create", auth.checkNonStaff, reservationController.createReservati
 router.delete("/delete", auth.checkNonStaff, (req, res) => res.sendStatus(501));
 
 // GET request for user-reservations page
-router.get("/user-reservations", auth.checkStaff, reservationController.sendUserReservationsPage);
+router.get("/user-reservations", auth.checkStaff, auth.getUserInfo, reservationController.sendUserReservationsPage);
 
 // GET request for user-reservations page showing user reservations at a specific date, trip, and time
 router.get("/user-reservations/:date/:time/:trip", auth.checkStaff, reservationController.sendUserReservations);

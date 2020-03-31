@@ -1,11 +1,12 @@
 // For sending the my-reservations page
 exports.sendMyReservationsPage = function(req, res){
-    res.render("my-reservations");
+    console.log(req.user);
+    res.render("my-reservations", {user: req.user});
 }
 
 // For sending user-reservations.hbs template
 exports.sendUserReservationsPage = function(req, res){
-    res.render("user-reservations");
+    res.render("user-reservations", {user: req.user});
 }
 
 // Gets user reservations for a specific date, trip, and time

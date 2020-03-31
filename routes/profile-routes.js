@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth");
 router.use(auth.redirectLogin);
 
 // GET request for profile page
-router.get("/", usersController.sendProfilePage);
+router.get("/", auth.getUserInfo, usersController.sendProfilePage);
 
 // POST request for changing user password
 router.post("/change-password", usersController.changeUserPassword);

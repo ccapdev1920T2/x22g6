@@ -45,3 +45,13 @@ exports.checkStaff = async function(req, res, next){
         res.redirect("/login");
     }
 }
+
+//Creates a user property on the req object based on cookie
+exports.getUserInfo = async function(req, res, next){
+    try{
+        req.user = await User.findById(req.signedCookies.id);
+        next();
+    }catch(err){   
+        res.status(500).send("Cannot retrieve user information at this time");
+    }
+}

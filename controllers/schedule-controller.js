@@ -1,6 +1,6 @@
 // For sending the Arrow's Schedule Page
 exports.sendArrowsSchedulePage = function(req, res){
-    res.render("schedule");
+    res.render("schedule", ({user: req.user}));
 };
 
 // For sending time slots for a specific trip of the form "<origin>-to-<dest>"

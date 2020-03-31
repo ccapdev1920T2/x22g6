@@ -5,9 +5,11 @@
     <div class="navbar__user">
         <a><img src="/images/person.png" class="user-icon"></a>
         <div id="user-info">
-            <p class="user-info__text--main">John Smith</p>
-            <p class="user-info__text--main">11896718</p>
-            <p class="user-info__text--sub">Reputation Points: 100</p>
+            <p class="user-info__text--main">{{user.firstName}} {{user.lastName}}</p>
+            <p class="user-info__text--main">{{user._id}}</p>
+            {{#if user.reputationPoints}}
+                <p class="user-info__text--sub">Reputation Points: {{user.reputationPoints}}</p>
+            {{/if}}
         </div>
     </div>
 </div>

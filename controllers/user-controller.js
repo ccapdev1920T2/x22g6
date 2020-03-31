@@ -48,7 +48,7 @@ exports.registerStudent = function(req, res){
 
 // For sending the professor registration page.
 exports.sendProfessorRegistrationPage = function(req, res){
-    res.render("register-professor");
+    res.render("register-professor", {user: req.user});
 }
 
 // For registering professors
@@ -59,7 +59,7 @@ exports.registerProfessor = function(req, res){
 
 // For sending the profile page
 exports.sendProfilePage = function(req, res){
-    res.render("profile");
+    res.render("profile", {user: req.user});
 }
 
 
