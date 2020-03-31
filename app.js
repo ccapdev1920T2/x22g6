@@ -3,6 +3,7 @@ let hbs = require("hbs");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let cookieParser = require("cookie-parser");
+let auth = require("./middlewares/auth");
 
 let app = express();
 const PORT =  3000;
@@ -42,6 +43,7 @@ app.delete("*", function(req, res, next){
 hbs.registerPartials(__dirname + "/views/partials");
 
 // Routes
+app.get("/", auth.redirectLogin, auth.redirectHome);
 app.use("/login", require("./routes/login-routes"));
 app.use("/profile", require("./routes/profile-routes"));
 app.use("/register", require("./routes/register-routes"));
