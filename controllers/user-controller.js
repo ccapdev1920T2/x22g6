@@ -18,7 +18,7 @@ exports.logInUser = async function(req, res){
         if(user && await user.isCorrectPassword(req.body.password)){
             res.cookie(cookieName, user._id, cookieOptions);
             res.setHeader("Location", user.getHomePageRoute());
-            res.status(200).send();
+            res.status(204).send();
         }else
             res.status(400).send("Invalid Login Credentials");
     }catch(err){
