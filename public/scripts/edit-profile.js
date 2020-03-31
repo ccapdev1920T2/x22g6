@@ -37,6 +37,7 @@ $(document).ready(function(){
 					firstName = $("#edit-profile-form__first-name").val();
 					lastName = $("#edit-profile-form__last-name").val();
 					email = $("#edit-profile-form__email").val();
+					$("#navbar__name").html(firstName + " " + lastName);
 					revertProfile();
 					lockProfileEdit();
 				},
