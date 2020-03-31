@@ -22,6 +22,14 @@ mongoose.connection.on("disconnected", () => console.log("Mongoose disconnected 
 
 //Template engine
 app.set("view engine", "hbs");
+// HBS Helpers
+hbs.registerHelper("getCurrentDate", function(){
+    let today = new Date();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    let formatNumber = (value) => value >= 10 ? value : "0" + value;
+    return today.getFullYear() + "-" + formatNumber(month) + "-" + formatNumber(day);
+});
 
 //Static files
 app.use(express.static('./public'));
