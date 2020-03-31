@@ -4,6 +4,12 @@ const cookieOptions = {
     httpOnly: true,
     signed: true
 };
+const hbs = require("hbs");
+
+// Helper registration
+hbs.registerHelper("isStaff", function(type){
+    return type === User.STAFF_TYPE;
+});
 
 // For sending the login page
 exports.sendLoginPage = function(req, res){

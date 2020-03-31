@@ -21,7 +21,11 @@
     {{> navbar}}
     <div class="nav-side__main-section">
         <div class="nav-side__sidebar-section">
-            {{> sidebar_regular}}
+            {{#if (isStaff user.type)}}
+                {{> sidebar_admin}}
+            {{else}}
+                {{> sidebar_regular}}
+            {{/if}}
         </div>
         <div class="nav-side__content-section">
             <div class="container container--bordered container--fill">
