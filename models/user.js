@@ -115,15 +115,6 @@ function isEmpty(input){
     return (input === "");
 }
 
-//Changes user's profile. Does not return any but will change the value properties
-userSchema.methods.updateProfile = async function(firstName, lastName, email){
-    if (!isEmpty(firstName)) this.firstName = firstName;
-    if (!isEmpty(lastName)) this.lastName = lastName;
-    if (!isEmpty(email)) this.email = email;
-
-    await this.save();
-}
-
 // Returns a string of the user's homepage route depending on the user type
 userSchema.methods.getHomePageRoute = function(){
     if(this.type === STUDENT_TYPE || this.type === PROF_TYPE)

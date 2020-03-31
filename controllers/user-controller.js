@@ -89,10 +89,10 @@ exports.sendProfilePage = function(req, res){
 
 
 // For editing the user profile.  
-exports.editProfile = function(req, res){
+exports.editProfile = async function(req, res){
     try{
-        req.user.updateProfile(req.body["first-name"], req.body["last-name"], req.body.email);
-        res.status(201).send();
+        await User.updateOne({_id: req.signedCookies.id}, ({firstName: req.body["first-name"], lastName: req.body["last-name"], email: req.body.email}));
+        res.status(204).send();
     }
     catch(err){
         if(err.keyPattern.email === 1){
