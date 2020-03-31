@@ -49,11 +49,27 @@ exports.registerStudent = async function(req, res){
     }
     catch(err){
         
-        if(err.code === 11000){
-            if(err.keyPattern._id === 1) res.status(400).send("ID Number already exists");
-            
-            else if (err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
-            
+        if(err.keyPattern._id === 1){
+            User.find({email: req.body.email}, function(err, docs){
+                if(err) res.status(500).send("Cannot register at this time");
+
+                else if(docs.length) res.status(400).send("ID Number and Email Address already exists");
+
+                else res.status(400).send("ID Number already exists");
+            });
+        }
+        /**
+         * This is done instead of a single else in case of changes within the order of schema/parameters which in turn
+         * may change which err.keyPattern will be shown first as error
+         */
+        else if (err.keyPattern.email === 1){
+            User.find({_id: req.body["id-number"]}, function(err, docs){
+                if(err) res.status(500).send("Cannot register at this time");
+
+                else if(docs.length) res.status(400).send("Email Address and ID Number already exists");
+
+                else res.status(400).send("Email Address already exists");
+            });
         }
         else res.status(500).send("Cannot register at this time");
     }
