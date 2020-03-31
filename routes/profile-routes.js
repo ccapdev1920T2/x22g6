@@ -11,6 +11,6 @@ router.get("/", auth.getUserInfo, usersController.sendProfilePage);
 router.post("/change-password", usersController.changeUserPassword);
 
 // POST request for editing profile information
-router.post("/edit", usersController.editProfile);
+router.post("/edit", auth.getUserInfo, usersController.editProfile);
 
 module.exports = router;

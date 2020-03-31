@@ -39,10 +39,6 @@ exports.sendStudentRegistrationPage = function(req, res){
 
 // For registering students
 exports.registerStudent = async function(req, res){
-    /*
-        User inputs are in req.body["first-name"], req.body["last-name"],
-        req.body.email, req.body["id-number"], req.body.password
-    */
     try{
         await User.createUser(req.body["id-number"], req.body["first-name"], req.body["last-name"], req.body.email, req.body.password, User.STUDENT_TYPE);
         res.status(201).send();
@@ -94,8 +90,17 @@ exports.sendProfilePage = function(req, res){
 
 // For editing the user profile.  
 exports.editProfile = function(req, res){
-    // The user inputs can be accessed through req.body["first-name"], req.body["last-name"], req.body.email
-    res.status(501).send("NOT IMPLEMENTED: Editing profile");
+    try{
+        req.user.updateProfile(req.body["first-name"], req.body["last-name"], req.body.email);
+        res.status(201).send();
+    }
+    catch(err){
+        if(err.keyPattern.email === 1){
+            res.status(400).send("Email Address already exists");
+        }
+        res.status(500).send("Cannot edit at this time");
+    }
+    
 }
 
 
