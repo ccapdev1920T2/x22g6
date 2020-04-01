@@ -45,6 +45,16 @@ const reservationSchema = new Schema({
 
 reservationSchema.index({userId: 1, date: 1, scheduleId: 1}, {unique: true});
 
+
+/**************Query Helpers********************** */
+/*
+    Query's all date with the given string.  The string must be
+    of the form "YYYY-MM-DD"
+*/
+reservationSchema.query.byDate = function(date){
+    return this.where({date: new Date(date + "T00:00:00")});
+}
+
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
 reservationSchema.pre("save", async function(){
@@ -60,13 +70,16 @@ function disregardTime(date){
 /***************Reservation model static functions ***********************/
 /*
     Adds a new reservation to the db.  The trip argument must be of the form "<origin>-to-<destination>".
-    The time argument must be in military time.  Returns a promise that resolves to a Reservation model 
+    The time argument must be in military time.  The date must be of the form YYYY-MM-DD.
+    Returns a promise that resolves to a Reservation model 
     instance if successfully added to the db
 */
 reservationSchema.statics.createReservation = async function(idNumber, date, trip, time, isPremium){
-    let reservation = new Reservation({userId: idNumber, date, isPremium});
+    let reservation = new Reservation({userId: idNumber, isPremium});
+    date = new Date(date + "T00:00:00");
     let schedule = await Schedule.findOne().byTrip(trip).where({time});
     reservation.scheduleId = schedule._id;
+    reservation.date = date;
     return reservation.save();
 }
 
