@@ -112,10 +112,11 @@ exports.editProfile = async function(req, res){
         res.status(204).send();
     }
     catch(err){
-        if(err.keyPattern.email === 1){
-            res.status(400).send("Email Address already exists");
-        }
-        res.status(500).send("Cannot edit at this time");
+        if(err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
+        
+        else res.status(500).send("Cannot edit at this time");
+        
+        
     }
     
 }
