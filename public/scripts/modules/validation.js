@@ -35,6 +35,8 @@ let Validator = function() {
 	});
 
 	return {
+		markInput: markInput,
+		unmarkInput: unmarkInput,
 		// Takes a JQuery input object and checks if value follows the appropiate input format and marks it if not
 		checkEmail(emailInput){
 			var emailFormat = /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/;
@@ -85,6 +87,16 @@ let Validator = function() {
 				}
 			});
 			return isValid;
+		},
+
+		// Checks if a date input is on a weekend and marks the date input if so
+		checkWeekend(input){
+			let day = (new Date(input.val())).getDay();
+			if(day === 0 || day === 6){
+				markInput(input);
+				return false;
+			}
+			return true;
 		}
 	}
 }();

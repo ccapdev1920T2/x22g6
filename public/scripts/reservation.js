@@ -2,6 +2,9 @@ $(document).ready(function(){
 	let timeSelector = $("#reservation-form__time");
 	let locationSelector = $("#reservation-form__location");
 	let reservationForm = $("#reservation-form");
+	let dateInput = $("#reservation-form__date");
+
+	let currentDate = new Date(dateInput.val());
 
 	locationSelector.change(function(){
 		$.ajax({
@@ -20,7 +23,22 @@ $(document).ready(function(){
 	// When the user submits the reservation form
 	$("#reservation-form button[type=\"submit\"").click(function(e){
 		e.preventDefault();
+		let reservationDate = new Date(dateInput.val());
+		let reservationDay = reservationDate.getDay();
 		let isValid = Validator.checkRequired(reservationForm);
+		// Checks if the reservation is on a weekend
+		if(reservationDay === 0 || reservationDay === 6){
+			Validator.markInput(dateInput);
+			isValid = false;
+		}else
+			Validator.unmarkInput(dateInput);
+		//Checks if reservation is on a day before
+		if(reservationDate.getTime() <= currentDate.getTime()){
+			Validator.markInput(dateInput);
+			isValid = false;
+		}else
+			Validator.unmarkInput(dateInput);
+	
 		if(isValid){
 			Modal.closeModal($("#reservation-modal"));
 			Modal.displayBufferModal("Making Reservation");
@@ -33,7 +51,6 @@ $(document).ready(function(){
 				},
 				error: function(jqxhr){
 					Modal.displayModalMessage(jqxhr.responseText);
-					console.log(window.location.href);
 				},
 				complete: function(){
 					Modal.closeBufferModal();
