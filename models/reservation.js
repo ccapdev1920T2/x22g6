@@ -6,6 +6,7 @@ var Schedule = require('./schedule.js');
 const Schema = mongoose.Schema;
 
 const MAX_RESERVATIONS = 2;
+const MAX_RESERVATIONS_ERR = "MAX_RESERVATIONS";
 
 const reservationSchema = new Schema({
     userId: {
@@ -59,8 +60,11 @@ reservationSchema.query.byDate = function(date){
 // Ensures that the number of reservations in a single day does not exceed the maximum
 reservationSchema.pre("save", async function(){
     let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
-    if(exisitingReservations.length === MAX_RESERVATIONS)
-        throw new Error("Maximum number of reservations in a single day reached");
+    if(exisitingReservations.length === MAX_RESERVATIONS){
+        let err = new Error("Maximum number of reservations in a single day reached");
+        err.reason = MAX_RESERVATIONS_ERR;
+        throw err;
+    }
 });
 
 function disregardTime(date){
@@ -82,6 +86,8 @@ reservationSchema.statics.createReservation = async function(idNumber, date, tri
     reservation.date = date;
     return reservation.save();
 }
+
+reservationSchema.statics.MAX_RESERVATIONS_ERR = MAX_RESERVATIONS_ERR
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
