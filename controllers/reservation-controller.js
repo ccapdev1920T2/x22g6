@@ -1,3 +1,6 @@
+const Schedule = require("../models/schedule");
+const Reservation = require("../models/reservation");
+
 // For sending the my-reservations page
 exports.sendMyReservationsPage = function(req, res){
     res.render("my-reservations", {user: req.user});
@@ -22,7 +25,28 @@ exports.createReservation = function(req, res){
 
 
 // For checking in user
-exports.checkInUser = function(req, res){
-    // Information is stored in req.body.trip, req.body.time, req.body.date, and req.body["id-number"]
-    res.status(501).send("NOT IMPLEMENTED: Checking-in");
+exports.checkInUser = async function(req, res){
+    try{
+        let time = req.body.time;
+        let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
+        
+        try{
+            let reservation = await Reservation.findOne({userId: req.body["id-number"], scheduleId: schedule._id}).byDate(req.body.date);
+            if(reservation.isCheckIn == true)   res.status(409).send("User already checked in");
+            
+            else{
+                reservation.isCheckIn = true;
+                reservation.save();
+                res.status(202).send();
+            }
+            
+        }
+        catch(err){
+            res.status(404).send("User not found");
+        }
+    }
+    catch(err){
+        res.status(503).send("Check-in not available at this time");
+    }
+    
 }
