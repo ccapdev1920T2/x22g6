@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 
 const MAX_RESERVATIONS = 2;
 const MAX_RESERVATIONS_ERR = "MAX_RESERVATIONS";
+const INVALID_TIME_SLOT_ERR = "INVALID_TIME_SLOT";
 
 const reservationSchema = new Schema({
     userId: {
@@ -58,7 +59,7 @@ reservationSchema.query.byDate = function(date){
 
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
-reservationSchema.pre("save", async function(){
+reservationSchema.pre("save", async function(next){
     let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
     if(exisitingReservations.length === MAX_RESERVATIONS){
         let err = new Error("Maximum number of reservations in a single day reached");
@@ -66,6 +67,20 @@ reservationSchema.pre("save", async function(){
         throw err;
     }
 });
+
+// Ensures that the reservation date and time is valid
+reservationSchema.pre("save", async function(){
+    let schedule = await Schedule.findById(this.scheduleId);
+    let reservationDate = new Date(this.date);
+    reservationDate.setHours(schedule.time / 100);
+    reservationDate.setMinutes(schedule.time % 100);
+    if(reservationDate.getTime() - 900000 <= (new Date()).getTime()){
+        let err = new Error("You can only reserve 15 minutes before the departure time");
+        err.reason = INVALID_TIME_SLOT_ERR;
+        throw err;
+    }
+    return;
+})
 
 function disregardTime(date){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -88,6 +103,7 @@ reservationSchema.statics.createReservation = async function(idNumber, date, tri
 }
 
 reservationSchema.statics.MAX_RESERVATIONS_ERR = MAX_RESERVATIONS_ERR
+reservationSchema.statics.INVALID_TIME_SLOT_ERR = INVALID_TIME_SLOT_ERR;
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
