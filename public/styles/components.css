@@ -89,6 +89,12 @@
     padding: 0.60em 1.2em;
 }
 
+.container__content-section--text-centered{
+    padding: 3em 0;
+    display: flex;
+    justify-content: center;
+}
+
 .container__title{
     font-size: 1.5em;
     font-weight: 400;
