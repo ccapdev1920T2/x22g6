@@ -30,20 +30,16 @@ exports.checkInUser = async function(req, res){
         let time = req.body.time;
         let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
         
-        try{
-            let reservation = await Reservation.findOne({userId: req.body["id-number"], scheduleId: schedule._id}).byDate(req.body.date);
-            if(reservation.isCheckIn == true)   res.status(409).send("User already checked in");
+        let reservation = await Reservation.findOne({userId: req.body["id-number"], scheduleId: schedule._id}).byDate(req.body.date);
+        if(reservation === null) res.status(404).send("User not found");
+        else if(reservation.isCheckIn == true)   res.status(409).send("User already checked in");
             
-            else{
-                reservation.isCheckIn = true;
-                reservation.save();
-                res.status(202).send();
-            }
-            
+        else{
+            reservation.isCheckIn = true;
+            reservation.save();
+            res.status(202).send();
         }
-        catch(err){
-            res.status(404).send("User not found");
-        }
+
     }
     catch(err){
         res.status(500).send("Check-in not available at this time");
