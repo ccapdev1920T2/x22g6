@@ -104,10 +104,11 @@ exports.sendProfilePage = function(req, res){
 // For editing the user profile.  
 exports.editProfile = async function(req, res){
     try{
-        await User.updateOne({_id: req.signedCookies.id}, ({
-            firstName: req.body["first-name"], 
-            lastName: req.body["last-name"], 
-            email: req.body.email}));
+        req.user.firstName = req.body["first-name"];
+        req.user.lastName = req.body["last-name"];
+        req.user.email = req.body.email;
+
+        await req.user.save();
         res.status(204).send();
     }
     catch(err){
