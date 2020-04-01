@@ -33,7 +33,7 @@ $(document).ready(function(){
 		}else
 			Validator.unmarkInput(dateInput);
 		//Checks if reservation is on a day before
-		if(reservationDate.getTime() <= currentDate.getTime()){
+		if(reservationDate.getTime() < currentDate.getTime()){
 			Validator.markInput(dateInput);
 			isValid = false;
 		}else
