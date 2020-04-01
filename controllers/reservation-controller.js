@@ -46,7 +46,7 @@ exports.checkInUser = async function(req, res){
         }
     }
     catch(err){
-        res.status(503).send("Check-in not available at this time");
+        res.status(500).send("Check-in not available at this time");
     }
     
 }
