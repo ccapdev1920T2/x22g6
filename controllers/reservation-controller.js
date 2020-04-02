@@ -4,7 +4,7 @@ const SusependedUser = require("../models/suspended-user");
 
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
-    let reservationsToday = await Reservation.find().populate("scheduleId").byDateObject(new Date());
+    let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(new Date());
     reservationsToday.forEach(function(value){
         value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();
     });
