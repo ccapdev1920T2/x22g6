@@ -68,8 +68,8 @@ exports.sendMyReservationsPage = async function(req, res){
     futureReservations.forEach(get12HourFormat);
     futureReservations = groupByMonth(futureReservations);
     for(let i=0; i<futureReservations.length; ++i){
-        futureReservations[i].dayReservations.sort(sortingCallback);
         futureReservations[i].dayReservations = groupByDay(futureReservations[i].dayReservations);
+        futureReservations[i].dayReservations.forEach((dayReservation) => dayReservation.reservations.sort(sortingCallback));
     }
     res.render("my-reservations", {user: req.user, reservationsToday, futureReservations});
 }
