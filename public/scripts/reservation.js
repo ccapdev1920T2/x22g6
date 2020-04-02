@@ -54,11 +54,35 @@ $(document).ready(function(){
 				success: function(data){
 					let parseBase10 = (string) => parseInt(string, 10);
 					Modal.displayModalMessage("You reservation has been made");
+					
+					
+
 					if(window.location.pathname === "/reservation/my-reservations"){
 						let parsedContainer = $($.parseHTML(data)[0]);
 						let parsedMonth = parseBase10(parsedContainer.attr("data-month-num"));
 						let parsedYear = parseBase10(parsedContainer.attr("data-year"));
 						let monthContainer = getMonthContainer(parsedMonth, parsedYear);
+						// Checks if reservation is today
+						let today = new Date();
+						today.setHours(0, 0, 0, 0);
+						let timeSlotElem = $(parsedContainer.find(".time-slot")[0]);
+						// If reservation is today
+						if(today.getTime() === new Date(timeSlotElem.attr("data-reservation-date")).getTime()){
+							let timeSlotsToday = $("#time-slots-today");
+							if(timeSlotsToday.hasClass("container__content-section--text-centered")){
+								timeSlotsToday.removeClass("container__content-section--text-centered").empty().append(timeSlotElem);
+							}else{
+								let otherTimeSlot = $(timeSlotsToday.find(".time-slot")[0]);
+								if(parseBase10(otherTimeSlot.attr("data-reservation-time")) > parseBase10(timeSlotElem.attr("data-reservation-time")))
+									timeSlotElem.insertBefore(otherTimeSlot);
+								else
+									timeSlotElem.insertAfter(otherTimeSlot);
+
+							}
+							
+							return;
+						}
+						// If reservation is in the upcoming days
 						if(monthContainer.length !== 0){
 							// Month container exists
 							parsedContainer = $(parsedContainer.children(".calendar__day-reservations")[0]);
@@ -66,7 +90,7 @@ $(document).ready(function(){
 							let dayContainer = getDayContainer(monthContainer, parsedDay);
 							if(dayContainer.length !== 0){
 								// Day container exists
-								parsedContainer = $(parsedContainer.find(".time-slot")[0]);
+								parsedContainer = timeSlotElem;
 								let otherDaySlot = $(dayContainer.find(".time-slot")[0]);
 								let otherTimeValue = otherDaySlot.attr("data-reservation-time");
 								let parsedTimeValue = parsedContainer.attr("data-reservation-time");
@@ -136,6 +160,6 @@ $(document).ready(function(){
     
     function getDayContainer(monthContainer, day){
         return $(monthContainer.children(`[data-day=${day}]`));
-    }
+	}
 
 });
