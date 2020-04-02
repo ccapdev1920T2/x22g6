@@ -1,0 +1,5 @@
+<div class="time-slot time-slot--{{scheduleId.origin}}-to-{{scheduleId.destination}} time-slot--fill" data-reservation-date="{{date}}" data-reservation-time="{{scheduleId.time}}">
+    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+    <p><strong class="time-slot__location">{{scheduleId.origin}}</strong> to <strong class="time-slot__location">{{scheduleId.destination}}</strong></p>
+    <p>{{scheduleId.time12Hour}}</p>
+</div>

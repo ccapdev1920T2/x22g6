@@ -29,11 +29,7 @@
                 </div>
                 <div class="container__content-section" id="time-slots-today">
                     {{#each reservationsToday}}
-                        <div class="time-slot time-slot--{{scheduleId.origin}}-to-{{scheduleId.destination}} time-slot--fill" data-reservation-date="{{date}}" data-reservation-time="{{scheduleId.time}}">
-                            <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
-                            <p><strong class="time-slot__location">{{scheduleId.origin}}</strong> to <strong class="time-slot__location">{{scheduleId.destination}}</strong></p>
-                            <p>{{scheduleId.time12Hour}}</p>
-                        </div>
+                        {{> time_slot}}
                     {{/each}}
                 </div>
             </div>
@@ -46,26 +42,7 @@
                 <div class="container__content-section">
                     <div class="calendar" id="time-slots-future">
                         {{#each futureReservations}}
-                            <div class="calendar__month-reservations">
-                                <p class="calendar__month-name">{{month}} {{year}}</p>
-                                {{#each dayReservations}}
-                                    <div class="calendar__day-reservations">
-                                        <div class="calendar__day-info">
-                                            <p class="calendar__day-number">{{day}}</p>
-                                            <p>{{week}}</p>
-                                        </div>
-                                        <div class="calendar__time-slots">
-                                            {{#each reservations}}
-                                                <div class="time-slot time-slot--{{scheduleId.origin}}-to-{{scheduleId.destination}} time-slot--fill" data-reservation-date="{{date}}" data-reservation-time="{{scheduleId.time}}">
-                                                    <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
-                                                    <p><strong class="time-slot__location">{{scheduleId.origin}}</strong> to <strong class="time-slot__location">{{scheduleId.destination}}</strong></p>
-                                                    <p>{{scheduleId.time12Hour}}</p>
-                                                </div>
-                                            {{/each}}
-                                        </div>
-                                    </div>
-                                {{/each}}
-                            </div>
+                            {{> month_time_slots}}
                         {{/each}}
                     </div>
                 </div>

@@ -26,6 +26,7 @@ $(document).ready(function(){
 		let reservationDate = new Date(dateInput.val());
 		let reservationDay = reservationDate.getDay();
 		let isValid = Validator.checkRequired(reservationForm);
+		let headers = {};
 		// Checks if the reservation is on a weekend
 		if(reservationDay === 0 || reservationDay === 6){
 			Validator.markInput(dateInput);
@@ -38,6 +39,9 @@ $(document).ready(function(){
 			isValid = false;
 		}else
 			Validator.unmarkInput(dateInput);
+		
+		if(window.location.pathname === "/reservation/my-reservations")
+			headers["Time-Slot-HTML"] = "true";
 	
 		if(isValid){
 			Modal.closeModal($("#reservation-modal"));
@@ -45,9 +49,76 @@ $(document).ready(function(){
 			$.ajax({
 				type: "POST",
 				url: "/reservation/create",
+				headers: headers,
 				data: reservationForm.serialize(),
-				success: function(){
+				success: function(data){
+					let parseBase10 = (string) => parseInt(string, 10);
 					Modal.displayModalMessage("You reservation has been made");
+					if(window.location.pathname === "/reservation/my-reservations"){
+						let parsedContainer = $($.parseHTML(data)[0]);
+						let parsedMonth = parseBase10(parsedContainer.attr("data-month-num"));
+						let parsedYear = parseBase10(parsedContainer.attr("data-year"));
+						let monthContainer = getMonthContainer(parsedMonth, parsedYear);
+						if(monthContainer.length !== 0){
+							// Month container exists
+							parsedContainer = $(parsedContainer.children(".calendar__day-reservations")[0]);
+							let parsedDay = parsedContainer.attr("data-day")
+							let dayContainer = getDayContainer(monthContainer, parsedDay);
+							if(dayContainer.length !== 0){
+								// Day container exists
+								parsedContainer = $(parsedContainer.find(".time-slot")[0]);
+								let otherDaySlot = $(dayContainer.find(".time-slot")[0]);
+								let otherTimeValue = otherDaySlot.attr("data-reservation-time");
+								let parsedTimeValue = parsedContainer.attr("data-reservation-time");
+								if(parseBase10(otherTimeValue) > parseBase10(parsedTimeValue)){
+									parsedContainer.insertBefore(otherDaySlot);
+								}else{
+									parsedContainer.insertAfter(otherDaySlot);
+								}
+							}else{
+								// Day cotainer does not exists
+								let dayContainersForMonth = $(monthContainer.children(".calendar__day-reservations"));
+								let i;
+								for(i=0; i<dayContainersForMonth.length; ++i){
+									let current = $(dayContainersForMonth[i])
+									let currentDay = current.attr("data-day");
+									if(parseBase10(currentDay) > parseBase10(parsedDay)){
+										parsedContainer.insertBefore(current);
+										break;
+									}
+								}
+								if(i === dayContainersForMonth.length){
+									parsedContainer.insertAfter(dayContainersForMonth[i - 1]);
+								}
+							}
+						}else{
+							// Month container does not exists
+							let allMonthContainers = $(".calendar__month-reservations");
+							if(allMonthContainers.length === 0){
+								let timeSlotsFuture = $("#time-slots-future");
+								timeSlotsFuture.removeClass("container__content-section--text-centered");
+								timeSlotsFuture.empty();
+								timeSlotsFuture.append(parsedContainer);
+								return;
+							}
+							let i;
+							for(i=0; i<allMonthContainers.length; ++i){
+								let current = $(allMonthContainers[i]);
+								let currentYear = parseBase10(current.attr("data-year"));
+								let currentMonth = parseBase10(current.attr("data-month-num"));
+								if(currentYear > parsedYear){
+									parsedContainer.insertBefore(current);
+									break;
+								}else if(currentYear == parsedYear && currentMonth > parsedMonth){
+									parsedContainer.insertBefore(current);
+									break;
+								}	
+							}
+							if(i === allMonthContainers.length){
+								parsedContainer.insertAfter(allMonthContainers[i - 1]);
+							}
+						}
+					}
 				},
 				error: function(jqxhr){
 					Modal.displayModalMessage(jqxhr.responseText);
@@ -58,5 +129,13 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	function getMonthContainer(monthNum, year){
+		return $($("#time-slots-future").children(`[data-month-num=${monthNum}][data-year=${year}]`)[0]);
+    }
+    
+    function getDayContainer(monthContainer, day){
+        return $(monthContainer.children(`[data-day=${day}]`));
+    }
 
 });

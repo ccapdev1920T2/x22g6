@@ -14,6 +14,7 @@ function groupByMonth(resInput){
         let currentMonth = resInput[i].date.getMonth();
         grouped.push({
             month: MONTH_NAMES[currentMonth],
+            monthNum: currentMonth,
             year: resInput[i].date.getFullYear(),
             dayReservations: [resInput[i]]
         });
@@ -46,11 +47,15 @@ function groupByDay(resInput){
     return grouped;
 }
 
+// Adds a time12Hour property to the reservation's scheduleId
+function get12HourFormat(reservation){
+    reservation.scheduleId.time12Hour = reservation.scheduleId.get12HourFormat();
+};
+
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
     let today = new Date();
     let sortingCallback = (a, b) => a.scheduleId.time - b.scheduleId.time;
-    let get12HourFormat = (value) => {value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();};
     // Today's Reservations
     let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(today);
     reservationsToday.forEach(get12HourFormat);
@@ -91,14 +96,21 @@ exports.createReservation = async function(req, res){
             suspended = null;
         }
         if(!suspended){ //For users that are not suspended
-            await Reservation.createReservation(
+            let reservation = await Reservation.createReservation(
                 req.signedCookies.id, 
                 req.body.date,
                 req.body.trip,
                 req.body.time,
                 false
             );
-            res.status(201).send();
+            await Reservation.populate(reservation, {path: "scheduleId"});
+            get12HourFormat(reservation);
+            if(req.get("Time-Slot-HTML")){
+                let inputObject= groupByMonth([reservation])[0];
+                inputObject.dayReservations = groupByDay(inputObject.dayReservations);
+                res.status(200).render("partials/month-time-slots", inputObject);
+            }else
+                res.status(201).send();
         }else // For suspended users
             res.status(400).send("You're account is currently suspended until " + suspended.getReleaseDateFormatted() + " at " + suspended.getReleaseDateTime());
     }catch(err){

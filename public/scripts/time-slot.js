@@ -58,4 +58,5 @@ $(document).ready(function(){
                 monthContainer.remove(); //Removes section for a month without any reservations
         }
     }
+
 });

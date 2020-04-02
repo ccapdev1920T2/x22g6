@@ -1,0 +1,16 @@
+<div class="calendar__month-reservations" data-month-num="{{monthNum}}" data-year="{{year}}">
+    <p class="calendar__month-name">{{month}} {{year}}</p>
+    {{#each dayReservations}}
+        <div class="calendar__day-reservations" data-day="{{day}}">
+            <div class="calendar__day-info">
+                <p class="calendar__day-number">{{day}}</p>
+                <p>{{week}}</p>
+            </div>
+            <div class="calendar__time-slots">
+                {{#each reservations}}
+                    {{> time_slot}}
+                {{/each}}
+            </div>
+        </div>
+    {{/each}}
+</div>
