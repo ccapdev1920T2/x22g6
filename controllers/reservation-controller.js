@@ -102,7 +102,7 @@ exports.createReservation = async function(req, res){
         if(err.code === 11000){
             if(err.keyPattern.userId === 1 && err.keyPattern.date === 1 && err.keyPattern.scheduleId === 1)
                 res.status(400).send("You already have a reservation during the specified time");
-        }else if(err.reason === Reservation.MAX_RESERVATIONS_ERR || err.reason === Reservation.INVALID_TIME_SLOT_ERR){
+        }else if(err.reason === Reservation.PRE_SAVE_ERR){
             res.status(400).send(err.message);
         }
         if(!res.headersSent)
