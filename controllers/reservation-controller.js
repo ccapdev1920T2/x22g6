@@ -2,13 +2,68 @@ const Reservation = require("../models/reservation");
 const Schedule = require("../models/schedule");
 const SusependedUser = require("../models/suspended-user");
 
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"];
+const WEEK_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+
+// Groups an array of reservation documents by month
+function groupByMonth(resInput){
+    let grouped = [];
+    let i = 0;
+    while(i < resInput.length){
+        let currentMonth = resInput[i].date.getMonth();
+        grouped.push({
+            month: MONTH_NAMES[currentMonth],
+            year: resInput[i].date.getFullYear(),
+            dayReservations: [resInput[i]]
+        });
+        i++;
+        while(i < resInput.length && resInput[i].date.getMonth() === currentMonth){
+            grouped[grouped.length - 1].dayReservations.push(resInput[i]);
+            i++;
+        }
+    }
+    return grouped
+}
+
+// Groups an array of reservation documents by day
+function groupByDay(resInput){
+    let grouped = [];
+    let i = 0;
+    while(i < resInput.length){
+        let currentDay = resInput[i].date.getDate();
+        grouped.push({
+            day: currentDay,
+            week: WEEK_NAMES[resInput[i].date.getDay()],
+            reservations: [resInput[i]]
+        });
+        i++;
+        while(i <resInput.length && resInput[i].date.getDate() === currentDay){
+            grouped[grouped.length - 1].reservations.push(resInput[i]);
+            i++;
+        }
+    }
+    return grouped;
+}
+
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
-    let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(new Date());
-    reservationsToday.forEach(function(value){
-        value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();
-    });
-    res.render("my-reservations", {user: req.user, reservationsToday});
+    let today = new Date();
+    let get12HourFormat = (value) => {value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();};
+    // Today's Reservations
+    let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(today);
+    reservationsToday.forEach(get12HourFormat);
+    // Future Reservations
+    let futureReservations = await Reservation.find({userId: req.signedCookies.id})
+        .fromDateObject(today)
+        .populate({path: "scheduleId", options: {sort: {"time": 1}}})
+        .sort("date");
+    futureReservations.forEach(get12HourFormat);
+    futureReservations = groupByMonth(futureReservations);
+    for(let i=0; i<futureReservations.length; ++i){
+        futureReservations[i].dayReservations = groupByDay(futureReservations[i].dayReservations);
+    }
+    res.render("my-reservations", {user: req.user, reservationsToday, futureReservations});
 }
 
 // For sending user-reservations.hbs template

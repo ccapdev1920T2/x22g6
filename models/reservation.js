@@ -64,6 +64,14 @@ reservationSchema.query.byDateObject = function(date){
     date = disregardTime(date);
     return this.where({date});
 }
+/*
+    Query's all reservations whose date is newer than the specified date object.
+    The time of the argument would be disregarded
+*/
+reservationSchema.query.fromDateObject = function(date){
+    date = disregardTime(date);
+    return this.where({date: {"$gt" : date}});
+}
 
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
