@@ -1,9 +1,14 @@
 const Reservation = require("../models/reservation");
+const Schedule = require("../models/schedule");
 const SusependedUser = require("../models/suspended-user");
 
 // For sending the my-reservations page
-exports.sendMyReservationsPage = function(req, res){
-    res.render("my-reservations", {user: req.user});
+exports.sendMyReservationsPage = async function(req, res){
+    let reservationsToday = await Reservation.find().populate("scheduleId").byDateObject(new Date());
+    reservationsToday.forEach(function(value){
+        value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();
+    });
+    res.render("my-reservations", {user: req.user, reservationsToday});
 }
 
 // For sending user-reservations.hbs template

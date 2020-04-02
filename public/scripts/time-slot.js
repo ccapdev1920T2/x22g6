@@ -35,6 +35,12 @@ $(document).ready(function(){
         })
     });
 
+    let timeSlotsToday = $("#time-slots-today");
+    if(timeSlotsToday.children().length === 0){
+        timeSlotsToday.html("<p>You have no reservations today</p>");
+        timeSlotsToday.addClass("container__content-section--text-centered");
+    }
+
     function deleteTimeSlot(){
         let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
         let monthContainer = $(toDelete.closest(".calendar__month-reservations"));

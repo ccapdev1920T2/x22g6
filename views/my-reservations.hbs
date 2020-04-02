@@ -27,17 +27,14 @@
                 <div class="container__header-section">
                     <h2 class="container__title">Today's Reservation</h2>
                 </div>
-                <div class="container__content-section">
-                    <div class="time-slot time-slot--LAG-to-MNL time-slot--fill" data-reservation-date="19 Feb 2020 06:00:00">
-                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
-                        <p><strong class="time-slot__location">LAG</strong> to <strong class="time-slot__location">MNL</strong></p>
-                        <p>6:00 A.M.</p>
-                    </div>
-                    <div class="time-slot time-slot--MNL-to-LAG time-slot--fill" data-reservation-date="19 Feb 2020 13:00:00">
-                        <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
-                        <p><strong class="time-slot__location">MNL</strong> to <strong class="time-slot__location">LAG</strong></p>
-                        <p>1:00 P.M.</p>
-                    </div>
+                <div class="container__content-section" id="time-slots-today">
+                    {{#each reservationsToday}}
+                        <div class="time-slot time-slot--{{scheduleId.origin}}-to-{{scheduleId.destination}} time-slot--fill" data-reservation-date="{{date}}" data-reservation-time="{{scheduleId.time}}">
+                            <span class="time-slot__delete modal-toggle" data-modal-target="deletion-confirmation-modal">&times;</span>
+                            <p><strong class="time-slot__location">{{scheduleId.origin}}</strong> to <strong class="time-slot__location">{{scheduleId.destination}}</strong></p>
+                            <p>{{scheduleId.time12Hour}}</p>
+                        </div>
+                    {{/each}}
                 </div>
             </div>
             <br><br>

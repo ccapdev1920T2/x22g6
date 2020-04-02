@@ -56,6 +56,14 @@ reservationSchema.index({userId: 1, date: 1, scheduleId: 1}, {unique: true});
 reservationSchema.query.byDate = function(date){
     return this.where({date: new Date(date + "T00:00:00")});
 }
+/*
+    Query's all reservations that matches the given date object.  The time
+    of the argument would be disregarded
+*/
+reservationSchema.query.byDateObject = function(date){
+    date = disregardTime(date);
+    return this.where({date});
+}
 
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
