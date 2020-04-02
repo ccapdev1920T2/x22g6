@@ -8,7 +8,7 @@ router.use(auth.redirectLogin);
 router.get("/", auth.getUserInfo, usersController.sendProfilePage);
 
 // POST request for changing user password
-router.post("/change-password", usersController.changeUserPassword);
+router.post("/change-password", auth.getUserInfo, usersController.changeUserPassword);
 
 // POST request for editing profile information
 router.post("/edit", auth.getUserInfo, usersController.editProfile);

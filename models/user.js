@@ -8,7 +8,7 @@ const STUDENT_TYPE = "Student";
 const PROF_TYPE = "Professor";
 const STAFF_TYPE = "Staff"
 
-// For password hasing
+// For password hashing
 const ITERATIONS = 100000;
 const DIGEST = "sha512";
 const SALT_SIZE = 64;
