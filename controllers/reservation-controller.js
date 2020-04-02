@@ -49,18 +49,21 @@ function groupByDay(resInput){
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
     let today = new Date();
+    let sortingCallback = (a, b) => a.scheduleId.time - b.scheduleId.time;
     let get12HourFormat = (value) => {value.scheduleId.time12Hour = value.scheduleId.get12HourFormat();};
     // Today's Reservations
     let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(today);
     reservationsToday.forEach(get12HourFormat);
+    reservationsToday.sort(sortingCallback);
     // Future Reservations
     let futureReservations = await Reservation.find({userId: req.signedCookies.id})
         .fromDateObject(today)
-        .populate({path: "scheduleId", options: {sort: {"time": 1}}})
+        .populate("scheduleId")
         .sort("date");
     futureReservations.forEach(get12HourFormat);
     futureReservations = groupByMonth(futureReservations);
     for(let i=0; i<futureReservations.length; ++i){
+        futureReservations[i].dayReservations.sort(sortingCallback);
         futureReservations[i].dayReservations = groupByDay(futureReservations[i].dayReservations);
     }
     res.render("my-reservations", {user: req.user, reservationsToday, futureReservations});
