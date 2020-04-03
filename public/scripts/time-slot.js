@@ -1,3 +1,6 @@
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"];
+
 $(document).ready(function(){
     const TEXT_CENTERED_CLASS = "container__content-section--text-centered";
 
@@ -17,7 +20,8 @@ $(document).ready(function(){
     $("#accept-deletion").click(function(){
         let toSend = {
             date : toDelete.attr("data-reservation-date"),
-            time: toDelete.attr("data-reservation-time")
+            time: toDelete.attr("data-reservation-time"),
+            trip: toDelete.attr("data-reservation-trip")
         }
         Modal.displayBufferModal("Deleting Reservation");
         $.ajax({
@@ -25,7 +29,8 @@ $(document).ready(function(){
             url: "/reservation/delete",
             data: toSend,
             success: function(){
-                Modal.displayModalMessage("Your reservation at <b>" + toSend.date + "</b> has been deleted");
+                let date = new Date(toSend.date);
+                Modal.displayModalMessage("Your reservation at <b>" + MONTH_NAMES[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "</b> has been deleted");
                 deleteTimeSlot();
             },
             error: function(jqxhr){
