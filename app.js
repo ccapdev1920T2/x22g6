@@ -9,7 +9,7 @@ let app = express();
 const PORT =  3000;
 
 //Database Connection
-const dbUrl = "mongodb://localhost:27017/arrowsTest" // Temporary local database 
+const dbUrl = "mongodb+srv://client:bTd5EVKM9Lba@test-lcbdt.mongodb.net/arrows-express?retryWrites=true&w=majority"; // Temporary connection to cloud database
 const dbOptions = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -37,15 +37,6 @@ app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({extended: false}));
 //Cookie parser
 app.use(cookieParser("secret")); //TODO: change cookie secret
-
-// TO DELETE.  For simulating slow responses
-app.post("*", function(req, res, next){
-    setTimeout(() => next(), 3000);
-});
-// TO DELETE.  For simulating slow responses
-app.delete("*", function(req, res, next){
-    setTimeout(() => next(), 3000);
-});
 
 //Partial Registration
 hbs.registerPartials(__dirname + "/views/partials");
