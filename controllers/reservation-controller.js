@@ -152,4 +152,11 @@ exports.checkInUser = async function(req, res){
 // For deleting reservations
 exports.deleteReservation = async function(req, res){
     // info in req.body.date and req.body.time
+
+    try{
+        await Reservation.deleteOne({userId: req.signedCookies.id}).byDate(req.body.date);
+    }
+    catch{
+        res.status(500).send("Cannot delete Reservation at this time");
+    }
 }
