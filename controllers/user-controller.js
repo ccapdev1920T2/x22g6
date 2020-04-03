@@ -115,15 +115,19 @@ exports.editProfile = async function(req, res){
         if(err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
         
         else res.status(500).send("Cannot edit at this time");
-        
-        
     }
-    
 }
 
 
 // For changing user password.
-exports.changeUserPassword = function(req, res){
-    // The old password for confirmationis in req.body["old-password"] and new password is in req.body["new-password"]
-    res.status(501).send("NOT IMPLEMENTED: Changing user password");
+exports.changeUserPassword = async function(req, res){
+    // The old password for confirmation is in req.body["old-password"] and new password is in req.body["new-password"]
+    try{
+        if(await req.user.changePassword(req.body["old-password"], req.body["new-password"])) res.status(204).send();
+
+        else res.status(400).send("Passwords do not match");
+    }
+    catch(err){
+        res.status(500).send("Cannot change password at this time");
+    }
 }
