@@ -1,6 +1,6 @@
 const Schedule = require("../models/schedule");
 const Reservation = require("../models/reservation");
-const SusependedUser = require("../models/suspended-user");
+const SuspendedUser = require("../models/suspended-user");
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];
@@ -89,7 +89,7 @@ exports.sendUserReservations = function(req, res){
 exports.createReservation = async function(req, res){
     // req.body would be an object containing {date, trip, time} of the reservation
     try{
-        let suspended = await SusependedUser.findOne({userId: req.signedCookies.id});
+        let suspended = await SuspendedUser.findOne({userId: req.signedCookies.id});
         // Checks if the suspension is already lifted and removes it if it already is
         if(suspended && suspended.releaseDate.getTime() <= (new Date()).getTime()){
             await suspended.remove()
