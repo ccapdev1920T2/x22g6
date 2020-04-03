@@ -20,6 +20,8 @@ $(document).ready(function(){
 		});
 	});
 
+	locationSelector.trigger("change");
+
 	// When the user submits the reservation form
 	$("#reservation-form button[type=\"submit\"").click(function(e){
 		e.preventDefault();

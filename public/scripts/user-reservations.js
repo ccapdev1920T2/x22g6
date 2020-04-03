@@ -6,7 +6,12 @@ $(document).ready(function(){
             type: "GET",
             url: "/schedule/time-slots/" + tripFilter.val(),
             success: function(data){
-                console.log(data);
+                let timeSelector = $("#user-reservations-filters__time");
+                timeSelector.children().remove();
+				for(let i=0; i<data.length; ++i){
+					let text = document.createTextNode(data[i].presentation);
+					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
+				}
             }
         })
     });
@@ -22,4 +27,6 @@ $(document).ready(function(){
             });
         }
     });
+
+    tripFilter.trigger("change");
 });

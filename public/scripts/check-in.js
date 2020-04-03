@@ -1,4 +1,21 @@
 $(document).ready(function(){
+    let timeSelector = $("#check-in-form__time");
+    let locationSelector = $("#check-in-form__trip");
+    locationSelector.change(function(){
+        console.log("test");
+		$.ajax({
+			type: "GET",
+			url: "/schedule/time-slots/" + locationSelector.val(),
+			success: function(data){
+				timeSelector.children().remove();
+				for(let i=0; i<data.length; ++i){
+					let text = document.createTextNode(data[i].presentation);
+					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
+				}
+			}
+		});
+	});
+    
     // When the user wants to submit check in form
     $("#check-in-form button[type=\"submit\"]").click(function(e){
         e.preventDefault();
@@ -23,5 +40,7 @@ $(document).ready(function(){
                 }
             })
         }
-    })
+    });
+
+    locationSelector.trigger("change");
 });
