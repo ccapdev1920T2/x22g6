@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    const TEXT_CENTERED_CLASS = "container__content-section--text-centered";
 
     // For time-slot deletion
     let toDelete;
@@ -35,6 +36,17 @@ $(document).ready(function(){
         })
     });
 
+    let timeSlotsToday = $("#time-slots-today");
+    let timeSlotsFuture = $("#time-slots-future");
+    if(timeSlotsToday.children().length === 0){
+        timeSlotsToday.html("<p>You have no reservations today</p>");
+        timeSlotsToday.addClass(TEXT_CENTERED_CLASS);
+    }
+    if(timeSlotsFuture.children().length === 0){
+        timeSlotsFuture.html("<p>You have no upcoming reservations</p>");
+        timeSlotsFuture.addClass(TEXT_CENTERED_CLASS);
+    }
+
     function deleteTimeSlot(){
         let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
         let monthContainer = $(toDelete.closest(".calendar__month-reservations"));
@@ -46,4 +58,5 @@ $(document).ready(function(){
                 monthContainer.remove(); //Removes section for a month without any reservations
         }
     }
+
 });

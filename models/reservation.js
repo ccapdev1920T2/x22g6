@@ -6,6 +6,8 @@ var Schedule = require('./schedule.js');
 const Schema = mongoose.Schema;
 
 const MAX_RESERVATIONS = 2;
+const PRE_SAVE_ERR = "PRE_SAVE_ERR";
+const OFFSET_DEPARTURE = 1000 * 60 * 15; // 15 minutes
 
 const reservationSchema = new Schema({
     userId: {
@@ -54,14 +56,72 @@ reservationSchema.index({userId: 1, date: 1, scheduleId: 1}, {unique: true});
 reservationSchema.query.byDate = function(date){
     return this.where({date: new Date(date + "T00:00:00")});
 }
+/*
+    Query's all reservations that matches the given date object.  The time
+    of the argument would be disregarded
+*/
+reservationSchema.query.byDateObject = function(date){
+    date = disregardTime(date);
+    return this.where({date});
+}
+/*
+    Query's all reservations whose date is newer than the specified date object.
+    The time of the argument would be disregarded
+*/
+reservationSchema.query.fromDateObject = function(date){
+    date = disregardTime(date);
+    return this.where({date: {"$gt" : date}});
+}
 
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
-reservationSchema.pre("save", async function(){
+reservationSchema.pre("save", async function(next){
     let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
-    if(exisitingReservations.length === MAX_RESERVATIONS)
-        throw new Error("Maximum number of reservations in a single day reached");
+    if(exisitingReservations.length === MAX_RESERVATIONS){
+        let err = new Error("Maximum number of reservations in a single day reached");
+        err.reason = PRE_SAVE_ERR;
+        throw err;
+    }
 });
+
+// For all middlewares that utilizes the schedule properties of the reservation
+reservationSchema.pre("save", async function(){
+    let schedule = await Schedule.findById(this.scheduleId);
+    await checkOffset(this, schedule);
+    await checkForOriginAndTime(this, schedule);
+});
+
+// Ensures that the reservation is before the departure time with the given offset
+async function checkOffset(reservation, schedule){
+    let reservationDate = new Date(reservation.date);
+    reservationDate.setHours(schedule.time / 100);
+    reservationDate.setMinutes(schedule.time % 100);
+    if(reservationDate.getTime() - OFFSET_DEPARTURE <= (new Date()).getTime()){
+        let err = new Error("You can only reserve 15 minutes before the departure time");
+        err.reason = PRE_SAVE_ERR;
+        throw err;
+    }
+}
+
+// Ensures each reservation in a single day does not have the same origin or time
+async function checkForOriginAndTime(reservation, schedule){
+    let forChecking = await mongoose.model("Reservation")
+        .findOne({userId: reservation.userId, date: reservation.date})
+        .populate("scheduleId");
+    if(forChecking){
+        if(forChecking.scheduleId.origin === schedule.origin){
+            let err = new Error("You already have a reservation coming from " + schedule.origin + " for the date specified");
+            err.reason = PRE_SAVE_ERR;
+            throw err;
+        }
+        if(forChecking.scheduleId.time === schedule.time){
+            let err = new Error("You already have a reservation at " + schedule.get12HourFormat() + " for the date specified");
+            err.reason = PRE_SAVE_ERR;
+            throw err;
+        }
+    }
+    
+}
 
 function disregardTime(date){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -82,6 +142,8 @@ reservationSchema.statics.createReservation = async function(idNumber, date, tri
     reservation.date = date;
     return reservation.save();
 }
+
+reservationSchema.statics.PRE_SAVE_ERR = PRE_SAVE_ERR;
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
