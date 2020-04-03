@@ -9,7 +9,7 @@ let app = express();
 const PORT =  3000;
 
 //Database Connection
-const dbUrl = "mongodb+srv://client:bTd5EVKM9Lba@test-lcbdt.mongodb.net/arrows-express?retryWrites=true&w=majority"; // Temporary connection to cloud database
+const dbUrl = "mongodb://client:bTd5EVKM9Lba@test-shard-00-00-lcbdt.mongodb.net:27017,test-shard-00-01-lcbdt.mongodb.net:27017,test-shard-00-02-lcbdt.mongodb.net:27017/test?ssl=true&replicaSet=test-shard-0&authSource=admin&retryWrites=true&w=majority"; // Temporary connection to cloud database
 const dbOptions = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
