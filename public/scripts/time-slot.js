@@ -17,7 +17,8 @@ $(document).ready(function(){
     $("#accept-deletion").click(function(){
         let toSend = {
             date : toDelete.attr("data-reservation-date"),
-            time: toDelete.attr("data-reservation-time")
+            time: toDelete.attr("data-reservation-time"),
+            trip: toDelete.attr("data-reservation-trip")
         }
         Modal.displayBufferModal("Deleting Reservation");
         $.ajax({
