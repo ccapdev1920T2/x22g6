@@ -148,3 +148,8 @@ exports.checkInUser = async function(req, res){
     }
     
 }
+
+// For deleting reservations
+exports.deleteReservation = async function(req, res){
+    // info in req.body.date and req.body.time
+}

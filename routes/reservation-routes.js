@@ -11,7 +11,7 @@ router.get("/my-reservations", auth.checkNonStaff, auth.getUserInfo, reservation
 router.post("/create", auth.checkNonStaff, reservationController.createReservation);
 
 // DELETE request for deleting a reservation
-router.delete("/delete", auth.checkNonStaff, (req, res) => res.sendStatus(501));
+router.delete("/delete", auth.checkNonStaff, reservationController.deleteReservation);
 
 // GET request for user-reservations page
 router.get("/user-reservations", auth.checkStaff, auth.getUserInfo, reservationController.sendUserReservationsPage);

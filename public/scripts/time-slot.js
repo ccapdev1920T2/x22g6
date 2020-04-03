@@ -16,7 +16,8 @@ $(document).ready(function(){
     // When the deletion is confirmed
     $("#accept-deletion").click(function(){
         let toSend = {
-            date : toDelete.attr("data-reservation-date")
+            date : toDelete.attr("data-reservation-date"),
+            time: toDelete.attr("data-reservation-time")
         }
         Modal.displayBufferModal("Deleting Reservation");
         $.ajax({
