@@ -84,9 +84,24 @@ exports.sendUserReservationsPage = function(req, res){
 }
 
 // Gets user reservations for a specific date, trip, and time
-exports.sendUserReservations = function(req, res){
+exports.sendUserReservations = async  function(req, res){
     // req.params.time, req.params.date, req.params.trip
-    res.status(501).send("NOT IMPLEMENTED: Getting user reservations")
+    try{
+        let schedule = await Schedule.findOne({time: req.params.time}).byTrip(req.params.trip);
+        let reservations = await Reservation.find({scheduleId: schedule._id}).byDate(req.params.date).populate("userId");
+        let toSend = [];
+        for(let i=0; i<reservations.length; ++i){
+            toSend.push({
+                lastName: reservations[i].userId.lastName,
+                firstName: reservations[i].userId.firstName,
+                type: reservations[i].userId.type,
+                idNumber: reservations[i].userId._id
+            });
+        }
+        res.status(200).send(toSend);
+    }catch(err){
+        res.status(500).send("Internal Server Error");
+    }
 }
 
 // For creating reservations
