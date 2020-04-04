@@ -51,7 +51,6 @@ let Validator = function() {
 
 		$(".email").blur(function(){
 			let input = $(this);
-			console.log("test2");
 			checkInput(input, emailChecker, "*Invalid DLSU email");
 		});
 
