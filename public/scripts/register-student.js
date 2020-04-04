@@ -5,7 +5,7 @@ $(document).ready(function(){
         // Validates Inputs
         let isValid = Validator.checkRequired(studenRegistrationForm) &&
             Validator.checkEmail($("#email")) && Validator.checkID($("#id-number")) &&
-            Validator.checkEqual($("#password"), $("#confirm-password"));
+            Validator.checkEqual($("#password"), $("#confirm-password"), "*Passwords do not match");
         if(isValid){
             Modal.displayBufferModal("Registering");
             // POST request to register student
