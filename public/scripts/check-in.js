@@ -21,6 +21,14 @@ $(document).ready(function(){
         e.preventDefault();
         let checkInForm = $("#check-in-form");
         let isValid = Validator.checkRequired(checkInForm) && Validator.checkID($("#check-in-form__id-number"));
+        let dateInput = $("#check-in-form__date");
+        let checkInDate = new Date(dateInput.val());
+        let today = new Date();
+        if(checkInDate.getTime() < today.getTime()){
+            Validator.markInput(dateInput, "*Date has already passed");
+            isValid = false;
+        }else
+            Validator.unmarkInput(dateInput);
         if(isValid){
             Modal.closeModal($("#check-in-modal"));
             Modal.displayBufferModal("Checking-in User");
