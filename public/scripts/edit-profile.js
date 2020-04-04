@@ -57,7 +57,7 @@ $(document).ready(function(){
 		let changePasswordForm = $("#change-password-form");
 		//Validates inputs
 		let isValid = Validator.checkRequired(changePasswordForm) &&
-			Validator.checkEqual($("#change-password-form__new-password"), $("#change-password-form__confirm-password"));
+			Validator.checkEqual($("#change-password-form__new-password"), $("#change-password-form__confirm-password"), "*Passwords do not match");
 		if(isValid){
 			Modal.closeModal($("#change-password-modal"));
 			Modal.displayBufferModal("Changing Password");
