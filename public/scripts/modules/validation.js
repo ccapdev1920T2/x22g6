@@ -10,7 +10,7 @@ let Validator = function() {
 		let label = $(`[for=${input.attr("id")}]`);
 		input.addClass("form__input--invalid");
 		
-		if(!label.children(".error-message").length)
+		if(message && !label.children(".error-message").length)
 			label.append(errElement);
 	}
 
@@ -77,7 +77,7 @@ let Validator = function() {
 		checkEqual(input1, input2, message){
 			if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
 				markInput(input1, message);
-				markInput(input2, message);
+				markInput(input2);
 				return false;
 			}else{
 				unmarkInput(input1);
