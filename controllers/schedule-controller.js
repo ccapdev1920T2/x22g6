@@ -1,4 +1,5 @@
 const Schedule = require("../models/schedule");
+const Reservation = require("../models/reservation");
 
 // For sending the Arrow's Schedule Page
 exports.sendArrowsSchedulePage = function(req, res){
@@ -26,7 +27,21 @@ exports.sendTimeSlots = async function(req, res){
 }
 
 // For sending reservations for each time-slot for a specific trip and date
-exports.sendTimeSlotsWithReservations = function(req, res){
+exports.sendTimeSlotsWithReservations = async function(req, res){
     // req.params.date and req.params.trip would contain the date and trip of the request
-    res.status(500).send("NOT IMPLEMENTED: Getting reserivation for each time slot");
+    try{
+        let schedules = await Schedule.find().byTrip(req.params.trip);
+        let toSendRes = []
+        for (var i = 0; i < schedules.length; i++) {
+            toSendRes.push({
+                'time': schedules[i].get12HourFormat(),
+                'openSlots': 15 - (await Reservation.getReservationCount(req.params.date, schedules[i]))
+            });
+        }
+        res.status(200).send(toSendRes);
+    }
+    catch(err){
+        res.status(500).send("NOT IMPLEMENTED: Getting reserivation for each time slot");
+    }
+    
 }
