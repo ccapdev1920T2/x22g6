@@ -28,7 +28,7 @@
                     <h2 class="container__title">User Reservations</h2>
                 </div>
                 <div class="container__content-section container__content-section--heavy-padding">
-                    <div class="table table--full">
+                    <div class="table table--full"  id="user-reservations-table">
                         <form class="form  table__filters" id="user-reservations-filters">
                             <label for="user-reservations-filters__date" class="form__label">Date:</label>
                             <input type="date" id="user-reservations-filters__date" class="form__input form__input--xs required"  value="{{getCurrentDate}}">
@@ -44,7 +44,7 @@
                             </select>
                         </form>
                         <div class="table__content">
-                            <table id="user-reservations-table">
+                            <table>
                                 <thead class="table__heading">
                                     <tr>
                                         <th>Name</th>
