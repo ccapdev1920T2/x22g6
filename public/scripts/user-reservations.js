@@ -1,6 +1,9 @@
 $(document).ready(function(){
     const FILTER_FORM_ID = "#user-reservations-filters";
+    let filterForm = $(FILTER_FORM_ID);
     let tripFilter = $("#user-reservations-filters__trip");
+    let dateFilter = $(FILTER_FORM_ID +"__date");
+    let timeFilter = $(FILTER_FORM_ID +"__time");
     tripFilter.change(function(){
         $.ajax({
             type: "GET",
@@ -11,15 +14,19 @@ $(document).ready(function(){
 				for(let i=0; i<data.length; ++i){
 					let text = document.createTextNode(data[i].presentation);
 					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
-				}
+                }
+                sendUserReservationsRequest();
             }
         })
     });
-    $(FILTER_FORM_ID + " input, " +  FILTER_FORM_ID + " select").change(function(){
-        let isValid = Validator.checkRequired($(FILTER_FORM_ID));
+    $([dateFilter[0], timeFilter[0]]).change(function(){
+        sendUserReservationsRequest();
+    });
+    function sendUserReservationsRequest(){
+        let isValid = Validator.checkRequired(filterForm);
         if(isValid){
-            let date = $(FILTER_FORM_ID +"__date").val();
-            let time = $(FILTER_FORM_ID + "__time").val();
+            let date = dateFilter.val();
+            let time = timeFilter.val();
             let trip = tripFilter.val();
             $.ajax({
                 type: "GET",
@@ -37,7 +44,6 @@ $(document).ready(function(){
                 }
             });
         }
-    });
-
+    }
     tripFilter.trigger("change");
 });
