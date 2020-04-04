@@ -33,11 +33,6 @@ const reservationSchema = new Schema({
         validate: async function(value){return await Schedule.findById(value)}
     },
 
-    isPremium: {
-        type: Boolean,
-        required: true
-    },
-
     isCheckIn: {
         type: Boolean,
         required: true,
@@ -134,8 +129,8 @@ function disregardTime(date){
     Returns a promise that resolves to a Reservation model 
     instance if successfully added to the db
 */
-reservationSchema.statics.createReservation = async function(idNumber, date, trip, time, isPremium){
-    let reservation = new Reservation({userId: idNumber, isPremium});
+reservationSchema.statics.createReservation = async function(idNumber, date, trip, time){
+    let reservation = new Reservation({userId: idNumber});
     date = new Date(date + "T00:00:00");
     let schedule = await Schedule.findOne().byTrip(trip).where({time});
     reservation.scheduleId = schedule._id;
