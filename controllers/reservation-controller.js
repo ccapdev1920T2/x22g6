@@ -159,8 +159,11 @@ exports.deleteReservation = async function(req, res){
         let time = req.body.time;
         let date = new Date(req.body.date);
         let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
-        await Reservation.deleteOne({userId: req.signedCookies.id, scheduleId: schedule._id, date});
-        res.status(202).send();
+        let deleteOperation = await Reservation.deleteOne({userId: req.signedCookies.id, scheduleId: schedule._id, date});
+        if(deleteOperation.deletedCount === 0)
+            res.status(400).send("The reservation does not exist");
+        else
+            res.status(202).send();
     }
     catch{
         res.status(500).send("Cannot delete Reservation at this time");
