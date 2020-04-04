@@ -84,17 +84,6 @@ exports.registerStudent = async function(req, res){
     }
 }
 
-// For sending the professor registration page.
-exports.sendProfessorRegistrationPage = function(req, res){
-    res.render("register-professor", {user: req.user});
-}
-
-// For registering professors
-exports.registerProfessor = function(req, res){
-    //req.body contains inputs {'first-name', 'last-name', email, 'id-number', password, 'confirm-password'}
-    res.status(501).send("NOT IMPLEMENTED: Professor Registration");
-}
-
 // For sending the profile page
 exports.sendProfilePage = function(req, res){
     res.render("profile", {user: req.user});
