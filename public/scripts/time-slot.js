@@ -111,6 +111,30 @@ function determineInsertOrder(toInsert, toCompare){
     }else
         toInsert.insertAfter(toCompare);
 }
+function checkContainers(){
+    if(timeSlotsTodayContainer.children().length === 0){
+        timeSlotsTodayContainer.html("<p>You have no reservations today</p>");
+        timeSlotsTodayContainer.addClass(TEXT_CENTERED_CLASS);
+    }
+    if(timeSlotsFutureContainer.children().length === 0){
+        timeSlotsFutureContainer.html("<p>You have no upcoming reservations</p>");
+        timeSlotsFutureContainer.addClass(TEXT_CENTERED_CLASS);
+    }
+}
+
+
+function deleteTimeSlot(){
+    let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
+    let monthContainer = $(toDelete.closest(".calendar__month-reservations"));
+    toDelete.remove();
+    //Checks if there is any more reservations in a given day
+    if(timeSlotsContainer && timeSlotsContainer.children().length === 0){
+        timeSlotsContainer.closest(".calendar__day-reservations").remove(); //Removes section for a day without any reservations
+        if(monthContainer && monthContainer.children(".calendar__day-reservations").length === 0)
+            monthContainer.remove(); //Removes section for a month without any reservations
+    }
+    checkContainers();
+}
 
 $(document).ready(function(){
     // Marks the time-slot that would be deleted upon clicking the delete symbol for the corresponding time-slot
@@ -153,26 +177,7 @@ $(document).ready(function(){
     timeSlotsTodayContainer = $("#time-slots-today");
     timeSlotsFutureContainer = $("#time-slots-future");
 
-    if(timeSlotsTodayContainer.children().length === 0){
-        timeSlotsTodayContainer.html("<p>You have no reservations today</p>");
-        timeSlotsTodayContainer.addClass(TEXT_CENTERED_CLASS);
-    }
-    if(timeSlotsFutureContainer.children().length === 0){
-        timeSlotsFutureContainer.html("<p>You have no upcoming reservations</p>");
-        timeSlotsFutureContainer.addClass(TEXT_CENTERED_CLASS);
-    }
-
-    function deleteTimeSlot(){
-        let timeSlotsContainer = $(toDelete.closest(".calendar__time-slots"));
-        let monthContainer = $(toDelete.closest(".calendar__month-reservations"));
-        toDelete.remove();
-        //Checks if there is any more reservations in a given day
-        if(timeSlotsContainer && timeSlotsContainer.children().length === 0){
-            timeSlotsContainer.closest(".calendar__day-reservations").remove(); //Removes section for a day without any reservations
-            if(monthContainer && monthContainer.children(".calendar__day-reservations").length === 0)
-                monthContainer.remove(); //Removes section for a month without any reservations
-        }
-    }
+    checkContainers();
 
     
 
