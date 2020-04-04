@@ -58,3 +58,8 @@
     margin-bottom: 0;
     margin-right: 0.5em;
 }
+
+.table__message{
+    margin: 1em auto;
+    text-align: center;
+}

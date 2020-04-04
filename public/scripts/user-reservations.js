@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    const TABLE_ID = "#user-reservations-table";
     const FILTER_FORM_ID = "#user-reservations-filters";
     let filterForm = $(FILTER_FORM_ID);
     let tripFilter = $("#user-reservations-filters__trip");
@@ -32,8 +33,11 @@ $(document).ready(function(){
                 type: "GET",
                 url: `/reservation/user-reservations/${date}/${time}/${trip}`,
                 success: function(data){
-                    let tableBody = $("#user-reservations-table .table__body");
+                    let tableBody = $(TABLE_ID + " .table__body");
                     tableBody.find("tr").remove();
+                    $(TABLE_ID).find(".table__message").remove();
+                    if(data.length === 0)
+                        $("<p>").addClass("table__message").text("No Reservations Found").insertAfter($(TABLE_ID + " table"));
                     for(let i=0; i<data.length; ++i){
                         let nameEntry = $("<td>").html(data[i].lastName + ", " + data[i].firstName);
                         let typeEntry = $("<td>").html(data[i].type);
@@ -41,6 +45,7 @@ $(document).ready(function(){
                         let row = $("<tr>").append(nameEntry).append(typeEntry).append(idEntry);
                         tableBody.append(row);
                     }
+                    
                 }
             });
         }
