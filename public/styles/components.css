@@ -218,6 +218,11 @@
     color: #046A38;
 }
 
+.error-message{
+    font-size: 0.65em;
+    color: red;
+}
+
 
 /*Modals*/
 
