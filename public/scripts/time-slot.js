@@ -1,8 +1,112 @@
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];
+const TEXT_CENTERED_CLASS = "container__content-section--text-centered";
+const parseBase10 = (string) => parseInt(string, 10);
+
+let timeSlotsTodayContainer;
+let timeSlotsFutureContainer;
+
+// Adds a new time slots to the page
+function addNewTimeSlot(htmlData){
+    let parsedContainer = $($.parseHTML(htmlData));
+    let parsedDayContainer = parsedContainer.children(".calendar__day-reservations");
+    let parsedTimeSlot = parsedDayContainer.find(".time-slot");
+
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let reservationDate = new Date(parsedTimeSlot.attr("data-reservation-date"));
+    if(today.getTime() === reservationDate.getTime()){
+        insertToTodaysReservations(parsedTimeSlot);
+    }else{
+        insertToFutureReservations(parsedContainer);
+    }
+}
+
+// Inserts time slot element to the today's reservation container
+function insertToTodaysReservations(timeSlot){
+    let timeSlotToday = timeSlotsTodayContainer.find(".time-slot");
+    console.log(timeSlotToday);
+    console.log(timeSlotToday.length);
+    if(timeSlotToday.length === 0){
+        timeSlotsTodayContainer.children().remove();
+        timeSlotsTodayContainer.removeClass(TEXT_CENTERED_CLASS);
+        timeSlotsTodayContainer.append(timeSlot);
+    }else{
+        determineInsertOrder(timeSlot, timeSlotToday);
+    }
+}
+
+// Inserts time slot element to the upcoming reservation container
+function insertToFutureReservations(parsedContainer){
+    let reservationMonth = parseBase10(parsedContainer.attr("data-month-num"));
+    let reservationYear = parseBase10(parsedContainer.attr("data-year"));
+    let existingMonthContainer = timeSlotsFutureContainer.children(`[data-month-num=${reservationMonth}][data-year=${reservationYear}]`);
+    if(existingMonthContainer.length !== 0){
+        let parsedDayContainer = parsedContainer.children(".calendar__day-reservations");
+        let existingDayContainer = existingMonthContainer.children(`[data-day=${parsedDayContainer.attr("data-day")}]`);
+        if(existingDayContainer.length !== 0)
+            insertToDayContainer(parsedDayContainer.find(".time-slot"), existingDayContainer);
+        else
+            insertToMonthContainer(parsedDayContainer, existingMonthContainer);
+    }else{
+        let otherMonthContainers = timeSlotsFutureContainer.find(".calendar__month-reservations");
+        if(otherMonthContainers.length === 0){
+            timeSlotsFutureContainer.removeclass(TEXT_CENTERED_CLASS);
+            timeSlotsFutureContainer.children().remove();
+            timeSlotsFutureContainer.append(parsedContainer);
+        }else{
+            let i =0;
+            for(i=0; i<otherMonthContainers.length; ++i){
+                let existing = $(otherMonthContainers[i]);
+                let existingMonthValue = parseBase10(existing.attr("data-month-num"));
+                let existingYearValue = parseBase10(existing.attr("data-year"));
+                if(existingYearValue > reservationYear
+                    || (existingYearValue === reservationYear && existingMonthValue > reservationMonth)){
+                    parsedContainer.insertBefore(existing);
+                    break;
+                }
+            }
+            if(otherMonthContainers.length === i){
+                parsedContainer.insertAfter(otherMonthContainers[i - 1]);
+            }
+        }
+    }
+}
+
+function insertToDayContainer(timeSlot, existingDayContainer){
+    let otherTimeSlots = existingDayContainer.find(".time-slot");
+    determineInsertOrder(timeSlot, otherTimeSlots);
+}
+
+function insertToMonthContainer(parsedDayContainer, monthContainer){
+    let otherDayContainers = monthContainer.find(".calendar__day-reservations");
+    let parsedDayValue = parsedDayContainer.attr("data-day");
+    let i=0;
+    for(i=0; i<otherDayContainers.length; ++i){
+        let existing = $(otherDayContainers[i]);
+        let existingDayValue = existing.attr("data-day");
+        if(parseBase10(existingDayValue) > parseBase10(parsedDayValue)){
+            parsedDayContainer.insertBefore(existing);
+            break;
+        }
+    }
+    if(otherDayContainers.length === i){
+        parsedDayContainer.insertAfter(otherDayContainers[i - 1]);
+    }
+}
+
+// Determines whether to insert the first time-slot argument before or after the second time-slot argument
+function determineInsertOrder(toInsert, toCompare){
+    let toInsertTime = parseBase10(toInsert.attr("data-reservation-time"));
+    let toCompareTime = parseBase10(toCompare.attr("data-reservation-time"));
+    if(toCompareTime > toInsertTime){
+        toInsert.insertBefore(toCompare);
+    }else
+        toInsert.insertAfter(toCompare);
+}
 
 $(document).ready(function(){
-    const TEXT_CENTERED_CLASS = "container__content-section--text-centered";
+    
 
     // For time-slot deletion
     let toDelete;
@@ -42,15 +146,16 @@ $(document).ready(function(){
         })
     });
 
-    let timeSlotsToday = $("#time-slots-today");
-    let timeSlotsFuture = $("#time-slots-future");
-    if(timeSlotsToday.children().length === 0){
-        timeSlotsToday.html("<p>You have no reservations today</p>");
-        timeSlotsToday.addClass(TEXT_CENTERED_CLASS);
+    timeSlotsTodayContainer = $("#time-slots-today");
+    timeSlotsFutureContainer = $("#time-slots-future");
+
+    if(timeSlotsTodayContainer.children().length === 0){
+        timeSlotsTodayContainer.html("<p>You have no reservations today</p>");
+        timeSlotsTodayContainer.addClass(TEXT_CENTERED_CLASS);
     }
-    if(timeSlotsFuture.children().length === 0){
-        timeSlotsFuture.html("<p>You have no upcoming reservations</p>");
-        timeSlotsFuture.addClass(TEXT_CENTERED_CLASS);
+    if(timeSlotsFutureContainer.children().length === 0){
+        timeSlotsFutureContainer.html("<p>You have no upcoming reservations</p>");
+        timeSlotsFutureContainer.addClass(TEXT_CENTERED_CLASS);
     }
 
     function deleteTimeSlot(){
@@ -64,5 +169,7 @@ $(document).ready(function(){
                 monthContainer.remove(); //Removes section for a month without any reservations
         }
     }
+
+    
 
 });
