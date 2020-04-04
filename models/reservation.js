@@ -139,8 +139,8 @@ reservationSchema.statics.createReservation = async function(idNumber, date, tri
 }
 
 /*
-    Gets the number of reservations for a given date, trip and time.  The trip is of the form
-    "<origin>-to-<destination>" and the time should be in military time
+    Gets the number of reservations for a given date and schedule.  The date
+    must be a string in the form "YYYY-MM-DD" and the schedule should be a Schedule document
 */
 reservationSchema.statics.getReservationCount = async function(date, schedule){
     let reservations = await this.find({scheduleId: schedule._id}).byDate(date);
