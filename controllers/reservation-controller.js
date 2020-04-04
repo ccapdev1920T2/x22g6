@@ -54,24 +54,28 @@ function get12HourFormat(reservation){
 
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
-    let today = new Date();
-    let sortingCallback = (a, b) => a.scheduleId.time - b.scheduleId.time;
-    // Today's Reservations
-    let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(today);
-    reservationsToday.forEach(get12HourFormat);
-    reservationsToday.sort(sortingCallback);
-    // Future Reservations
-    let futureReservations = await Reservation.find({userId: req.signedCookies.id})
-        .fromDateObject(today)
-        .populate("scheduleId")
-        .sort("date");
-    futureReservations.forEach(get12HourFormat);
-    futureReservations = groupByMonth(futureReservations);
-    for(let i=0; i<futureReservations.length; ++i){
-        futureReservations[i].dayReservations = groupByDay(futureReservations[i].dayReservations);
-        futureReservations[i].dayReservations.forEach((dayReservation) => dayReservation.reservations.sort(sortingCallback));
+    try{
+        let today = new Date();
+        let sortingCallback = (a, b) => a.scheduleId.time - b.scheduleId.time;
+        // Today's Reservations
+        let reservationsToday = await Reservation.find({userId: req.signedCookies.id}).populate("scheduleId").byDateObject(today);
+        reservationsToday.forEach(get12HourFormat);
+        reservationsToday.sort(sortingCallback);
+        // Future Reservations
+        let futureReservations = await Reservation.find({userId: req.signedCookies.id})
+            .fromDateObject(today)
+            .populate("scheduleId")
+            .sort("date");
+        futureReservations.forEach(get12HourFormat);
+        futureReservations = groupByMonth(futureReservations);
+        for(let i=0; i<futureReservations.length; ++i){
+            futureReservations[i].dayReservations = groupByDay(futureReservations[i].dayReservations);
+            futureReservations[i].dayReservations.forEach((dayReservation) => dayReservation.reservations.sort(sortingCallback));
+        }
+        res.render("my-reservations", {user: req.user, reservationsToday, futureReservations});
+    }catch(err){
+        res.sendStatus(500)
     }
-    res.render("my-reservations", {user: req.user, reservationsToday, futureReservations});
 }
 
 // For sending user-reservations.hbs template
