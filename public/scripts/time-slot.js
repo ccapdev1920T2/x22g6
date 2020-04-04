@@ -5,6 +5,8 @@ const parseBase10 = (string) => parseInt(string, 10);
 
 let timeSlotsTodayContainer;
 let timeSlotsFutureContainer;
+// For time-slot deletion
+let toDelete;
 
 // Adds a new time slots to the page
 function addNewTimeSlot(htmlData){
@@ -20,7 +22,11 @@ function addNewTimeSlot(htmlData){
     }else{
         insertToFutureReservations(parsedContainer);
     }
-    Modal.connectModalToggle(parsedTimeSlot.find(".time-slot__delete"));
+    let deleteIcon = parsedTimeSlot.find(".time-slot__delete");
+    Modal.connectModalToggle(deleteIcon);
+    deleteIcon.click(function(){
+        toDelete = $(this.closest(".time-slot"));
+    })
 }
 
 // Inserts time slot element to the today's reservation container
@@ -107,10 +113,6 @@ function determineInsertOrder(toInsert, toCompare){
 }
 
 $(document).ready(function(){
-    
-
-    // For time-slot deletion
-    let toDelete;
     // Marks the time-slot that would be deleted upon clicking the delete symbol for the corresponding time-slot
     $(".time-slot__delete").click(function(){
         toDelete = $(this.closest(".time-slot"));
@@ -137,6 +139,7 @@ $(document).ready(function(){
                 let date = new Date(toSend.date);
                 Modal.displayModalMessage("Your reservation at <b>" + MONTH_NAMES[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "</b> has been deleted");
                 deleteTimeSlot();
+                toDelete = null;
             },
             error: function(jqxhr){
                 Modal.displayModalMessage(jqxhr.responseText);
