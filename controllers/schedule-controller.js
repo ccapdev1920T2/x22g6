@@ -6,7 +6,7 @@ exports.sendArrowsSchedulePage = function(req, res){
 };
 
 // For sending time slots for a specific trip of the form "<origin>-to-<dest>"
-exports.sendTimeSlots = function(req, res){
+exports.sendTimeSlots = async function(req, res){
     // req.params.trip would contain the trip
     try{
         let schedules = await Schedule.find().byTrip(req.params.trip);
@@ -17,7 +17,7 @@ exports.sendTimeSlots = function(req, res){
                 'presentation': schedules[i].get12HourFormat()
             });
         }
-        res.status(200).send();
+        res.status(200).send(toSend);
     }
     catch(err){
         res.status(500).send("NOT IMPLEMENTED: Getting time-slots for trip");
