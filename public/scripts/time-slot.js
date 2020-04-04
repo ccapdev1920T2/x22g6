@@ -20,6 +20,7 @@ function addNewTimeSlot(htmlData){
     }else{
         insertToFutureReservations(parsedContainer);
     }
+    Modal.connectModalToggle(parsedTimeSlot.find(".time-slot__delete"));
 }
 
 // Inserts time slot element to the today's reservation container

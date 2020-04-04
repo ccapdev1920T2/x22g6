@@ -3,13 +3,20 @@ let Modal = function(){
         connectModalToggles();
         connectModalClosers();
     });
-    
-    
-    // Connects the modal toggles to their corresponding modals
-    function connectModalToggles(){
-        $(".modal-toggle").click(function(){
+
+    // Connects the argument to its modal target
+    function connectModalToggle(toggle){
+        toggle.click(function(){
             let targetId = this.getAttribute("data-modal-target");
             $(`#${targetId}`).removeClass("modal--hidden");
+        })
+        
+    }
+
+    // Connects the modal toggles to their corresponding modals
+    function connectModalToggles(){
+        $(".modal-toggle").each(function(){
+            connectModalToggle($(this));
         });
     }
     
@@ -54,7 +61,9 @@ let Modal = function(){
 
         removeModal(modal){
             modal.remove();
-        }
+        },
+
+        connectModalToggle
     };
     
 }();
