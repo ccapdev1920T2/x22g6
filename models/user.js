@@ -5,7 +5,6 @@ const util = require("util");
 const Schema = mongoose.Schema;
 
 const STUDENT_TYPE = "Student";
-const PROF_TYPE = "Professor";
 const STAFF_TYPE = "Staff"
 
 // For password hashing
@@ -46,7 +45,7 @@ const userSchema = new Schema({
     },
     type: {
         type: String,
-        enum: [STUDENT_TYPE, PROF_TYPE, STAFF_TYPE],
+        enum: [STUDENT_TYPE, STAFF_TYPE],
         required: true
     },
     reputationPoints: {
@@ -80,7 +79,6 @@ userSchema.statics.createUser = async function(idNumber, firstName, lastName, em
 };
 
 userSchema.statics.STUDENT_TYPE = STUDENT_TYPE;
-userSchema.statics.PROF_TYPE = PROF_TYPE;
 userSchema.statics.STAFF_TYPE = STAFF_TYPE;
 
 /***************** User model instance methods ******************/
@@ -117,7 +115,7 @@ function isEmpty(input){
 
 // Returns a string of the user's homepage route depending on the user type
 userSchema.methods.getHomePageRoute = function(){
-    if(this.type === STUDENT_TYPE || this.type === PROF_TYPE)
+    if(this.type === STUDENT_TYPE)
         return "/reservation/my-reservations";
     else if(this.type === STAFF_TYPE)
         return "/reservation/user-reservations";
