@@ -24,6 +24,17 @@ $(document).ready(function(){
             $.ajax({
                 type: "GET",
                 url: `/reservation/user-reservations/${date}/${time}/${trip}`,
+                success: function(data){
+                    let tableBody = $("#user-reservations-table .table__body");
+                    tableBody.find("tr").remove();
+                    for(let i=0; i<data.length; ++i){
+                        let nameEntry = $("<td>").html(data[i].lastName + ", " + data[i].firstName);
+                        let typeEntry = $("<td>").html(data[i].type);
+                        let idEntry = $("<td>").html(data[i].idNumber);
+                        let row = $("<tr>").append(nameEntry).append(typeEntry).append(idEntry);
+                        tableBody.append(row);
+                    }
+                }
             });
         }
     });
