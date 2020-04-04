@@ -138,6 +138,15 @@ reservationSchema.statics.createReservation = async function(idNumber, date, tri
     return reservation.save();
 }
 
+/*
+    Gets the number of reservations for a given date, trip and time.  The trip is of the form
+    "<origin>-to-<destination>" and the time should be in military time
+*/
+reservationSchema.statics.getReservationCount = async function(date, schedule){
+    let reservations = await this.find({scheduleId: schedule._id}).byDate(date);
+    return reservations.length;
+}
+
 reservationSchema.statics.PRE_SAVE_ERR = PRE_SAVE_ERR;
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
