@@ -58,7 +58,7 @@ function insertToFutureReservations(parsedContainer){
     }else{
         let otherMonthContainers = timeSlotsFutureContainer.find(".calendar__month-reservations");
         if(otherMonthContainers.length === 0){
-            timeSlotsFutureContainer.removeclass(TEXT_CENTERED_CLASS);
+            timeSlotsFutureContainer.removeClass(TEXT_CENTERED_CLASS);
             timeSlotsFutureContainer.children().remove();
             timeSlotsFutureContainer.append(parsedContainer);
         }else{
