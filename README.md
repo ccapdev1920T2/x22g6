@@ -10,16 +10,12 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 1. Download or Create a clone of the repository
 2. Open Command Prompt 
 3. Navigate to project folder
-4. To use the application, a MongoDB server must be running locally on port 27017.  Once the MongoDB server is running, run the following command:
-```
-node data-insert.js
-```
-The script would create a database called "arrows-express" and insert the documents needed by the application, as well as the dummy user accounts.  If the database already exists, all of the existing data would be deleted
-5. Run the following command:
+4. To use the application, a MongoDB server must be running locally on port 27017.  Once the MongoDB server is running, run the command `node data-insert.js`.  The script would create a database called "arrows-express" and insert the documents needed by the application, as well as the dummy   user accounts.  If the database already exists, all of the existing data would be overwritten
+5. Install dependencies
 ```
 npm install
 ```
-6. Run the following command:
+6. Run the following command to start the application:
 ```
 node app.js
 ```
