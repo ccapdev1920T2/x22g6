@@ -1,5 +1,5 @@
-const Schedule = require("../models/schedule");
-const Reservation = require("../models/reservation");
+const Schedule = require("../models/schedule-model");
+const Reservation = require("../models/reservation-model");
 
 // For sending the Arrow's Schedule Page
 exports.sendArrowsSchedulePage = function(req, res){

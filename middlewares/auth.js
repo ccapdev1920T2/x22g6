@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/user-model");
 
 // Checks if the user has not yet logged-in and redirects them to the login page if so
 exports.redirectLogin = function(req, res, next){

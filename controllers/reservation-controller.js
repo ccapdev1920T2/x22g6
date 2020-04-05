@@ -1,6 +1,6 @@
-const Schedule = require("../models/schedule");
-const Reservation = require("../models/reservation");
-const SuspendedUser = require("../models/suspended-user");
+const Schedule = require("../models/schedule-model");
+const Reservation = require("../models/reservation-model");
+const SuspendedUser = require("../models/suspended-user-model");
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];

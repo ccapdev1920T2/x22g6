@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-var User = require('./user.js');
-var Schedule = require('./schedule.js');
+var User = require('./user-model.js');
+var Schedule = require('./schedule-model.js');
 
 const Schema = mongoose.Schema;
 
