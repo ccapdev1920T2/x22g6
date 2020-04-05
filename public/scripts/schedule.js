@@ -1,17 +1,16 @@
 $(document).ready(function(){
     let retrievalMessage;
     $("#schedule-filters input, #schedule-filters select").change(function(){
-        let tableBody = $("#schedule-table").find(".table__body");
-        if(retrievalMessage)
-            retrievalMessage.remove();
-        retrievalMessage = $("<p>").text("Retrieving data...").addClass("table__message");
-        tableBody.children("tr").remove();
-        retrievalMessage.insertAfter(tableBody.closest("table"));
+        let table = $("#schedule-table");
+        let tableBody = table.find(".table__body");
+        tableBody.find("tr").remove();
+        Table.editMessage("Retrieving Data...");
+        Table.showMessage(table);
         $.ajax({
             type: "GET",
             url: "/schedule/filter/" + $("#schedule-filters__date").val() + "/" + $("#schedule-filters__trip").val(),
             success: function(data){
-                retrievalMessage.remove();
+                Table.removeMessage();
                 for(let i=0; i<data.length; ++i){
                     let timeEntry = $("<td>").html(data[i].time);
                     let slotEntry = $("<td>").html(data[i].openSlots);
@@ -20,7 +19,7 @@ $(document).ready(function(){
                 }
             },
             error: function(jqxhr){
-               retrievalMessage.text("Cannot retrieve data at this time");
+                Table.editMessage("Cannot retrieve data at this time");
             }
         });
     });
