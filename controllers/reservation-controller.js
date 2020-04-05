@@ -119,8 +119,7 @@ exports.createReservation = async function(req, res){
                 req.signedCookies.id, 
                 req.body.date,
                 req.body.trip,
-                req.body.time,
-                false
+                req.body.time
             );
             await Reservation.populate(reservation, {path: "scheduleId"});
             get12HourFormat(reservation);
