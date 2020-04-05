@@ -8,7 +8,7 @@ $(document).ready(function(){
                 tableBody.children("tr").remove();
                 for(let i=0; i<data.length; ++i){
                     let timeEntry = $("<td>").html(data[i].time);
-                    let slotEntry = $("<td>").html(data[i].openSlots + "/25");
+                    let slotEntry = $("<td>").html(data[i].openSlots);
                     let row = $("<tr>").append(timeEntry).append(slotEntry);
                     tableBody.append(row);
                 }
