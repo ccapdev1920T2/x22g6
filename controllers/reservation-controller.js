@@ -152,7 +152,7 @@ exports.checkInUser = async function(req, res){
         let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
         
         let reservation = await Reservation.findOne({userId: req.body["id-number"], scheduleId: schedule._id}).byDate(req.body.date);
-        if(reservation === null) res.status(404).send("User not found");
+        if(reservation === null) res.status(404).send("Reservation not found");
         else if(reservation.isCheckIn == true)   res.status(409).send("User already checked in");
             
         else{
