@@ -16,7 +16,7 @@ exports.redirectHome = async function(req, res, next){
         else
             next();
     }catch(err){
-        res.redirect("/login");
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -29,7 +29,7 @@ exports.checkNonStaff = async function(req, res, next){
         else
             res.status(403).send("You are not authorized to access this resource");
     }catch(err){
-        res.redirect("/login");
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -42,7 +42,7 @@ exports.checkStaff = async function(req, res, next){
         else
             res.status(403).send("You are not authorized to access this resource");
     }catch(err){
-        res.redirect("/login");
+        res.status(500).send("Internal Server Error");
     }
 }
 
