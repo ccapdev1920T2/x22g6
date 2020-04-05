@@ -1,9 +1,9 @@
-let express = require("express");
-let hbs = require("hbs");
-let bodyParser = require("body-parser");
-let mongoose = require("mongoose");
-let cookieParser = require("cookie-parser");
-let auth = require("./middlewares/auth");
+const express = require("express");
+const hbs = require("hbs");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const auth = require("./middlewares/auth");
 
 let app = express();
 const PORT =  3000;
