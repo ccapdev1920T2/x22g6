@@ -3,7 +3,7 @@ const Reservation = require("../models/reservation-model");
 
 // For sending the Arrow's Schedule Page
 exports.sendArrowsSchedulePage = function(req, res){
-    res.render("schedule", ({user: req.user}));
+    res.render("schedule", ({user: req.user, maxPassengers: Reservation.MAX_PASSENGERS}));
 };
 
 // For sending time slots for a specific trip of the form "<origin>-to-<dest>"
@@ -35,7 +35,7 @@ exports.sendTimeSlotsWithReservations = async function(req, res){
         for (var i = 0; i < schedules.length; i++) {
             toSendRes.push({
                 'time': schedules[i].get12HourFormat(),
-                'openSlots': 15 - (await Reservation.getReservationCount(req.params.date, schedules[i]))
+                'openSlots': Reservation.MAX_PASSENGERS - (await Reservation.getReservationCount(req.params.date, schedules[i]))
             });
         }
         res.status(200).send(toSendRes);
