@@ -1,7 +1,10 @@
 $(document).ready(function(){
+    let retrievalMessage;
     $("#schedule-filters input, #schedule-filters select").change(function(){
         let tableBody = $("#schedule-table").find(".table__body");
-        let retrievalMessage = $("<p>").text("Retrieving data...").addClass("table__message");
+        if(retrievalMessage)
+            retrievalMessage.remove();
+        retrievalMessage = $("<p>").text("Retrieving data...").addClass("table__message");
         tableBody.children("tr").remove();
         retrievalMessage.insertAfter(tableBody.closest("table"));
         $.ajax({
