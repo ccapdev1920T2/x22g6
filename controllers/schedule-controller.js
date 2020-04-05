@@ -41,7 +41,7 @@ exports.sendTimeSlotsWithReservations = async function(req, res){
         res.status(200).send(toSendRes);
     }
     catch(err){
-        res.status(500).send("NOT IMPLEMENTED: Getting reserivation for each time slot");
+        res.status(500).send("Internal Server Error");
     }
     
 }
