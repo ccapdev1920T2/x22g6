@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 const MAX_RESERVATIONS = 2;
 const PRE_SAVE_ERR = "PRE_SAVE_ERR";
 const OFFSET_DEPARTURE = 1000 * 60 * 15; // 15 minutes
+const MAX_PASSENGERS = 15;
 
 const reservationSchema = new Schema({
     userId: {
@@ -70,7 +71,7 @@ reservationSchema.query.fromDateObject = function(date){
 
 /*************** Middlewares ******************/
 // Ensures that the number of reservations in a single day does not exceed the maximum
-reservationSchema.pre("save", async function(next){
+reservationSchema.pre("save", async function(){
     let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
     if(exisitingReservations.length === MAX_RESERVATIONS){
         let err = new Error("Maximum number of reservations in a single day reached");
@@ -78,6 +79,15 @@ reservationSchema.pre("save", async function(next){
         throw err;
     }
 });
+
+reservationSchema.pre("save", async function(){
+    let reservations = await mongoose.model("Reservation").find({scheduleId: this.scheduleId}).byDateObject(this.date);
+    if(reservations.length >= MAX_PASSENGERS){
+        let err = new Error("There are no more open slots for the chosen reservation");
+        err.reason = PRE_SAVE_ERR;
+        throw err;
+    }
+})
 
 // For all middlewares that utilizes the schedule properties of the reservation
 reservationSchema.pre("save", async function(){
@@ -115,7 +125,6 @@ async function checkForOriginAndTime(reservation, schedule){
             throw err;
         }
     }
-    
 }
 
 function disregardTime(date){
@@ -148,6 +157,7 @@ reservationSchema.statics.getReservationCount = async function(date, schedule){
 }
 
 reservationSchema.statics.PRE_SAVE_ERR = PRE_SAVE_ERR;
+reservationSchema.statics.MAX_PASSENGERS = MAX_PASSENGERS;
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
