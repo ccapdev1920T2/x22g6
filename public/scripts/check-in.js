@@ -38,10 +38,10 @@ $(document).ready(function(){
                 url: "/reservation/check-in",
                 data: checkInForm.serialize(),
                 success: function(){
-                    Modal.displayModalMessage("The user was checked in");
+                    Modal.displayModalMessage("The user was checked in", true);
                 },
                 error: function(jqxhr){
-                    Modal.displayModalMessage(jqxhr.responseText);
+                    Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
                     Modal.closeBufferModal();

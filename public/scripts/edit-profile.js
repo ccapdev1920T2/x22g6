@@ -33,7 +33,7 @@ $(document).ready(function(){
 				url: "/profile/edit",
 				data: editProfileForm.serialize(),
 				success: function(){
-					Modal.displayModalMessage("Profile edited successfully");
+					Modal.displayModalMessage("Profile edited successfully", true);
 					firstName = $("#edit-profile-form__first-name").val();
 					lastName = $("#edit-profile-form__last-name").val();
 					email = $("#edit-profile-form__email").val();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 					lockProfileEdit();
 				},
 				error: function(jqxhr){
-					Modal.displayModalMessage(jqxhr.responseText);
+					Modal.displayModalMessage(jqxhr.responseText, false);
 				},
 				complete: function(){
 					Modal.closeBufferModal();
@@ -67,10 +67,10 @@ $(document).ready(function(){
 				url: "/profile/change-password",
 				data: changePasswordForm.serialize(),
 				success: function(){
-					Modal.displayModalMessage("Password was successfully changed");
+					Modal.displayModalMessage("Password was successfully changed", true);
 				},
 				error: function(jqxhr){
-					Modal.displayModalMessage(jqxhr.responseText);
+					Modal.displayModalMessage(jqxhr.responseText, false);
 				},
 				complete: function(){
 					changePasswordForm.find("input").val("");

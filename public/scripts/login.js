@@ -15,7 +15,7 @@ $(document).ready(function(){
                     window.location.href = xhr.getResponseHeader("Location");
                 },
                 error: function(jqxhr){
-                    Modal.displayModalMessage(jqxhr.responseText);
+                    Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
                     Modal.closeBufferModal();

@@ -14,10 +14,10 @@ $(document).ready(function(){
                 url: "/register/professor",
                 data: professorRegistrationForm.serialize(),
                 success: function(){
-                    Modal.displayModalMessage("Professor was successfully registered");
+                    Modal.displayModalMessage("Professor was successfully registered", true);
                 },
                 error: function(jqxhr){
-                    Modal.displayModalMessage(jqxhr.responseText);
+                    Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
                     Modal.closeBufferModal();

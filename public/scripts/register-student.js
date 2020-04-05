@@ -14,10 +14,10 @@ $(document).ready(function(){
                 url: "/register/student",
                 data: studenRegistrationForm.serialize(),
                 success: function(){
-                    Modal.displayModalMessage(`You're account has been created.  Click <a href="/login">here</a> to login`);
+                    Modal.displayModalMessage(`You're account has been created.  Click <a href="/login">here</a> to login`, true);
                 },
                 error: function(jqxhr){
-                    Modal.displayModalMessage(jqxhr.responseText);
+                    Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
                     console.log(studenRegistrationForm.children("input"));

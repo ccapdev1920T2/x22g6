@@ -161,12 +161,12 @@ $(document).ready(function(){
             data: toSend,
             success: function(){
                 let date = new Date(toSend.date);
-                Modal.displayModalMessage("Your reservation at <b>" + MONTH_NAMES[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "</b> has been deleted");
+                Modal.displayModalMessage("Your reservation at <b>" + MONTH_NAMES[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "</b> has been deleted", true);
                 deleteTimeSlot();
                 toDelete = null;
             },
             error: function(jqxhr){
-                Modal.displayModalMessage(jqxhr.responseText);
+                Modal.displayModalMessage(jqxhr.responseText, false);
             },
             complete: function(){
                 Modal.closeBufferModal();

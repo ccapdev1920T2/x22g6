@@ -29,15 +29,19 @@ let Modal = function(){
     
     return{
         // Displays a pop up message
-        displayModalMessage(message){
+        displayModalMessage(message, isSuccess){
             let modalContainer = $("<div>").addClass("modal");
+            let headerElement = $("<p>").text(isSuccess ? "SUCCESS" : "ERROR").css({
+                "font-weight": "bold",
+                "color": isSuccess ? "green": "red",
+            });
             let messageElement = $("<p>").append(message).addClass("modal__message");
             let closingElement = $("<button>").append("OK").addClass("modal__close button").attr("type", "button");
             let confirmationContainer =  $("<div>").addClass("modal__confirmation-choices modal__confirmation-choices--centered");
             let modalContent = $("<div>").addClass("container container--padded");
+            
         
-        
-            modalContent.append(messageElement).append(confirmationContainer.append(closingElement));
+            modalContent.append(headerElement).append(messageElement).append(confirmationContainer.append(closingElement));
             modalContainer.append(modalContent);
         
             closingElement.click(function(){

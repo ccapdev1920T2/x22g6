@@ -52,13 +52,13 @@ $(document).ready(function(){
 				headers: headers,
 				data: reservationForm.serialize(),
 				success: function(data){
-					Modal.displayModalMessage("You reservation has been made");
+					Modal.displayModalMessage("You reservation has been made", true);
 					if(window.location.pathname === "/reservation/my-reservations")
 						addNewTimeSlot(data);
 					
 				},
 				error: function(jqxhr){
-					Modal.displayModalMessage(jqxhr.responseText);
+					Modal.displayModalMessage(jqxhr.responseText, false);
 				},
 				complete: function(){
 					Modal.closeBufferModal();
