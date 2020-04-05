@@ -102,7 +102,7 @@ async function checkOffset(reservation, schedule){
     reservationDate.setHours(schedule.time / 100);
     reservationDate.setMinutes(schedule.time % 100);
     if(reservationDate.getTime() - OFFSET_DEPARTURE <= (new Date()).getTime()){
-        let err = new Error("You can only reserve 15 minutes before the departure time");
+        let err = new Error("You cannot reserve after the departure time or within 15 minutes before the departure time");
         err.reason = PRE_SAVE_ERR;
         throw err;
     }
@@ -114,13 +114,14 @@ async function checkForOriginAndTime(reservation, schedule){
         .findOne({userId: reservation.userId, date: reservation.date})
         .populate("scheduleId");
     if(forChecking){
+        let dateString = `${reservation.date.toLocaleString('default', { month: 'long' })} ${reservation.date.getDate()}, ${reservation.date.getFullYear()}`
         if(forChecking.scheduleId.origin === schedule.origin){
-            let err = new Error("You already have a reservation coming from " + schedule.origin + " for the date specified");
+            let err = new Error("You already have a reservation coming from " + schedule.origin + " on " + dateString);
             err.reason = PRE_SAVE_ERR;
             throw err;
         }
         if(forChecking.scheduleId.time === schedule.time){
-            let err = new Error("You already have a reservation at " + schedule.get12HourFormat() + " for the date specified");
+            let err = new Error("You already have a reservation at " + schedule.get12HourFormat() + " on " + dateString);
             err.reason = PRE_SAVE_ERR;
             throw err;
         }

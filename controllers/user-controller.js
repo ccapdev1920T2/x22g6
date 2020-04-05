@@ -114,7 +114,7 @@ exports.changeUserPassword = async function(req, res){
     try{
         if(await req.user.changePassword(req.body["old-password"], req.body["new-password"])) res.status(204).send();
 
-        else res.status(400).send("Passwords do not match");
+        else res.status(400).send("Old password is incorrect");
     }
     catch(err){
         res.status(500).send("Cannot change password at this time");

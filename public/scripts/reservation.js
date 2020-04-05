@@ -52,7 +52,11 @@ $(document).ready(function(){
 				headers: headers,
 				data: reservationForm.serialize(),
 				success: function(data){
-					Modal.displayModalMessage("You reservation has been made", true);
+					let date = new Date($("#reservation-form__date").val() + "T00:00:00");
+					let dateString = `${date.toLocaleString('default', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`
+					let time = $("#reservation-form__time option:selected").text();
+					let trip = $("#reservation-form__location option:selected").text();
+					Modal.displayModalMessage(`You reservation has been made on <b>${dateString} ${time} from ${trip}<b>`, true);
 					if(window.location.pathname === "/reservation/my-reservations")
 						addNewTimeSlot(data);
 					
