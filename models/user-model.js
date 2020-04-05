@@ -108,11 +108,6 @@ userSchema.methods.changePassword = async function(oldPassword, newPassword){
         return false;
 }
 
-//Checks if input is empty
-function isEmpty(input){
-    return (input === "");
-}
-
 // Returns a string of the user's homepage route depending on the user type
 userSchema.methods.getHomePageRoute = function(){
     if(this.type === STUDENT_TYPE)
