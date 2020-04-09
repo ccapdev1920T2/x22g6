@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const uri = "mongodb://localhost:27017/arrows-express";
+const uri = process.env.DB_URI;
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
