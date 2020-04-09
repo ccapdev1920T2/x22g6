@@ -28,7 +28,7 @@ app.use(express.static('./public'));
 //Body parsing middleware
 app.use(bodyParser.urlencoded({extended: false}));
 //Cookie parser
-app.use(cookieParser("secret")); //TODO: change cookie secret
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //Partial Registration
 hbs.registerPartials(__dirname + "/views/partials");
