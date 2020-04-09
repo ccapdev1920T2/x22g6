@@ -1,24 +1,15 @@
 const express = require("express");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const auth = require("./middlewares/auth");
+const db = require("./models/db");
 
 let app = express();
 const PORT =  3000;
 
 //Database Connection
-const dbUrl = "mongodb://localhost:27017/arrows-express"
-const dbOptions = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useCreateIndex: true
-}
-mongoose.connect(dbUrl, dbOptions);
-mongoose.connection.on("connected", () => console.log("Mongoose connected to " + dbUrl));
-mongoose.connection.on("error", () => console.log("Mongoose cannot connect to " + dbUrl));
-mongoose.connection.on("disconnected", () => console.log("Mongoose disconnected from " + dbUrl));
+db.connect().then(value => console.log("Mongoose connected to database"), reason => console.log(reason));
 
 //Template engine
 app.set("view engine", "hbs");
