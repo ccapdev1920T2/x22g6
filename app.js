@@ -7,7 +7,7 @@ const auth = require("./middlewares/auth");
 const db = require("./models/db");
 
 let app = express();
-const PORT =  3000;
+const PORT =  process.env.PORT || 3000;
 
 //Database Connection
 db.connect().then(value => console.log("Mongoose connected to " + process.env.DB_URI), reason => console.log(reason));
