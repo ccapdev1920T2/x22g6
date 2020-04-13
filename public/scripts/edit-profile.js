@@ -34,9 +34,9 @@ $(document).ready(function(){
 				data: editProfileForm.serialize(),
 				success: function(){
 					Modal.displayModalMessage("Profile edited successfully", true);
-					firstName = $("#edit-profile-form__first-name").val();
-					lastName = $("#edit-profile-form__last-name").val();
-					email = $("#edit-profile-form__email").val();
+					firstName = $.trim($("#edit-profile-form__first-name").val());
+					lastName = $.trim($("#edit-profile-form__last-name").val());
+					email = $.trim($("#edit-profile-form__email").val());
 					$("#navbar__name").html(firstName + " " + lastName);
 					revertProfile();
 					lockProfileEdit();
