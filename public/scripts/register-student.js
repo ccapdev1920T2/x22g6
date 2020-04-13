@@ -15,15 +15,15 @@ $(document).ready(function(){
                 data: studenRegistrationForm.serialize(),
                 success: function(){
                     Modal.displayModalMessage(`You're account has been created.  Click <a href="/login">here</a> to login`, true);
+                    $(studenRegistrationForm.find("input")).each(function(){
+                        $(this).val("");
+                    });
                 },
                 error: function(jqxhr){
                     Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
                     console.log(studenRegistrationForm.children("input"));
-                    $(studenRegistrationForm.find("input")).each(function(){
-                        $(this).val("");
-                    });
                     Modal.closeBufferModal();
                 }
             })
