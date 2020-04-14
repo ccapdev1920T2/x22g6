@@ -1,22 +1,17 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
+const db = require("./models/db");
 const User = require("./models/user-model");
 const Schedule = require("./models/schedule-model");
 const Reservation = require("./models/reservation-model");
 const SuspendedUsers = require("./models/suspended-user-model");
 
-//Database Connection
-const dbUrl = "mongodb://localhost:27017/arrows-express"
-const dbOptions = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useCreateIndex: true
-};
 
 (async () => {
     try{
-        console.log("Connecting to " + dbUrl + "...");
-        await mongoose.connect(dbUrl, dbOptions);
-        console.log("Connected to " + dbUrl + ".");
+        console.log("Connecting to " + process.env.DB_URI + "...");
+        await db.connect();
+        console.log("Connected to " + process.env.DB_URI + ".");
         //Deletes all existing data in the arrows-express db
         await mongoose.connection.dropDatabase();
 
@@ -47,15 +42,6 @@ const dbOptions = {
         await User.createUser(11825647, "Joshua", "Gaurano", "joshua_gaurano@dlsu.edu.ph", "mousepad", User.STUDENT_TYPE);
         await User.createUser(11829672, "JJ", "Reyes", "jj_reyes@dlsu.edu.ph", "computers", User.STUDENT_TYPE);
         console.log("Inserted user documents.");
-
-        await Reservation.createReservation(11829672, "2020-04-07", "LAG-to-MNL", 700);
-        await Reservation.createReservation(11829672, "2020-04-07", "MNL-to-LAG", 1700);
-        await Reservation.createReservation(11829672, "2020-04-29", "MNL-to-LAG", 1530);
-        await Reservation.createReservation(11829672, "2020-05-13", "LAG-to-MNL", 1100);
-        await Reservation.createReservation(11829672, "2020-05-13", "MNL-to-LAG", 1300);
-        await Reservation.createReservation(11829672, "2020-05-14", "LAG-to-MNL", 900);
-        await Reservation.createReservation(11829672, "2020-05-14", "MNL-to-LAG", 1815);
-        console.log("Inserted reservation documents.");
 
         await new SuspendedUsers({userId: 11825647}).save();
         console.log("Inserted suspended-user documents.");
