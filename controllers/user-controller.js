@@ -24,11 +24,14 @@ exports.sendLoginPage = function(req, res){
 // For logging-in the user.  
 exports.logInUser = async function(req, res){
     try{
-        let user = await User.findOne({email: req.body.email}, "_id password salt type");
+        let user = await User.findOne({email: req.body.email});
         if(user && await user.isCorrectPassword(req.body.password)){
-            res.cookie(cookieName, user._id, cookieOptions);
-            res.setHeader("Location", user.getHomePageRoute());
-            res.status(204).send();
+            if(user.type === User.STAFF_TYPE || user.isConfirmed){
+                res.cookie(cookieName, user._id, cookieOptions);
+                res.setHeader("Location", user.getHomePageRoute());
+                res.status(204).send();
+            }else
+                res.status(400).send("You must first confirm your email to login");
         }else
             res.status(400).send("Invalid Login Credentials");
     }catch(err){
