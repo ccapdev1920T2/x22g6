@@ -1,10 +1,14 @@
 const Schedule = require("../models/schedule-model");
 const Reservation = require("../models/reservation-model");
 const SuspendedUser = require("../models/suspended-user-model");
+const User = require("../models/user-model");
+const CronJob = require('cron').CronJob;
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];
 const WEEK_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+const LAG = "LAG";
+const MNL = "MNL";
 
 // Groups an array of reservation documents by month
 function groupByMonth(resInput){
@@ -50,6 +54,31 @@ function groupByDay(resInput){
 // Adds a time12Hour property to the reservation's scheduleId
 function get12HourFormat(reservation){
     reservation.scheduleId.time12Hour = reservation.scheduleId.get12HourFormat();
+};
+
+
+/**
+ * Checks each document in the Reservation Collection if they are not checked-in on the specific time and date
+ * If not checked in, user will be deducted 10 reputation points
+ */
+
+async function checkReservations(time, origin){
+    try{
+        let date = new Date();
+        let schedule = await Schedule.findOne({origin: origin, time: time});
+        let reservations = await Reservation.find({scheduleId: schedule, isCheckIn: false}).byDateObject(date);
+        for (let i = 0; i < reservations.length; i++){
+            let user = await User.findOne({_id: reservations[0].userId});
+            let points = user.reputationPoints;
+
+            user.reputationPoints = points - 10;
+
+            await user.save();
+        }
+    }
+    catch{
+        console.log(err);
+    }
 };
 
 // For sending the my-reservations page
