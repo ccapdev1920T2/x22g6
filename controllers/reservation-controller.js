@@ -212,3 +212,83 @@ exports.deleteReservation = async function(req, res){
         res.status(500).send("Cannot delete Reservation at this time");
     }
 }
+
+//Cron Jobs for automatic tasks
+
+//LAGUNA SCHEDULE
+new CronJob('40 5 * * 1-5', async function() {
+    checkReservations(545, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 6 * * 1-5', async function() {
+    checkReservations(700, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 7 * * 1-5', async function() {
+    checkReservations(730, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 8 * * 1-5', async function() {
+    checkReservations(900, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 10 * * 1-5', async function() {
+    checkReservations(1100, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 12 * * 1-5', async function() {
+    checkReservations(1300, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 14 * * 1-5', async function() {
+    checkReservations(1430, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 15 * * 1-5', async function() {
+    checkReservations(1530, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 16 * * 1-5', async function() {
+    checkReservations(1700, LAG);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('10 18 * * 1-5', async function() {
+    checkReservations(1815, LAG);
+  }, null, true, 'Asia/Manila');
+
+//MANILA SCHEDULE
+new CronJob('55 5 * * 1-5', async function() {
+    checkReservations(600, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 7 * * 1-5', async function() {
+    checkReservations(730, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 8 * * 1-5', async function() {
+    checkReservations(930, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 10 * * 1-5', async function() {
+    checkReservations(1100, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 12 * * 1-5', async function() {
+    checkReservations(1300, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 14 * * 1-5', async function() {
+    checkReservations(1430, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('25 15 * * 1-5', async function() {
+    checkReservations(1530, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('55 16 * * 1-5', async function() {
+    checkReservations(1700, MNL);
+  }, null, true, 'Asia/Manila');
+
+new CronJob('10 18 * * 1-5', async function() {
+    checkReservations(1815, MNL);
+  }, null, true, 'Asia/Manila');
