@@ -1,10 +1,14 @@
 const User = require("../models/user-model");
+const smtpMailer = require("../helpers/smtp-mailer");
+const jwt = require("jsonwebtoken");
 const cookieName = "id";
 const cookieOptions = {
     httpOnly: true,
     signed: true
 };
 const hbs = require("hbs");
+
+smtpMailer.connect().then(() => console.log("Connected to SMTP Server"), (err) => console.log(err));
 
 // Helper registration
 hbs.registerHelper("isStaff", function(type){
@@ -53,6 +57,19 @@ exports.registerStudent = async function(req, res){
             req.body.email, 
             req.body.password, 
             User.STUDENT_TYPE);
+            
+        let webToken = jwt.sign({
+            id: req.body["id-number"],
+        }, process.env.JWT_SECRET);
+
+        await smtpMailer.transporter.sendMail({
+            from: `no-reply@${req.get("host")}`,
+            to: req.body.email,
+            subject: "Email Confirmation",
+            html:`Hello ${req.body["first-name"]},<br>
+                Thank you for registering to Re:Arrows.  To utilizie your account, you must verify your email through clicking the
+                following <a href=${req.get("host")}/confirmation/${webToken}>link</a>`
+        });
             
         res.status(201).send();
     }
