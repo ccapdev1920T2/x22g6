@@ -55,6 +55,11 @@ const userSchema = new Schema({
         type: Number,
         required: function() {return this.type === STUDENT_TYPE},
         default: function() {if (this.type === STUDENT_TYPE) return 100}
+    },
+    isConfirmed: {
+        type: Boolean,
+        required: function() {return this.type === STUDENT_TYPE},
+        default: function() {if (this.type === STUDENT_TYPE) return false}
     }
 });
 
