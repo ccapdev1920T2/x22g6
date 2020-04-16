@@ -140,3 +140,24 @@ exports.changeUserPassword = async function(req, res){
         res.status(500).send("Cannot change password at this time");
     }
 }
+
+// For email confirmation
+exports.confirmEmail = async function(req, res){
+    try{
+        let payload = jwt.verify(req.params.token, process.env.JWT_SECRET);
+        let updateOperation = await User.updateOne({_id: payload.id}, {"$set" : {isConfirmed: true}});
+        let viewFile = "message"
+        let loginLink = "Click <a href=\"/login\">here</a> to login"
+        if(updateOperation.n && updateOperation.nModified)
+            res.render(viewFile, {title: "Success", message: "Your email has been confirmed. " + loginLink});
+        else if(updateOperation.n)
+            res.render(viewFile, {title: "Success", message: "You have already confirmed your email.  " + loginLink});
+        else
+            res.render(viewFile, {title: "Error", message: "The account does not exist"});
+    }catch(err){
+        if(err.name === "JsonWebTokenError")
+            res.render(viewFile, {title: "Error", message: "Invalid confirmation link"});
+        else
+            res.render(viewFile, {title: "Error", message: "Cannot confirm email at this time"});
+    }
+}
