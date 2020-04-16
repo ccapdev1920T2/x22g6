@@ -68,7 +68,7 @@ async function checkReservations(time, origin){
         let schedule = await Schedule.findOne({origin: origin, time: time});
         let reservations = await Reservation.find({scheduleId: schedule, isCheckIn: false}).byDateObject(date);
         for (let i = 0; i < reservations.length; i++){
-            let user = await User.findOne({_id: reservations[0].userId});
+            let user = await User.findOne({_id: reservations[i].userId});
             let points = user.reputationPoints;
 
             user.reputationPoints = points - 10;
