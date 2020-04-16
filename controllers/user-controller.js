@@ -115,15 +115,11 @@ exports.editProfile = async function(req, res){
     try{
         req.user.firstName = req.body["first-name"];
         req.user.lastName = req.body["last-name"];
-        req.user.email = req.body.email;
-
         await req.user.save();
         res.status(204).send();
     }
-    catch(err){
-        if(err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
-        
-        else res.status(500).send("Cannot edit at this time");
+    catch(err){        
+        res.status(500).send("Cannot edit at this time");
     }
 }
 
@@ -143,10 +139,10 @@ exports.changeUserPassword = async function(req, res){
 
 // For email confirmation
 exports.confirmEmail = async function(req, res){
+    let viewFile = "message"
     try{
         let payload = jwt.verify(req.params.token, process.env.JWT_SECRET);
         let updateOperation = await User.updateOne({_id: payload.id}, {"$set" : {isConfirmed: true}});
-        let viewFile = "message"
         let loginLink = "Click <a href=\"/login\">here</a> to login"
         if(updateOperation.n && updateOperation.nModified)
             res.render(viewFile, {title: "Success", message: "Your email has been confirmed. " + loginLink});
@@ -156,7 +152,7 @@ exports.confirmEmail = async function(req, res){
             res.render(viewFile, {title: "Error", message: "The account does not exist"});
     }catch(err){
         if(err.name === "JsonWebTokenError")
-            res.render(viewFile, {title: "Error", message: "Invalid confirmation link"});
+            res.render(viewFile, {title: "Error", message: "Invalid email confirmation link"});
         else
             res.render(viewFile, {title: "Error", message: "Cannot confirm email at this time"});
     }
