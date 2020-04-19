@@ -36,7 +36,8 @@ const userSchema = new Schema({
         match: /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/,
         required : true,
         unique : true,
-        trim: true
+        trim: true,
+        lowercase: true
     },
     password: {
         type: String,
@@ -55,6 +56,11 @@ const userSchema = new Schema({
         type: Number,
         required: function() {return this.type === STUDENT_TYPE},
         default: function() {if (this.type === STUDENT_TYPE) return 100}
+    },
+    isConfirmed: {
+        type: Boolean,
+        required: function() {return this.type === STUDENT_TYPE},
+        default: function() {if (this.type === STUDENT_TYPE) return false}
     }
 });
 

@@ -14,7 +14,7 @@ $(document).ready(function(){
                 url: "/register/student",
                 data: studenRegistrationForm.serialize(),
                 success: function(){
-                    Modal.displayModalMessage(`You're account has been created.  Click <a href="/login">here</a> to login`, true);
+                    Modal.displayModalMessage(`You're account has been created.  You must first verify your email to login`, true);
                     $(studenRegistrationForm.find("input")).each(function(){
                         $(this).val("");
                     });

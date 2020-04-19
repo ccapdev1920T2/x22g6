@@ -1,4 +1,6 @@
 const User = require("../models/user-model");
+const smtpMailer = require("../helpers/smtp-mailer");
+const jwt = require("jsonwebtoken");
 const cookieName = "id";
 const cookieOptions = {
     httpOnly: true,
@@ -6,10 +8,26 @@ const cookieOptions = {
 };
 const hbs = require("hbs");
 
+smtpMailer.connect().then(() => console.log("Connected to SMTP Server"), (err) => console.log(err));
+
 // Helper registration
 hbs.registerHelper("isStaff", function(type){
     return type === User.STAFF_TYPE;
 });
+
+// For sending email confirmation link
+async function sendEmailConfirmation(id, email, host, firstName){
+    email = email.toLowerCase();
+    let webToken = jwt.sign({id, email}, process.env.JWT_SECRET);
+    return smtpMailer.transporter.sendMail({
+        from: `no-reply@${host}`,
+        to: email,
+        subject: "Email Confirmation",
+        html:`Hello ${firstName},<br>
+            Thank you for registering to Re:Arrows.  To utilizie your account, you must verify your email through clicking the
+            following <a href=${host}/confirmation/${webToken}>link</a>`
+    });
+}
 
 // For sending the login page
 exports.sendLoginPage = function(req, res){
@@ -20,11 +38,14 @@ exports.sendLoginPage = function(req, res){
 // For logging-in the user.  
 exports.logInUser = async function(req, res){
     try{
-        let user = await User.findOne({email: req.body.email}, "_id password salt type");
+        let user = await User.findOne({email: req.body.email});
         if(user && await user.isCorrectPassword(req.body.password)){
-            res.cookie(cookieName, user._id, cookieOptions);
-            res.setHeader("Location", user.getHomePageRoute());
-            res.status(204).send();
+            if(user.type === User.STAFF_TYPE || user.isConfirmed){
+                res.cookie(cookieName, user._id, cookieOptions);
+                res.setHeader("Location", user.getHomePageRoute());
+                res.status(204).send();
+            }else
+                res.status(400).send("You must first confirm your email to login");
         }else
             res.status(400).send("Invalid Login Credentials");
     }catch(err){
@@ -53,6 +74,8 @@ exports.registerStudent = async function(req, res){
             req.body.email, 
             req.body.password, 
             User.STUDENT_TYPE);
+            
+        await sendEmailConfirmation(req.body["id-number"], req.body.email, req.get("host"), req.body["first-name"]);
             
         res.status(201).send();
     }
@@ -95,15 +118,11 @@ exports.editProfile = async function(req, res){
     try{
         req.user.firstName = req.body["first-name"];
         req.user.lastName = req.body["last-name"];
-        req.user.email = req.body.email;
-
         await req.user.save();
         res.status(204).send();
     }
-    catch(err){
-        if(err.keyPattern.email === 1) res.status(400).send("Email Address already exists");
-        
-        else res.status(500).send("Cannot edit at this time");
+    catch(err){        
+        res.status(500).send("Cannot edit at this time");
     }
 }
 
@@ -118,5 +137,26 @@ exports.changeUserPassword = async function(req, res){
     }
     catch(err){
         res.status(500).send("Cannot change password at this time");
+    }
+}
+
+// For email confirmation
+exports.confirmEmail = async function(req, res){
+    let viewFile = "message"
+    try{
+        let payload = jwt.verify(req.params.token, process.env.JWT_SECRET);
+        let updateOperation = await User.updateOne({_id: payload.id, email: payload.email}, {"$set" : {isConfirmed: true}});
+        let loginLink = "Click <a href=\"/login\">here</a> to login"
+        if(updateOperation.n && updateOperation.nModified)
+            res.render(viewFile, {title: "Success", message: "Your email has been confirmed. " + loginLink});
+        else if(updateOperation.n)
+            res.render(viewFile, {title: "Success", message: "You have already confirmed your email.  " + loginLink});
+        else
+            res.render(viewFile, {title: "Error", message: "The account does not exist"});
+    }catch(err){
+        if(err.name === "JsonWebTokenError")
+            res.render(viewFile, {title: "Error", message: "Invalid email confirmation link"});
+        else
+            res.render(viewFile, {title: "Error", message: "Cannot confirm email at this time"});
     }
 }

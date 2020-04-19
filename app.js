@@ -40,6 +40,7 @@ app.use("/profile", require("./routes/profile-routes"));
 app.use("/register", require("./routes/register-routes"));
 app.use("/reservation", require("./routes/reservation-routes"));
 app.use("/schedule", require("./routes/schedule-routes"));
+app.use("/confirmation", require("./routes/confirmation-routes"));
 // For logging out
 app.get("/logout", require("./controllers/user-controller").logOutUser);
 

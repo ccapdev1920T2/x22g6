@@ -14,6 +14,15 @@ h1, h2, p{
     margin: 0;
 }
 
+a{
+    text-decoration: none;
+    color: #046A38;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
 #one-container-body{
     background-color: #046A38;
     display: flex;
