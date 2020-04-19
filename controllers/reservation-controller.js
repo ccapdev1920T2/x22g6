@@ -82,8 +82,8 @@ async function checkReservations(time, origin){
 };
 
 /*
-    Converts the date and time arguments to a Date object.  The date argument must be of the form "YYYY-MM-DD" and
-    the time must be in military time
+    Converts the date and time arguments to a Date object.  The date arugment must be a string
+    representing the date and the time argument must be in military time
 */
 function convertToDateObject(date, time){
     date = new Date(date);
@@ -213,9 +213,14 @@ exports.checkInUser = async function(req, res){
 // For deleting reservations
 exports.deleteReservation = async function(req, res){
     try{
-        let time = req.body.time;
+        let dateWithTime = convertToDateObject(req.body.date, req.body.time);
+        let today = new Date();
+        if(dateWithTime.getTime() - Reservation.OFFSET_DEPARTURE <= today.getTime()){
+            res.status(400).send("Cannot delete within 15 minutes before the departure time");
+            return;
+        }
         let date = new Date(req.body.date);
-        let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
+        let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time: req.body.time});
         let deleteOperation = await Reservation.deleteOne({userId: req.signedCookies.id, scheduleId: schedule._id, date});
         if(deleteOperation.deletedCount === 0)
             res.status(400).send("The reservation does not exist");

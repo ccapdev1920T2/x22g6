@@ -159,6 +159,7 @@ reservationSchema.statics.getReservationCount = async function(date, schedule){
 
 reservationSchema.statics.PRE_SAVE_ERR = PRE_SAVE_ERR;
 reservationSchema.statics.MAX_PASSENGERS = MAX_PASSENGERS;
+reservationSchema.statics.OFFSET_DEPARTURE = OFFSET_DEPARTURE;
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
