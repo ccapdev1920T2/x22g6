@@ -81,6 +81,17 @@ async function checkReservations(time, origin){
     }
 };
 
+/*
+    Converts the date and time arguments to a Date object.  The date argument must be of the form "YYYY-MM-DD" and
+    the time must be in military time
+*/
+function convertToDateObject(date, time){
+    date = new Date(date);
+    date.setHours(time / 100);
+    date.setMinutes(time % 100);
+    return date;
+}
+
 // For sending the my-reservations page
 exports.sendMyReservationsPage = async function(req, res){
     try{
@@ -176,9 +187,13 @@ exports.createReservation = async function(req, res){
 // For checking in user
 exports.checkInUser = async function(req, res){
     try{
-        let time = req.body.time;
-        let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time});
-        
+        let currentDate = new Date();
+        let reservationDate = convertToDateObject(req.body.date, req.body.time);
+        if(currentDate.getTime() >= reservationDate.getTime() - 300000){
+            res.status(400).send("Time slot has already passed");
+            return;
+        }
+        let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time: req.body.time});
         let reservation = await Reservation.findOne({userId: req.body["id-number"], scheduleId: schedule._id}).byDate(req.body.date);
         if(reservation === null) res.status(404).send("Reservation not found");
         else if(reservation.isCheckIn == true)   res.status(409).send("User already checked in");
