@@ -145,7 +145,7 @@ exports.confirmEmail = async function(req, res){
     let viewFile = "message"
     try{
         let payload = jwt.verify(req.params.token, process.env.JWT_SECRET);
-        let updateOperation = await User.updateOne({_id: payload.id}, {"$set" : {isConfirmed: true}});
+        let updateOperation = await User.updateOne({_id: payload.id, email: payload.email}, {"$set" : {isConfirmed: true}});
         let loginLink = "Click <a href=\"/login\">here</a> to login"
         if(updateOperation.n && updateOperation.nModified)
             res.render(viewFile, {title: "Success", message: "Your email has been confirmed. " + loginLink});
