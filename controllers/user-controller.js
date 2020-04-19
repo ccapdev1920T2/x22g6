@@ -15,6 +15,20 @@ hbs.registerHelper("isStaff", function(type){
     return type === User.STAFF_TYPE;
 });
 
+// For sending email confirmation link
+async function sendEmailConfirmation(id, email, host, firstName){
+    email = email.toLowerCase();
+    let webToken = jwt.sign({id, email}, process.env.JWT_SECRET);
+    return smtpMailer.transporter.sendMail({
+        from: `no-reply@${host}`,
+        to: email,
+        subject: "Email Confirmation",
+        html:`Hello ${firstName},<br>
+            Thank you for registering to Re:Arrows.  To utilizie your account, you must verify your email through clicking the
+            following <a href=${host}/confirmation/${webToken}>link</a>`
+    });
+}
+
 // For sending the login page
 exports.sendLoginPage = function(req, res){
     res.render("login");
@@ -61,18 +75,7 @@ exports.registerStudent = async function(req, res){
             req.body.password, 
             User.STUDENT_TYPE);
             
-        let webToken = jwt.sign({
-            id: req.body["id-number"],
-        }, process.env.JWT_SECRET);
-
-        await smtpMailer.transporter.sendMail({
-            from: `no-reply@${req.get("host")}`,
-            to: req.body.email,
-            subject: "Email Confirmation",
-            html:`Hello ${req.body["first-name"]},<br>
-                Thank you for registering to Re:Arrows.  To utilizie your account, you must verify your email through clicking the
-                following <a href=${req.get("host")}/confirmation/${webToken}>link</a>`
-        });
+        await sendEmailConfirmation(req.body["id-number"], req.body.email, req.get("host"), req.body["first-name"]);
             
         res.status(201).send();
     }
