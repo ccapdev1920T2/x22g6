@@ -252,6 +252,7 @@ async function setupCron(){
                 checkReservations(time, origin);
             }, null, true, 'Asia/Manila');
         }
+        console.log("Added cron jobs");
     }
     catch{
         console.log(err);
