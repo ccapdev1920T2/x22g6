@@ -16,7 +16,7 @@ hbs.registerHelper("isStaff", function(type){
 });
 
 // For sending email confirmation link
-async function sendEmailConfirmation(id, email, host, firstName){
+async function sendEmailConfirmation(id, email, host, firstName, protocol){
     email = email.toLowerCase();
     let webToken = jwt.sign({id, email}, process.env.JWT_SECRET);
     return smtpMailer.transporter.sendMail({
@@ -25,7 +25,7 @@ async function sendEmailConfirmation(id, email, host, firstName){
         subject: "Email Confirmation",
         html:`Hello ${firstName},<br>
             Thank you for registering to Re:Arrows.  To utilizie your account, you must verify your email through clicking the
-            following <a href=${host}/confirmation/${webToken}>link</a>`
+            following <a href="${protocol}://${host}/confirmation/${webToken}">link</a>`
     });
 }
 
@@ -75,7 +75,7 @@ exports.registerStudent = async function(req, res){
             req.body.password, 
             User.STUDENT_TYPE);
             
-        await sendEmailConfirmation(req.body["id-number"], req.body.email, req.get("host"), req.body["first-name"]);
+        await sendEmailConfirmation(req.body["id-number"], req.body.email, req.get("host"), req.body["first-name"], req.protocol);
             
         res.status(201).send();
     }
