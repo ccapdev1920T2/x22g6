@@ -1,7 +1,8 @@
 let Validator = function() {
 	const emailFormat = /^([a-zA-Z0-9_\.\-\+])+\@(dlsu.edu.ph)$/;
+	const numberFormat = /^[0-9]+$/;
 	const emailChecker = (input) => emailFormat.test(input.val());
-	const idChecker = (input) => input.val().length === 8;
+	const idChecker = (input) => input.val().length === 8 && numberFormat.test(input.val());
 	const emptyChecker = (input) => $.trim(input.val()).length !== 0;
 
 	// Marks the input as invalid
@@ -29,6 +30,19 @@ let Validator = function() {
 		return isValid;
 	}
 
+	// Takes a two JQuery input objects and checks if values are the same and marks it if not
+	function checkEqual(input1, input2, message){
+		if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
+			markInput(input1, message);
+			markInput(input2, message);
+			return false;
+		}else{
+			unmarkInput(input1);
+			unmarkInput(input2);
+			return true;
+		}
+	}
+
 	$(document).ready(function(){
 		$(".numonly").keypress(function(e){
 			var key = e.keyCode;
@@ -44,19 +58,33 @@ let Validator = function() {
 			}
 		});
 	
-		$(".required").blur(function(){
+		$(".required").blur(function(e){
+			console.log("Required execute");
 			let input = $(this);
-			checkInput(input, emptyChecker, "*Required");
+			if(!checkInput(input, emptyChecker, "*Required"))
+				e.stopImmediatePropagation();
 		});
 
-		$(".email").blur(function(){
+		$(".email").blur(function(e){
+			console.log("email execute");
 			let input = $(this);
-			checkInput(input, emailChecker, "*Invalid DLSU email");
+			if(!checkInput(input, emailChecker, "*Invalid DLSU email"))
+				e.stopImmediatePropagation();
 		});
 
-		$(".id-number").blur(function(){
+		$(".id-number").blur(function(e){
+			console.log("id-number execute");
 			let input = $(this);
-			checkInput(input, idChecker, "*Invalid ID Number");
+			if(!checkInput(input, idChecker, "*Invalid ID Number"))
+				e.stopImmediatePropagation();
+		});
+
+		$("[data-equal-with]").blur(function(e){
+			console.log("equal execute");
+			let elem = $(this);
+			let elemToCompare = $(`#${elem.attr("data-equal-with")}`);
+			if(!checkEqual(elem, elemToCompare, elem.attr("data-err-message")))
+				e.stopImmediatePropagation();
 		});
 	});
 
@@ -73,18 +101,7 @@ let Validator = function() {
 			return checkInput(idInput, idChecker, "*Invalid ID Number")
 		},
 
-		// Takes a two JQuery input objects and checks if values are the same and marks it if not
-		checkEqual(input1, input2, message){
-			if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
-				markInput(input1, message);
-				markInput(input2);
-				return false;
-			}else{
-				unmarkInput(input1);
-				unmarkInput(input2);
-				return true;
-			}
-		},
+		checkEqual: checkEqual,
 
 		// Checks if all the inputs in a given form is filled
 		checkRequired(form){
