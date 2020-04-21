@@ -44,6 +44,12 @@ let Validator = function() {
 	}
 
 	$(document).ready(function(){
+		$(".form__input").focus(function(){
+			let elem = $(this);
+			unmarkInput($(this));
+			unmarkInput($(`#${elem.attr("data-equal-with")}`))
+		});
+		
 		$(".numonly").keypress(function(e){
 			var key = e.keyCode;
 			if(!(key >= 48 && key <= 57)){
