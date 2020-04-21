@@ -3,9 +3,9 @@ const express = require("express");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const CronJob = require('cron').CronJob;
 const auth = require("./middlewares/auth");
 const db = require("./models/db");
+
 let app = express();
 const PORT =  process.env.PORT || 3000;
 
