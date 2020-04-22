@@ -25,10 +25,10 @@ $(document).ready(function(){
     });
     function sendUserReservationsRequest(){
         let tableBody = $(TABLE_ID + " .table__body");
+        let table = $(TABLE_ID);
         tableBody.find("tr").remove();
         let isValid = Validator.checkRequired(filterForm);
-        Table.editMessage("Retrieving data...");
-        Table.showMessage($(TABLE_ID));
+        Table.showDataLoading(table, "Retrieving reservations");
         if(isValid){
             let date = dateFilter.val();
             let time = timeFilter.val();
@@ -37,10 +37,11 @@ $(document).ready(function(){
                 type: "GET",
                 url: `/reservation/user-reservations/${date}/${time}/${trip}`,
                 success: function(data){
+                    console.log(data.length);
                     if(data.length === 0){
-                        Table.editMessage("No reservations found");
+                        Table.showMessage(table, "No reservations found");
                     }else
-                        Table.removeMessage();
+                        Table.removeDataLoading(table);
                     for(let i=0; i<data.length; ++i){
                         let nameEntry = $("<td>").html(data[i].lastName + ", " + data[i].firstName);
                         let typeEntry = $("<td>").html(data[i].type);
@@ -50,7 +51,7 @@ $(document).ready(function(){
                     }
                 },
                 error: function(){
-                    Table.editMessage("Cannot retrieve data at this time");
+                    Table.showMessage(table, "Cannot retrieve data at this time");
                 }
             });
         }
