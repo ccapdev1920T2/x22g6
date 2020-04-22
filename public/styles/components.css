@@ -247,11 +247,6 @@
     overflow: hidden;
 }
 
-.buffer-image{
-    width: 2em;
-    margin-bottom: 0.5em;
-}
-
 .modal__close--upper-right-x{
     position: absolute;
     color: #707070;
@@ -288,4 +283,21 @@
 }
 .modal__confirmation-choices>*{
     margin-left: 0.5em;
+}
+
+/* Buffer */
+.buffer{
+    box-sizing: border-box;
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    border: 3px solid lightgray;
+    border-top-color: #046A38;
+    animation: buffer 0.7s linear infinite;
+}
+
+@keyframes buffer {
+    to {
+        transform: rotate(360deg);
+    }
 }

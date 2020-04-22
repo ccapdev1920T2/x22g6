@@ -51,12 +51,17 @@ let Modal = function(){
         },
 
         displayBufferModal(message){
-            $("#buffer-modal #buffer-modal-message").html(message);
-            $("#buffer-modal").removeClass("modal--hidden");
+            let modalElem = $("<div>").addClass("modal modal--center-column").attr("id", "buffer-modal");
+            let modalContent = $("<div>").addClass("modal__content");
+            let container = $("<div>").addClass("container container--padded container--centered-vertical");
+            let buffer = $("<div>").addClass("buffer").css({"margin-bottom": "0.5em"});
+            let messageElem = $("<p>").html(message);
+            modalElem.append(modalContent.append(container.append(buffer).append(messageElem)));
+            $("body").append(modalElem);
         },
 
         closeBufferModal(){
-            $("#buffer-modal").addClass("modal--hidden");
+            $("#buffer-modal").remove();
         },
 
         closeModal(modal){
