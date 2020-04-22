@@ -134,7 +134,7 @@ let Validator = function() {
 			let isValid = true;
 			form.find(".required").each(function(){
 				let currentInput = $(this);
-				isValid = checkInput(currentInput, emptyChecker, "*Required");
+				isValid = isValid & checkInput(currentInput, emptyChecker, "*Required");
 			});
 			return isValid;
 		},
