@@ -76,7 +76,7 @@ async function checkReservations(time, origin){
             await user.save();
         }
     }
-    catch{
+    catch(err){
         console.log(err);
     }
 };
@@ -227,7 +227,7 @@ exports.deleteReservation = async function(req, res){
         else
             res.status(202).send();
     }
-    catch{
+    catch(err){
         res.status(500).send("Cannot delete Reservation at this time");
     }
 }
@@ -249,12 +249,13 @@ async function setupCron(){
             let origin = schedule[i].origin;
 
             new CronJob(min + ' ' + hour + ' * * 1-5', async function(){
-                checkReservations(time, origin);
+                await checkReservations(time, origin);
+                console.log("Executing cron job for schedule " + time + ", " + origin);
             }, null, true, 'Asia/Manila');
         }
         console.log("Added cron jobs");
     }
-    catch{
+    catch(err){
         console.log(err);
     }
 }
