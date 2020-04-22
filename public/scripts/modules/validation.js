@@ -4,21 +4,38 @@ let Validator = function() {
 	const emailChecker = (input) => emailFormat.test(input.val());
 	const idChecker = (input) => input.val().length === 8 && numberFormat.test(input.val());
 	const emptyChecker = (input) => $.trim(input.val()).length !== 0;
+	const minLengthChecker = (input) => input.val().length >= input.attr("data-min-length");
 
-	// Marks the input as invalid
-	function markInput(input, message){
+	function addErrmessage(input, message){
 		let errElement = $("<span>").addClass("error-message").html("&ensp;" + message);
 		let label = $(`[for=${input.attr("id")}]`);
-		input.addClass("form__input--invalid");
-		
 		if(message && !label.children(".error-message").length)
 			label.append(errElement);
+	}
+
+	function removeErrMessage(input){
+		$(`[for=${input.attr("id")}]`).children(".error-message").remove();
+	}
+
+	function getEqualInput(input){
+		return $(`#${input.attr("data-equal-with")}`);
+	}
+	// Marks the input as invalid
+	function markInput(input, message){
+		let equalInput = getEqualInput(input)
+		input.addClass("form__input--invalid");
+		equalInput.addClass("form__input--invalid");
+		addErrmessage(input, message);
+		addErrmessage(equalInput, message);			
 	}
 
 	// Reverts the input back to its normal state
 	function unmarkInput(input){
 		input.removeClass("form__input--invalid");
-		$(`[for=${input.attr("id")}]`).children(".error-message").remove();
+		removeErrMessage(input);
+		let equalInput = getEqualInput(input);
+		equalInput.removeClass("form__input--invalid");
+		removeErrMessage(equalInput);
 	}
 
 	function checkInput(input, callback, message){
@@ -34,20 +51,16 @@ let Validator = function() {
 	function checkEqual(input1, input2, message){
 		if(input1.val() !== input2.val() || input1.val() === "" || input2.val() == ""){
 			markInput(input1, message);
-			markInput(input2, message);
 			return false;
 		}else{
 			unmarkInput(input1);
-			unmarkInput(input2);
 			return true;
 		}
 	}
 
 	$(document).ready(function(){
 		$(".form__input").focus(function(){
-			let elem = $(this);
 			unmarkInput($(this));
-			unmarkInput($(`#${elem.attr("data-equal-with")}`))
 		});
 		
 		$(".numonly").keypress(function(e){
@@ -88,10 +101,17 @@ let Validator = function() {
 		$("[data-equal-with]").blur(function(e){
 			console.log("equal execute");
 			let elem = $(this);
-			let elemToCompare = $(`#${elem.attr("data-equal-with")}`);
+			let elemToCompare = getEqualInput(elem);
 			if(!checkEqual(elem, elemToCompare, elem.attr("data-err-message")))
 				e.stopImmediatePropagation();
 		});
+
+		$("[data-min-length]").blur(function(e){
+			let inputElem = $(this);
+			let minLength = inputElem.attr("data-min-length");
+			if(!checkInput(inputElem, minLengthChecker, `*Must be at least ${minLength} characters`))
+				e.stopImmediatePropagation()
+		})
 	});
 
 	return {
@@ -117,6 +137,11 @@ let Validator = function() {
 				isValid = checkInput(currentInput, emptyChecker, "*Required");
 			});
 			return isValid;
+		},
+
+		checkMinLength(input){
+			let minLength = input.attr("data-min-length");
+			return checkInput(input, minLengthChecker, "*Must be at least " + minLength + " characters");
 		},
 
 		// Checks if a date input is on a weekend and marks the date input if so

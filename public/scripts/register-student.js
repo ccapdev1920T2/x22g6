@@ -1,11 +1,14 @@
 $(document).ready(function(){
+    let passwordInput = $("#password");
+    let confirmPasswordInput = $("#confirm-password");
     let studenRegistrationForm = $("#student-registration-form");
     $("#student-registration-form button[type=\"submit\"]").click(function(e){
         e.preventDefault();
         // Validates Inputs
-        let isValid = Validator.checkRequired(studenRegistrationForm) &&
-            Validator.checkEmail($("#email")) && Validator.checkID($("#id-number")) &&
-            Validator.checkEqual($("#password"), $("#confirm-password"), "*Passwords do not match");
+        let isValid = Validator.checkRequired(studenRegistrationForm) &
+            Validator.checkEmail($("#email")) & Validator.checkID($("#id-number")) &
+            Validator.checkEqual(passwordInput, confirmPasswordInput, "*Passwords do not match") 
+            & Validator.checkMinLength(passwordInput) & Validator.checkMinLength(confirmPasswordInput);
         if(isValid){
             Modal.displayBufferModal("Registering");
             // POST request to register student
