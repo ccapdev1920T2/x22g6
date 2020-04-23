@@ -10,7 +10,7 @@ let app = express();
 const PORT =  process.env.PORT || 3000;
 
 //Database Connection
-db.connect().then(value => console.log("Connected to database"), reason => console.log(reason));
+db.connect();
 
 //Template engine
 app.set("view engine", "hbs");
