@@ -39,7 +39,7 @@
 .form__input:focus{
     border-color:#046A38;
     outline: none !important;
-    box-shadow: 0 0 0 2px #046A3880;
+    box-shadow: 0 0 0 2px rgba(4, 106, 56, 0.55);
 }
 
 .form__input-group{
