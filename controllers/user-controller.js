@@ -8,8 +8,6 @@ const cookieOptions = {
 };
 const hbs = require("hbs");
 
-smtpMailer.connect().then(() => console.log("Connected to SMTP Server"), (err) => console.log(err));
-
 // Helper registration
 hbs.registerHelper("isStaff", function(type){
     return type === User.STAFF_TYPE;
