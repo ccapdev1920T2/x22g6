@@ -250,7 +250,7 @@ async function setupCron(){
 
             new CronJob(min + ' ' + hour + ' * * 1-5', async function(){
                 await checkReservations(time, origin);
-                console.log("Executing cron job for schedule " + time + ", " + origin);
+                console.log("Executed cron job for schedule " + time + ", " + origin);
             }, null, true, 'Asia/Manila');
         }
         console.log("Added cron jobs");
