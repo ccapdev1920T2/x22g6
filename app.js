@@ -5,12 +5,17 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const auth = require("./middlewares/auth");
 const db = require("./models/db");
+const smtpMailer = require("./helpers/smtp-mailer");
 
 let app = express();
 const PORT =  process.env.PORT || 3000;
 
 //Database Connection
 db.connect();
+smtpMailer.transporter.verify().then(
+    () => console.log("Verified SMTP connection configuration"),
+    (err) => console.log("Cannot verify SMTP connection configuration: " + err)
+); 
 
 //Template engine
 app.set("view engine", "hbs");
@@ -44,4 +49,23 @@ app.use("/confirmation", require("./routes/confirmation-routes"));
 // For logging out
 app.get("/logout", require("./controllers/user-controller").logOutUser);
 
-app.listen(PORT, () => console.log("Listening at port " + PORT));
+let server = app.listen(PORT, () => console.log("Listening at port " + PORT));
+
+const shutdown = function(){
+    console.log("Shutting down server...");
+    server.close(async function(err){
+        try{
+            if(err) throw err;
+            console.log("Closed remaining connections");
+            await db.connection.close();
+            console.log("Server shut down");
+            process.exit(0);
+        }catch(err){
+            console.log("Error during shut down: " + err);
+            process.exit(1);
+        }
+    });
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
