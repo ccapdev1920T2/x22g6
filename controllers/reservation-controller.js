@@ -215,7 +215,11 @@ exports.deleteReservation = async function(req, res){
     try{
         let dateWithTime = convertToDateObject(req.body.date, req.body.time);
         let today = new Date();
-        if(dateWithTime.getTime() - Reservation.OFFSET_DEPARTURE <= today.getTime()){
+        if(dateWithTime.getTime() <= today.getTime()){
+            res.status(400).send("Cannot delete after the departure time");
+            return;
+        }
+        else if(dateWithTime.getTime() - Reservation.OFFSET_DEPARTURE <= today.getTime()){
             res.status(400).send("Cannot delete within 15 minutes before the departure time");
             return;
         }
