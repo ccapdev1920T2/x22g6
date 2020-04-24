@@ -5,17 +5,22 @@ $(document).ready(function(){
     let tripFilter = $("#user-reservations-filters__trip");
     let dateFilter = $(FILTER_FORM_ID +"__date");
     let timeFilter = $(FILTER_FORM_ID +"__time");
+    let xhrTimeSlots;
+    let xhrReservations;
     tripFilter.change(function(){
-        $.ajax({
+        if(xhrTimeSlots && xhrTimeSlots.readyState !== 4)
+        xhrTimeSlots.abort();
+        timeFilter.prop("disabled", true);
+        timeFilter.children().remove();
+        xhrTimeSlots = $.ajax({
             type: "GET",
             url: "/schedule/time-slots/" + tripFilter.val(),
             success: function(data){
-                let timeSelector = $("#user-reservations-filters__time");
-                timeSelector.children().remove();
 				for(let i=0; i<data.length; ++i){
 					let text = document.createTextNode(data[i].presentation);
-					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
+					timeFilter.append($("<option>").attr("value", data[i].value).append(text));
                 }
+                timeFilter.prop("disabled", false);
                 sendUserReservationsRequest();
             }
         })
@@ -30,14 +35,15 @@ $(document).ready(function(){
         let isValid = Validator.checkRequired(filterForm);
         Table.showDataLoading(table, "Retrieving reservations");
         if(isValid){
+            if(xhrReservations && xhrReservations.readyState != 4)
+                xhrReservations.abort();
             let date = dateFilter.val();
             let time = timeFilter.val();
             let trip = tripFilter.val();
-            $.ajax({
+            xhrReservations = $.ajax({
                 type: "GET",
                 url: `/reservation/user-reservations/${date}/${time}/${trip}`,
                 success: function(data){
-                    console.log(data.length);
                     if(data.length === 0){
                         Table.showMessage(table, "No reservations found");
                     }else
@@ -51,7 +57,8 @@ $(document).ready(function(){
                     }
                 },
                 error: function(){
-                    Table.showMessage(table, "Cannot retrieve data at this time");
+                    if(xhrReservations.readyState === 4)
+                        Table.showMessage(table, "Cannot retrieve data at this time");
                 }
             });
         }

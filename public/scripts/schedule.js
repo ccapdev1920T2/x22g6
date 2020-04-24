@@ -1,5 +1,6 @@
 $(document).ready(function(){
     let retrievalMessage;
+    let xhr;
     $("#schedule-filters input, #schedule-filters select").change(function(){
         let table = $("#schedule-table");
         let tableBody = table.find(".table__body");
@@ -11,7 +12,9 @@ $(document).ready(function(){
             return;
         }
         Table.showDataLoading(table, "Retrieving schedule");
-        $.ajax({
+        if(xhr && xhr.readyState != 4)
+            xhr.abort();
+        xhr = $.ajax({
             type: "GET",
             url: "/schedule/filter/" + dateInput + "/" + $("#schedule-filters__trip").val(),
             success: function(data){
@@ -24,7 +27,8 @@ $(document).ready(function(){
                 }
             },
             error: function(jqxhr){
-                Table.showMessage(table, "Cannot retrieve data at this time");
+                if(xhr.readyState === 4)
+                    Table.showMessage(table, "Cannot retrieve data at this time");
             }
         });
     });
