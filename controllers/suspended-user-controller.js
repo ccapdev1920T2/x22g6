@@ -1,6 +1,6 @@
 const SuspendedUser = require("../models/suspended-user-model");
 
-let SuspendedUserCollection = suspendedUsers.find();
+let SuspendedUserCollection = SuspendedUser.find();
 
 exports.ScheduledDeletion = async function(req, res){
     try{
