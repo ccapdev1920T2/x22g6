@@ -99,10 +99,17 @@ reservationSchema.pre("save", async function(){
 // Ensures that the reservation is before the departure time with the given offset
 async function checkOffset(reservation, schedule){
     let reservationDate = new Date(reservation.date);
+    let today = new Date();
     reservationDate.setHours(schedule.time / 100);
     reservationDate.setMinutes(schedule.time % 100);
-    if(reservationDate.getTime() - OFFSET_DEPARTURE <= (new Date()).getTime()){
-        let err = new Error("You cannot reserve after the departure time or within 15 minutes before the departure time");
+    let reservationDateTime = reservationDate.getTime();
+    if(reservationDateTime <= today.getTime()){
+        let err = new Error("Departure time has already passed");
+        err.reason = PRE_SAVE_ERR;
+        throw err;
+    }
+    if(reservationDateTime - OFFSET_DEPARTURE <= today.getTime()){
+        let err = new Error("Cannot reserve within 15 minutes before the departure time");
         err.reason = PRE_SAVE_ERR;
         throw err;
     }
