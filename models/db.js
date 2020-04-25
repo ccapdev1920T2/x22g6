@@ -16,4 +16,3 @@ module.exports.connection = mongoose.connection;
 mongoose.connection.on("connected", () => console.log("Connected to MongoDB server"));
 mongoose.connection.on("reconnected", () => console.log("Reconnected to MongoDB server"));
 mongoose.connection.on("disconnected", () => console.log("Disconnected from MongoDB server"));
-mongoose.connection.on("error", (err) => console.log("Cannot connect to MongoDB server: " + err));

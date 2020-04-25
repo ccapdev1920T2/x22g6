@@ -11,7 +11,7 @@ let app = express();
 const PORT =  process.env.PORT || 3000;
 
 //Database Connection
-db.connect();
+db.connect().catch((err) => console.log("Cannot connect to MongoDB server: " + err));
 smtpMailer.transporter.verify().then(
     () => console.log("Verified SMTP connection configuration"),
     (err) => console.log("Cannot verify SMTP connection configuration: " + err)
