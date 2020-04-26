@@ -1,7 +1,7 @@
 const SuspendedUser = require("../models/suspended-user-model");
 const schedule = require("node-schedule");
 //Schedules deletion of the suspension of suspended users
-async function scheduleReleaseDate(){
+module.exports.scheduleReleaseDate =  async function scheduleReleaseDate(){
     try{
         let suspended = await SuspendedUser.find();
         for(let i=0; i<suspended.length; i++){
@@ -18,4 +18,3 @@ async function scheduleReleaseDate(){
         console.log("Cannot schedule release date of existing suspended users :" + err);
     }
 }
-scheduleReleaseDate();

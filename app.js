@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const auth = require("./middlewares/auth");
 const db = require("./models/db");
 const smtpMailer = require("./helpers/smtp-mailer");
+const suspendedUserController = require("./controllers/suspended-user-controller");
+const reservationController = require("./controllers/reservation-controller");
 
 let app = express();
 const PORT =  process.env.PORT || 3000;
@@ -27,6 +29,10 @@ hbs.registerHelper("getCurrentDate", function(){
     let formatNumber = (value) => value >= 10 ? value : "0" + value;
     return today.getFullYear() + "-" + formatNumber(month) + "-" + formatNumber(day);
 });
+
+// For cron jobs and scheduling of lifting suspended users
+suspendedUserController.scheduleReleaseDate();
+reservationController.setUpCron();
 
 //Static files
 app.use(express.static('./public'));

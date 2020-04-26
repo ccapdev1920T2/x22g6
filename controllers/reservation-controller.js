@@ -237,7 +237,7 @@ exports.deleteReservation = async function(req, res){
 }
 
 //Cron Jobs for automatic tasks
-async function setupCron(){
+module.exports.setUpCron = async function(){
     try{
         let schedule = await Schedule.find();
         for(let i = 0; i < schedule.length; i++){
@@ -263,5 +263,3 @@ async function setupCron(){
         console.log(err);
     }
 }
-
-setupCron();
