@@ -16,7 +16,7 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 1. Open Command Prompt 
 2. Navigate to project folder
 3. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
-4. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project. Downloading it may cause a random filename to the .env file. If so, remove the filename and set it to the filename to ".env"
+4. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project. Downloading the file may cause a random filename to the .env file. If so, remove the filename and set it to ".env"
 5. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
 ```
 Listening at port 3000
