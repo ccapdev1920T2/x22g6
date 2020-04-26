@@ -54,6 +54,12 @@ app.use("/schedule", require("./routes/schedule-routes"));
 app.use("/confirmation", require("./routes/confirmation-routes"));
 // For logging out
 app.get("/logout", require("./controllers/user-controller").logOutUser);
+app.use(function(req, res){
+    if(req.accepts("html"))
+        res.render("message", {title:"404", message: "The page you are looking for does not exist"});
+    else
+        res.sendStatus(400);
+});
 
 let server = app.listen(PORT, () => console.log("Listening at port " + PORT));
 
