@@ -12,7 +12,7 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 3. Navigate to project folder
 4. Install dependencies: `npm install`
 
-## Reopening/Rerun of app:
+## Running Application:
 1. Open Command Prompt 
 2. Navigate to project folder
 3. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
@@ -36,6 +36,7 @@ http://localhost:3000/
 | mike_quito@dlsu.edu.ph     | herokuapp | Student   |
 | john_joseph_reyes@dlsu.edu.ph       | computers  | Student |
 | joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student |
+| john_smith@dlsu.edu.ph | headphones | Staff |
 
 ## Authors:
 * **Joshua Gaurano** 
