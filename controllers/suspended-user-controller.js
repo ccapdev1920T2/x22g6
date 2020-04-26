@@ -3,7 +3,7 @@ const schedule = require("node-schedule");
 //Schedules deletion of the suspension of suspended users
  async function ScheduledDeletion(){
     try{
-         let suspended = await SuspendedUser.findOne({userId: req.signedCookies.id});
+         let suspended = await SuspendedUser.find();
         for(let i=0; i<suspended.length; i++){
             schedule.scheduleJob(suspended[i].releaseDate.getTime(), function(){
                 suspended[i].remove();
