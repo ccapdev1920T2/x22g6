@@ -8,8 +8,7 @@ const nodeSchedule = require("node-schedule");
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];
 const WEEK_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
-const LAG = "LAG";
-const MNL = "MNL";
+const CHECK_IN_OFFSET = 1000 * 60 * 5; // 5minutes
 
 // Groups an array of reservation documents by month
 function groupByMonth(resInput){
@@ -193,8 +192,12 @@ exports.checkInUser = async function(req, res){
     try{
         let currentDate = new Date();
         let reservationDate = convertToDateObject(req.body.date, req.body.time);
-        if(currentDate.getTime() >= reservationDate.getTime() - 300000){
+        if(currentDate.getTime() >= reservationDate.getTime()){
             res.status(400).send("Time slot has already passed");
+            return;
+        }
+        if(currentDate.getTime() >= reservationDate.getTime() - CHECK_IN_OFFSET){
+            res.status(400).send("Cannot check-in within 5 minutes of departure time");
             return;
         }
         let schedule = await Schedule.findOne().byTrip(req.body.trip).where({time: req.body.time});
