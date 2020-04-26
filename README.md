@@ -27,8 +27,10 @@ http://localhost:3000/
 ```
 
 ## Reopening/Rerun of app:
-1. Reset the NODE_ENV environment variable to "development": `SET NODE_ENV=development`
-2. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
+1. Open Command Prompt 
+2. Navigate to project folder
+3. Reset the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
+4. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
 ```
 Listening at port 3000
 Verified SMTP connection configuration
@@ -36,7 +38,7 @@ Connected to MongoDB server
 Scheduled release date of existing suspended users
 Added cron jobs
 ```
-3. Open a web browser and type the following:
+5. Open a web browser and type the following:
 ```
 http://localhost:3000/
 ```
