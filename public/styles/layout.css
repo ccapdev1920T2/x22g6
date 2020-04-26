@@ -36,11 +36,11 @@ a:hover{
 }
 
 .nav-side__main-section{
-    padding: 5em 20% 0 20%;
+    margin: 5em auto 0 auto;
     display: flex;
     background-color: inherit;
     min-height: 100vh;
-    min-width: 828.659px;
+    width: 900px;
 }
 
 .nav-side__sidebar-section{
@@ -52,7 +52,8 @@ a:hover{
 
 .nav-side__content-section{
     flex: 7;
-    padding: 1.5em 1.6em 2.3em 1.6em ;
+    padding: 1.5em 0 0 1em;
+    max-width: 660px;
 }
 
 .nav-side__header-section{
