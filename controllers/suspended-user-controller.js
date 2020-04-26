@@ -5,7 +5,7 @@ exports.ScheduledDeletion = async function(req, res){
     try{
          let suspended = await SuspendedUser.findOne({userId: req.signedCookies.id});
         for(let i=0; i< suspended.length; i++){
-            schedule.scheduleJob(suspended.releaseDate.getTime(), )
+            schedule.scheduleJob(suspended[i].releaseDate.getTime(), )
         }
             res.status(204).send;
     }catch(err){
