@@ -1,14 +1,16 @@
 const SuspendedUser = require("../models/suspended-user-model");
 const schedule = require("node-schedule");
 //Schedules deletion of the suspension of suspended users
-exports.ScheduledDeletion = async function(req, res){
+ async function ScheduledDeletion(){
     try{
          let suspended = await SuspendedUser.findOne({userId: req.signedCookies.id});
-        for(let i=0; i< suspended.length; i++){
-            schedule.scheduleJob(suspended[i].releaseDate.getTime(), )
+        for(let i=0; i<suspended.length; i++){
+            schedule.scheduleJob(suspended[i].releaseDate.getTime(), function(){
+                suspended[i].remove();
+            }
         }
-            res.status(204).send;
     }catch(err){
-        res.status(500).send("Cannot suspend user at this schedule.");
+        console.log(err);
     }
 }
+ScheduledDeletion();
