@@ -11,14 +11,15 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 2. Open Command Prompt 
 3. Navigate to project folder
 4. Install dependencies: `npm install`
-5. To use the application, a MongoDB server must be running locally on port 27017.  Once the MongoDB server is running, run the command `node data-insert.js`.  The script would create a database called "arrows-express" and insert the documents needed by the application, as well as the dummy   user accounts.  If the database already exists, all of the existing data would be overwritten
+5. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project
 6. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development`
 7. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
 ```
 Listening at port 3000
-Connected to database
+Verified SMTP connection configuration
+Connected to MongoDB server
+Scheduled release date of existing suspended users
 Added cron jobs
-Connected to SMTP Server
 ```
 8. Open a web browser and type the following:
 ```
