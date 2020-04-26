@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 const STUDENT_TYPE = "Student";
 const STAFF_TYPE = "Staff"
+const DEFAULT_REP_POINTS = 100;
 
 // For password hashing
 const ITERATIONS = 100000;
@@ -55,7 +56,7 @@ const userSchema = new Schema({
     reputationPoints: {
         type: Number,
         required: function() {return this.type === STUDENT_TYPE},
-        default: function() {if (this.type === STUDENT_TYPE) return 100}
+        default: function() {if (this.type === STUDENT_TYPE) return DEFAULT_REP_POINTS}
     },
     isConfirmed: {
         type: Boolean,
@@ -89,6 +90,7 @@ userSchema.statics.createUser = async function(idNumber, firstName, lastName, em
 
 userSchema.statics.STUDENT_TYPE = STUDENT_TYPE;
 userSchema.statics.STAFF_TYPE = STAFF_TYPE;
+userSchema.statics.DEFAULT_REP_POINTS = DEFAULT_REP_POINTS;
 
 /***************** User model instance methods ******************/
 /*
