@@ -1,19 +1,21 @@
 <div class="navbar">
-    <div class="navbar__heading">
-        <img src="/images/logo-van.png" alt="" class="logo--md">
-    </div>
-    <div class="navbar__user">
-        <a><img src="/images/person.png" class="user-icon"></a>
-        <div id="user-info">
-            <p id="navbar__name" class="user-info__text--main">{{user.firstName}} {{user.lastName}}</p>
-            <p class="user-info__text--main">{{user._id}}</p>
-            {{#if user.reputationPoints}}
-                <p class="user-info__text--sub">Reputation Points: {{user.reputationPoints}}</p>
-            {{else if (isStaff user.type)}}
-                <p class="user-info__text--sub">Staff</p>
-            {{else}}
-                <p class="user-info__text--sub">Reputation Points: 0</p>
-            {{/if}}
+    <div class="navbar__content">
+        <div class="navbar__heading">
+            <img src="/images/logo-van.png" alt="" class="logo--md">
+        </div>
+        <div class="navbar__user">
+            <a><img src="/images/person.png" class="user-icon"></a>
+            <div id="user-info">
+                <p id="navbar__name" class="user-info__text--main">{{user.firstName}} {{user.lastName}}</p>
+                <p class="user-info__text--main">{{user._id}}</p>
+                {{#if user.reputationPoints}}
+                    <p class="user-info__text--sub">Reputation Points: {{user.reputationPoints}}</p>
+                {{else if (isStaff user.type)}}
+                    <p class="user-info__text--sub">Staff</p>
+                {{else}}
+                    <p class="user-info__text--sub">Reputation Points: 0</p>
+                {{/if}}
+            </div>
         </div>
     </div>
 </div>
