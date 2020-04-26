@@ -159,3 +159,8 @@
     background-size: 90px 60px;
     background-position: -35px -5px;
 }
+
+.active{
+    font-weight: bold;
+    color: #046A38 !important;
+}
