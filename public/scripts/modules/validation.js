@@ -78,28 +78,24 @@ let Validator = function() {
 		});
 	
 		$(".required").blur(function(e){
-			console.log("Required execute");
 			let input = $(this);
 			if(!checkInput(input, emptyChecker, "*Required"))
 				e.stopImmediatePropagation();
 		});
 
 		$(".email").blur(function(e){
-			console.log("email execute");
 			let input = $(this);
 			if(!checkInput(input, emailChecker, "*Invalid DLSU email"))
 				e.stopImmediatePropagation();
 		});
 
 		$(".id-number").blur(function(e){
-			console.log("id-number execute");
 			let input = $(this);
 			if(!checkInput(input, idChecker, "*Invalid ID Number"))
 				e.stopImmediatePropagation();
 		});
 
 		$("[data-equal-with]").blur(function(e){
-			console.log("equal execute");
 			let elem = $(this);
 			let elemToCompare = getEqualInput(elem);
 			if(!checkEqual(elem, elemToCompare, elem.attr("data-err-message")))

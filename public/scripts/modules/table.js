@@ -25,7 +25,6 @@ const Table = function(){
             }else{
                 messageElem = $("<p>").addClass("table__message").html(message);
                 messageElem.insertAfter(table.find("table"));
-                console.log("test2");
             } 
         },
         removeMessage(table){

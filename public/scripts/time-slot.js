@@ -32,8 +32,6 @@ function addNewTimeSlot(htmlData){
 // Inserts time slot element to the today's reservation container
 function insertToTodaysReservations(timeSlot){
     let timeSlotToday = timeSlotsTodayContainer.find(".time-slot");
-    console.log(timeSlotToday);
-    console.log(timeSlotToday.length);
     if(timeSlotToday.length === 0){
         timeSlotsTodayContainer.children().remove();
         timeSlotsTodayContainer.removeClass(TEXT_CENTERED_CLASS);

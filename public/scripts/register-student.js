@@ -26,7 +26,6 @@ $(document).ready(function(){
                     Modal.displayModalMessage(jqxhr.responseText, false);
                 },
                 complete: function(){
-                    console.log(studenRegistrationForm.children("input"));
                     Modal.closeBufferModal();
                 }
             })
