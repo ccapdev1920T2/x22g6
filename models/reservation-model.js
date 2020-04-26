@@ -74,7 +74,7 @@ reservationSchema.query.fromDateObject = function(date){
 reservationSchema.pre("save", async function(){
     let exisitingReservations = await mongoose.model("Reservation").find({userId: this.userId, date: this.date});
     if(exisitingReservations.length === MAX_RESERVATIONS){
-        let err = new Error("Maximum number of reservations in a single day reached");
+        let err = new Error(`You can only have at most ${MAX_RESERVATIONS} reservations in a single day`);
         err.reason = PRE_SAVE_ERR;
         throw err;
     }
