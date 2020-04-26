@@ -28,9 +28,9 @@ http://localhost:3000/
 ## Dummy Accounts:
 | Email                      | Password   | Type    | isSuspended |
 |----------------------------|------------|---------|-------------|
-| mike_quito@dlsu.edu.ph     | herokuapp | Student   |  No |
-| john_joseph_reyes@dlsu.edu.ph       | computers  | Student | Yes |
-| joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student | No |
+| mike_quito@dlsu.edu.ph     | herokuapp | Student   |  False |
+| john_joseph_reyes@dlsu.edu.ph       | computers  | Student | False |
+| joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student | True |
 
 ## Authors:
 * **Joshua Gaurano** 
