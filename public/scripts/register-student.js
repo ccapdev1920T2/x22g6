@@ -7,7 +7,7 @@ $(document).ready(function(){
         // Validates Inputs
         let isValid = Validator.checkRequired(studenRegistrationForm) &
             Validator.checkEmail($("#email")) & Validator.checkID($("#id-number")) &
-            Validator.checkEqual(passwordInput, confirmPasswordInput, "*Passwords do not match") 
+            Validator.checkEqual(passwordInput, confirmPasswordInput, passwordInput.attr("data-err-message")) 
             & Validator.checkMinLength(passwordInput) & Validator.checkMinLength(confirmPasswordInput);
         if(isValid){
             Modal.displayBufferModal("Registering");

@@ -39,36 +39,37 @@ $(document).ready(function(){
     });
     function sendUserReservationsRequest(){
         tableBody.find("tr").remove();
-        let isValid = Validator.checkRequired(filterForm);
-        Table.showDataLoading(table, "Retrieving reservations");
-        if(isValid){
-            if(xhrReservations && xhrReservations.readyState != 4)
-                xhrReservations.abort();
-            let date = dateFilter.val();
-            let time = timeFilter.val();
-            let trip = tripFilter.val();
-            xhrReservations = $.ajax({
-                type: "GET",
-                url: `/reservation/user-reservations/${date}/${time}/${trip}`,
-                success: function(data){
-                    if(data.length === 0){
-                        Table.showMessage(table, "No reservations found");
-                    }else
-                        Table.removeDataLoading(table);
-                    for(let i=0; i<data.length; ++i){
-                        let nameEntry = $("<td>").html(data[i].lastName + ", " + data[i].firstName);
-                        let typeEntry = $("<td>").html(data[i].type);
-                        let idEntry = $("<td>").html(data[i].idNumber);
-                        let row = $("<tr>").append(nameEntry).append(typeEntry).append(idEntry);
-                        tableBody.append(row);
-                    }
-                },
-                error: function(){
-                    if(xhrReservations.readyState === 4)
-                        Table.showMessage(table, "Cannot retrieve data at this time");
-                }
-            });
+        let date = dateFilter.val();
+        let time = timeFilter.val();
+        let trip = tripFilter.val();
+        if(!date){
+            Table.showMessage(table, "Invalid date input");
+            return;
         }
+        Table.showDataLoading(table, "Retrieving reservations");
+        if(xhrReservations && xhrReservations.readyState != 4)
+            xhrReservations.abort();
+        xhrReservations = $.ajax({
+            type: "GET",
+            url: `/reservation/user-reservations/${date}/${time}/${trip}`,
+            success: function(data){
+                if(data.length === 0){
+                    Table.showMessage(table, "No reservations found");
+                }else
+                    Table.removeDataLoading(table);
+                for(let i=0; i<data.length; ++i){
+                    let nameEntry = $("<td>").html(data[i].lastName + ", " + data[i].firstName);
+                    let typeEntry = $("<td>").html(data[i].type);
+                    let idEntry = $("<td>").html(data[i].idNumber);
+                    let row = $("<tr>").append(nameEntry).append(typeEntry).append(idEntry);
+                    tableBody.append(row);
+                }
+            },
+            error: function(){
+                if(xhrReservations.readyState === 4)
+                    Table.showMessage(table, "Cannot retrieve data at this time");
+            }
+        });
     }
     tripFilter.trigger("change");
 });

@@ -22,6 +22,7 @@ let Validator = function() {
 	}
 	// Marks the input as invalid
 	function markInput(input, message){
+		message = "- " + message;
 		let equalInput = getEqualInput(input)
 		input.addClass("form__input--invalid");
 		equalInput.addClass("form__input--invalid");
@@ -79,19 +80,19 @@ let Validator = function() {
 	
 		$(".required").blur(function(e){
 			let input = $(this);
-			if(!checkInput(input, emptyChecker, "*Required"))
+			if(!checkInput(input, emptyChecker, "Required"))
 				e.stopImmediatePropagation();
 		});
 
 		$(".email").blur(function(e){
 			let input = $(this);
-			if(!checkInput(input, emailChecker, "*Invalid DLSU email"))
+			if(!checkInput(input, emailChecker, "Invalid DLSU email"))
 				e.stopImmediatePropagation();
 		});
 
 		$(".id-number").blur(function(e){
 			let input = $(this);
-			if(!checkInput(input, idChecker, "*Invalid ID Number"))
+			if(!checkInput(input, idChecker, "Invalid ID Number"))
 				e.stopImmediatePropagation();
 		});
 
@@ -105,7 +106,7 @@ let Validator = function() {
 		$("[data-min-length]").blur(function(e){
 			let inputElem = $(this);
 			let minLength = inputElem.attr("data-min-length");
-			if(!checkInput(inputElem, minLengthChecker, `*Must be at least ${minLength} characters`))
+			if(!checkInput(inputElem, minLengthChecker, `Must be at least ${minLength} characters`))
 				e.stopImmediatePropagation()
 		})
 	});
@@ -115,12 +116,12 @@ let Validator = function() {
 		unmarkInput: unmarkInput,
 		// Takes a JQuery input object and checks if value follows the appropiate input format and marks it if not
 		checkEmail(emailInput){
-			return checkInput(emailInput, emailChecker, "*Invalid DLSU email");
+			return checkInput(emailInput, emailChecker, "Invalid DLSU email");
 		},
 
 		// Takes a JQuery input object and checks if value is a valid ID and marks it if not
 		checkID(idInput){
-			return checkInput(idInput, idChecker, "*Invalid ID Number")
+			return checkInput(idInput, idChecker, "Invalid ID Number")
 		},
 
 		checkEqual: checkEqual,
@@ -130,23 +131,36 @@ let Validator = function() {
 			let isValid = true;
 			form.find(".required").each(function(){
 				let currentInput = $(this);
-				isValid = isValid & checkInput(currentInput, emptyChecker, "*Required");
+				isValid = isValid & checkInput(currentInput, emptyChecker, "Required");
 			});
 			return isValid;
 		},
 
 		checkMinLength(input){
 			let minLength = input.attr("data-min-length");
-			return checkInput(input, minLengthChecker, "*Must be at least " + minLength + " characters");
+			return checkInput(input, minLengthChecker, "Must be at least " + minLength + " characters");
 		},
 
 		// Checks if a date input is on a weekend and marks the date input if so
 		checkWeekend(input){
-			let day = (new Date(input.val())).getDay();
-			if(day === 0 || day === 6){
-				markInput(input);
+			let day = (new Date(input.val()  + "T00:00:00")).getDay();
+			if(day === 0 || day === 6 || input.val().length === 0){
+				markInput(input, "Cannot reserve on a weekend");
 				return false;
 			}
+			unmarkInput(input);
+			return true;
+		},
+
+		checkDatePassed(input){
+			let inputDate = (new Date(input.val() + "T00:00:00"));
+			let today = new Date();
+			today.setHours(0, 0, 0, 0);
+			if(inputDate.getTime() < today.getTime() || input.val().length === 0){
+				markInput(input, "Date has already passed");
+				return false;
+			}
+			unmarkInput(input);
 			return true;
 		}
 	}

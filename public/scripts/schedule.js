@@ -1,14 +1,23 @@
 $(document).ready(function(){
-    let retrievalMessage;
     let xhr;
     $("#schedule-filters input, #schedule-filters select").change(function(){
         let table = $("#schedule-table");
         let tableBody = table.find(".table__body");
         tableBody.find("tr").remove();
         let dateInput = $("#schedule-filters__date").val();
+        if(!dateInput){
+            Table.showMessage(table, "Invalid date input");
+            return;
+        }
         let date = new Date(dateInput + "T00:00:00");
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
         if(date.getDay() === 0 || date.getDay() === 6){
             Table.showMessage(table, "No reservations on weekends");
+            return;
+        }
+        if(date.getTime() < today.getTime()){
+            Table.showMessage(table, "Date has already passed");
             return;
         }
         Table.showDataLoading(table, "Retrieving schedule");

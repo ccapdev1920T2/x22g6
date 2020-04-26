@@ -38,19 +38,9 @@ $(document).ready(function(){
 		e.preventDefault();
 		let reservationDate = new Date(dateInput.val());
 		let reservationDay = reservationDate.getDay();
-		let isValid = Validator.checkRequired(reservationForm);
-		let headers = {};
-		Validator.unmarkInput(dateInput);
-		// Checks if the reservation is on a weekend
-		if(reservationDay === 0 || reservationDay === 6){
-			$("#reservation-form__date").addClass("form__input--invalid");
-			Validator.markInput($("#reservation-form__date"), "*Cannot reserve on a weekend");
-			isValid = false;
-		}else if(reservationDate.getTime() < currentDate.getTime()){ //Checks if reservation is on a day before
-			Validator.markInput(dateInput, "*Date has already passed");
-			isValid = false;
-		}
-		
+		let isValid = Validator.checkRequired(reservationForm) & Validator.checkWeekend(dateInput)
+			& Validator.checkDatePassed(dateInput);
+		let headers = {};		
 		if(window.location.pathname === "/reservation/my-reservations")
 			headers["Time-Slot-HTML"] = "true";
 	
