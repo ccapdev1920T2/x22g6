@@ -38,8 +38,8 @@ $(document).ready(function(){
 		e.preventDefault();
 		let reservationDate = new Date(dateInput.val());
 		let reservationDay = reservationDate.getDay();
-		let isValid = Validator.checkRequired(reservationForm) & Validator.checkWeekend(dateInput)
-			& Validator.checkDatePassed(dateInput);
+		let isValid = Validator.checkRequired(reservationForm) & (Validator.checkWeekend(dateInput)
+			&& Validator.checkDatePassed(dateInput));
 		let headers = {};		
 		if(window.location.pathname === "/reservation/my-reservations")
 			headers["Time-Slot-HTML"] = "true";

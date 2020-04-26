@@ -32,7 +32,7 @@ $(document).ready(function(){
         let checkInForm = $("#check-in-form");
         let dateInput = $("#check-in-form__date");
         let isValid = Validator.checkRequired(checkInForm) & Validator.checkID($("#check-in-form__id-number"))
-            & Validator.checkWeekend(dateInput) & Validator.checkDatePassed(dateInput);
+            & (Validator.checkWeekend(dateInput) && Validator.checkDatePassed(dateInput));
         if(isValid){
             Modal.closeModal($("#check-in-modal"));
             Modal.displayBufferModal("Checking-in User");
