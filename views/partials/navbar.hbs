@@ -9,6 +9,10 @@
             <p class="user-info__text--main">{{user._id}}</p>
             {{#if user.reputationPoints}}
                 <p class="user-info__text--sub">Reputation Points: {{user.reputationPoints}}</p>
+            {{else if (isStaff user.type)}}
+                <p class="user-info__text--sub">Staff</p>
+            {{else}}
+                <p class="user-info__text--sub">Reputation Points: 0</p>
             {{/if}}
         </div>
     </div>
