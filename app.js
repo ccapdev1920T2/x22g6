@@ -55,7 +55,7 @@ app.use("/confirmation", require("./routes/confirmation-routes"));
 // For logging out
 app.get("/logout", require("./controllers/user-controller").logOutUser);
 app.get("/favicon.ico", function(req, res){
-    res.sendStatus(404);
+    res.sendStatus(204);
 });
 app.use(function(req, res){
     if(req.accepts("html"))
