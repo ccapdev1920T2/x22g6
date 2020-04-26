@@ -26,11 +26,11 @@ http://localhost:3000/
 ```
 
 ## Dummy Accounts:
-| Email                      | Password   | Type    | Suspended |
-|----------------------------|------------|---------|-----------|
-| mike_quito@dlsu.edu.ph     | headphones | Staff   | N/A       |
-| jj_reyes@dlsu.edu.ph       | computers  | Student | false     |
-| joshua_gaurano@dlsu.edu.ph | mousepad   | Student | true      |
+| Email                      | Password   | Type    |
+|----------------------------|------------|---------|
+| mike_quito@dlsu.edu.ph     | headphones | Staff   |
+| jj_reyes@dlsu.edu.ph       | computers  | Student |
+| joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student |
 
 ## Authors:
 * **Joshua Gaurano** 
