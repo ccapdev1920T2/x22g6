@@ -10,9 +10,9 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 1. Download or Create a clone of the repository
 2. Open Command Prompt 
 3. Navigate to project folder
-4. Install dependencies: `npm install`
-5. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project
-6. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development`
+4. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development`
+5. Install dependencies: `npm install`
+6. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project
 7. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
 ```
 Listening at port 3000
