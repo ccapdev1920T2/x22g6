@@ -28,7 +28,7 @@ http://localhost:3000/
 ## Dummy Accounts:
 | Email                      | Password   | Type    |
 |----------------------------|------------|---------|
-| mike_quito@dlsu.edu.ph     | headphones | Staff   |
+| mike_quito@dlsu.edu.ph     | herokuapp | Student   |
 | jj_reyes@dlsu.edu.ph       | computers  | Student |
 | joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student |
 
