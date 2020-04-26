@@ -10,27 +10,14 @@ NodeJS and MongoDB must be installed in the PC. git is optional.
 1. Download or Create a clone of the repository
 2. Open Command Prompt 
 3. Navigate to project folder
-4. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development`
-5. Install dependencies: `npm install`
-6. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project
-7. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
-```
-Listening at port 3000
-Verified SMTP connection configuration
-Connected to MongoDB server
-Scheduled release date of existing suspended users
-Added cron jobs
-```
-8. Open a web browser and type the following:
-```
-http://localhost:3000/
-```
+4. Install dependencies: `npm install`
 
 ## Reopening/Rerun of app:
 1. Open Command Prompt 
 2. Navigate to project folder
-3. Reset the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
-4. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
+3. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
+4. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project. Downloading it may cause a random filename to the .env file. If so, remove the filename and set it to the filename to ".env"
+5. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
 ```
 Listening at port 3000
 Verified SMTP connection configuration
@@ -38,7 +25,7 @@ Connected to MongoDB server
 Scheduled release date of existing suspended users
 Added cron jobs
 ```
-5. Open a web browser and type the following:
+6. Open a web browser and type the following:
 ```
 http://localhost:3000/
 ```
