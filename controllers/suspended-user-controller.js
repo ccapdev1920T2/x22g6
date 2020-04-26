@@ -5,7 +5,7 @@ const schedule = require("node-schedule");
     try{
          let suspended = await SuspendedUser.find();
         for(let i=0; i<suspended.length; i++){
-            schedule.scheduleJob(suspended[i].releaseDate.getTime(), function(){
+            schedule.scheduleJob(suspended[i].releaseDate, function(){
                 suspended[i].remove();
             }
         }
