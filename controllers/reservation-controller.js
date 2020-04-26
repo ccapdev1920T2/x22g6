@@ -3,6 +3,7 @@ const Reservation = require("../models/reservation-model");
 const SuspendedUser = require("../models/suspended-user-model");
 const User = require("../models/user-model");
 const CronJob = require('cron').CronJob;
+const nodeSchedule = require("node-schedule");
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"];
@@ -72,6 +73,14 @@ async function checkReservations(time, origin){
             let points = user.reputationPoints;
 
             user.reputationPoints = points - 10;
+            if(user.reputationPoints === 0){
+                let suspendedUser = new SuspendedUser({userId: user._id});
+                await suspendedUser.save();
+                nodeSchedule.scheduleJob(suspendedUser.releaseDate, function(){
+                    suspendedUser.liftSuspension();
+                });
+                console.log("Suspended user: " + user._id);
+            }
 
             await user.save();
         }
@@ -149,11 +158,6 @@ exports.createReservation = async function(req, res){
     // req.body would be an object containing {date, trip, time} of the reservation
     try{
         let suspended = await SuspendedUser.findOne({userId: req.signedCookies.id});
-        // Checks if the suspension is already lifted and removes it if it already is
-        if(suspended && suspended.releaseDate.getTime() <= (new Date()).getTime()){
-            await suspended.remove()
-            suspended = null;
-        }
         if(!suspended){ //For users that are not suspended
             let reservation = await Reservation.createReservation(
                 req.signedCookies.id, 
