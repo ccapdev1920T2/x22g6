@@ -57,7 +57,7 @@ $(document).ready(function(){
 					let dateString = `${date.toLocaleString('default', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`
 					let time = $("#reservation-form__time option:selected").text();
 					let trip = $("#reservation-form__location option:selected").text();
-					Modal.displayModalMessage(`You reservation has been made on <b>${dateString} ${time} from ${trip}<b>`, true);
+					Modal.displayModalMessage(`You reservation has been made on <b>${dateString}</b>, <b>${time}</b>, from <b>${trip}<b>`, true);
 					if(window.location.pathname === "/reservation/my-reservations")
 						addNewTimeSlot(data);
 					
