@@ -6,11 +6,7 @@ module.exports.scheduleReleaseDate =  async function scheduleReleaseDate(){
         let suspended = await SuspendedUser.find();
         for(let i=0; i<suspended.length; i++){
             schedule.scheduleJob(suspended[i].releaseDate, function(){
-                suspended[i].liftSuspension().then(function(value){
-                    console.log(`Lifted suspension of ${suspended[i]}`);
-                }, function(err){
-                    console.log(`Cannot lift suspension of ${suspended[i]}: ${err}`);
-                });
+                suspended[i].liftSuspension();
             });
         }
         console.log("Scheduled release date of existing suspended users");

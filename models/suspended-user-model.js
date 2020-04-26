@@ -50,8 +50,13 @@ suspendedUserSchema.methods.getReleaseDateTime = function(){
 
 // Lifts the suspension of the user and reverts their points back to the default number of points
 suspendedUserSchema.methods.liftSuspension = async function(){
-    await User.updateOne({_id: this.userId}, {"$set" : {reputationPoints: User.DEFAULT_REP_POINTS}});
-    return await this.remove();
+    try{
+        await User.updateOne({_id: this.userId}, {"$set" : {reputationPoints: User.DEFAULT_REP_POINTS}});
+        await this.remove();
+        console.log("Lifted suspendsion of " + this);
+    }catch(err){
+        console.log("Cannot lift suspension of " + this + " : " + err);
+    }
 }
 
 const SuspendedUser = mongoose.model('SuspendedUser', suspendedUserSchema, "suspendedUsers");
