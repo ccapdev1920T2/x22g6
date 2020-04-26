@@ -1,9 +1,14 @@
 $(document).ready(function(){
     let timeSelector = $("#check-in-form__time");
     let locationSelector = $("#check-in-form__trip");
+    let xhrTimeSlots;
     locationSelector.change(function(){
-        console.log("test");
-		$.ajax({
+        if(xhrTimeSlots && xhrTimeSlots.readyState !== 4)
+            xhrTimeSlots.abort();
+        timeSelector.prop("disabled", true);
+        timeSelector.children().remove();
+        timeSelector.append($("<option>").html("Loading..."));
+		xhrTimeSlots = $.ajax({
 			type: "GET",
 			url: "/schedule/time-slots/" + locationSelector.val(),
 			success: function(data){
@@ -11,8 +16,13 @@ $(document).ready(function(){
 				for(let i=0; i<data.length; ++i){
 					let text = document.createTextNode(data[i].presentation);
 					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
-				}
-			}
+                }
+                timeSelector.prop("disabled", false);
+            },
+            error: function(){
+                if(xhrTimeSlots.readyState === 4)
+                    timeSelector.find("option").html("Cannot retrieve time slots");
+            }
 		});
 	});
     

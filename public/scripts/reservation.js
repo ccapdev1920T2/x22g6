@@ -5,17 +5,28 @@ $(document).ready(function(){
 	let dateInput = $("#reservation-form__date");
 
 	let currentDate = new Date(dateInput.val());
+	let xhrTimeSlots;
 
 	locationSelector.change(function(){
-		$.ajax({
+		if(xhrTimeSlots && xhrTimeSlots.readyState !== 4)
+        	xhrTimeSlots.abort();
+		timeSelector.prop("disabled", true);
+		timeSelector.children().remove();
+		timeSelector.append($("<option>").html("Loading..."));
+		xhrTimeSlots = $.ajax({
 			type: "GET",
 			url: "/schedule/time-slots/" + locationSelector.val(),
 			success: function(data){
 				timeSelector.children().remove();
+				timeSelector.prop("disabled", false);
 				for(let i=0; i<data.length; ++i){
 					let text = document.createTextNode(data[i].presentation);
 					timeSelector.append($("<option>").attr("value", data[i].value).append(text));
 				}
+			},
+			error: function(jqxhr){
+				if(xhrTimeSlots.readyState === 4)
+					timeSelector.find("option").html("Cannot retrieve time slots");
 			}
 		});
 	});

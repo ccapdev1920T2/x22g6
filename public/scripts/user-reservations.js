@@ -5,23 +5,32 @@ $(document).ready(function(){
     let tripFilter = $("#user-reservations-filters__trip");
     let dateFilter = $(FILTER_FORM_ID +"__date");
     let timeFilter = $(FILTER_FORM_ID +"__time");
+    let tableBody = $(TABLE_ID + " .table__body");
+    let table = $(TABLE_ID);
     let xhrTimeSlots;
     let xhrReservations;
     tripFilter.change(function(){
+        Table.showDataLoading(table, "Retrieving reservations");
         if(xhrTimeSlots && xhrTimeSlots.readyState !== 4)
-        xhrTimeSlots.abort();
+            xhrTimeSlots.abort();
         timeFilter.prop("disabled", true);
         timeFilter.children().remove();
+        timeFilter.append($("<option>").html("Loading..."));
         xhrTimeSlots = $.ajax({
             type: "GET",
             url: "/schedule/time-slots/" + tripFilter.val(),
             success: function(data){
+                timeFilter.children().remove();
 				for(let i=0; i<data.length; ++i){
 					let text = document.createTextNode(data[i].presentation);
 					timeFilter.append($("<option>").attr("value", data[i].value).append(text));
                 }
                 timeFilter.prop("disabled", false);
                 sendUserReservationsRequest();
+            },
+            error: function(){
+                if(xhrTimeSlots.readyState === 4)
+                    timeFilter.find("options").html("Cannot retrieve time slots");
             }
         })
     });
@@ -29,8 +38,6 @@ $(document).ready(function(){
         sendUserReservationsRequest();
     });
     function sendUserReservationsRequest(){
-        let tableBody = $(TABLE_ID + " .table__body");
-        let table = $(TABLE_ID);
         tableBody.find("tr").remove();
         let isValid = Validator.checkRequired(filterForm);
         Table.showDataLoading(table, "Retrieving reservations");
