@@ -10,6 +10,7 @@ $(document).ready(function(){
     let xhrTimeSlots;
     let xhrReservations;
     tripFilter.change(function(){
+        tableBody.find("tr").remove();
         Table.showDataLoading(table, "Retrieving reservations");
         if(xhrTimeSlots && xhrTimeSlots.readyState !== 4)
             xhrTimeSlots.abort();
