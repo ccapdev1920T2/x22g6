@@ -53,7 +53,7 @@ suspendedUserSchema.methods.liftSuspension = async function(){
     try{
         await User.updateOne({_id: this.userId}, {"$set" : {reputationPoints: User.DEFAULT_REP_POINTS}});
         await this.remove();
-        console.log("Lifted suspendsion of " + this);
+        console.log("Lifted suspension of " + this.userId + " with a release date of " + this.releaseDate);
     }catch(err){
         console.log("Cannot lift suspension of " + this + " : " + err);
     }
