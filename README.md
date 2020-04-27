@@ -6,6 +6,9 @@
 ## Prerequisites: 
 NodeJS and MongoDB must be installed in the PC. git is optional.
 
+## Heroku Link to Application:
+https://re-arrows.herokuapp.com/
+
 ## Installing: 
 1. Download or Create a clone of the repository
 2. Open Command Prompt 
