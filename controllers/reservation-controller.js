@@ -210,7 +210,7 @@ exports.checkInUser = async function(req, res){
         else if(reservationUpdate.n && reservationUpdate.nModified === 0)   
             res.status(409).send("User already checked in");
         else
-            res.status(202).send();
+            res.status(204).send();
     }
     catch(err){
         res.status(500).send("Check-in not available at this time");
@@ -237,7 +237,7 @@ exports.deleteReservation = async function(req, res){
         if(deleteOperation.deletedCount === 0)
             res.status(400).send("The reservation does not exist");
         else
-            res.status(202).send();
+            res.status(204).send();
     }
     catch(err){
         res.status(500).send("Cannot delete Reservation at this time");
