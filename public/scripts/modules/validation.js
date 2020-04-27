@@ -66,7 +66,7 @@ let Validator = function() {
 		
 		$(".numonly").keypress(function(e){
 			var key = e.keyCode;
-			if(!(key >= 48 && key <= 57)){
+			if(!((key >= 48 && key <= 57) || key === 13)){
 				e.preventDefault();
 			}
 		});
