@@ -14,13 +14,13 @@ https://re-arrows.herokuapp.com/
 2. Open Command Prompt 
 3. Navigate to project folder
 4. Install dependencies: `npm install`
+5. To use the application locally, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project. Downloading the file may cause a random filename to the .env file. If so, remove the filename and set it to ".env".  Place the .env file in the root direcoty of the project
 
 ## Running Application:
 1. Open Command Prompt 
 2. Navigate to project folder
 3. Set the NODE_ENV environment variable to "development": `SET NODE_ENV=development` 
-4. To use the application, a .env file is required.  The file was not commited to git as it contains sensitive information.  A link to the .env file would be specified in the comments in the canvas submission of the project. Downloading the file may cause a random filename to the .env file. If so, remove the filename and set it to ".env"
-5. Run the following command to start the application: `node app.js`.  The following message would be displayed if the application has started properly
+4. Run the following command to start the application: `node app.js`.  At least the following messages (in any order) should be displayed to indicate that the app is working properly
 ```
 Listening at port 3000
 Verified SMTP connection configuration
@@ -36,10 +36,10 @@ http://localhost:3000/
 ## Dummy Accounts:
 | Email                      | Password   | Type    |
 |----------------------------|------------|---------|
-| mike_quito@dlsu.edu.ph     | herokuapp | Student   |
-| john_joseph_reyes@dlsu.edu.ph       | computers  | Student |
-| joshua_kiel_gaurano@dlsu.edu.ph | p@ssword   | Student |
-| john_smith@dlsu.edu.ph | headphones | Staff |
+|mike_quito@dlsu.edu.ph|herokuapp|Student|
+|john_joseph_reyes@dlsu.edu.ph|computers|Student|
+|joshua_kiel_gaurano@dlsu.edu.ph|p@ssword|Student|
+|john_smith@dlsu.edu.ph|headphones|Staff|
 
 ## Authors:
 * **Joshua Gaurano** 
