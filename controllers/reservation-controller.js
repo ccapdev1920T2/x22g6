@@ -70,18 +70,19 @@ async function checkReservations(time, origin){
         for (let i = 0; i < reservations.length; i++){
             let user = await User.findOne({_id: reservations[i].userId});
             let points = user.reputationPoints;
+            if(user.reputationPoints !== 0){
+                user.reputationPoints = points - 10;
+                if(user.reputationPoints === 0){
+                    let suspendedUser = new SuspendedUser({userId: user._id});
+                    await suspendedUser.save();
+                    nodeSchedule.scheduleJob(suspendedUser.releaseDate, function(){
+                        suspendedUser.liftSuspension();
+                    });
+                    console.log("Suspended user: " + user._id);
+                }
 
-            user.reputationPoints = points - 10;
-            if(user.reputationPoints === 0){
-                let suspendedUser = new SuspendedUser({userId: user._id});
-                await suspendedUser.save();
-                nodeSchedule.scheduleJob(suspendedUser.releaseDate, function(){
-                    suspendedUser.liftSuspension();
-                });
-                console.log("Suspended user: " + user._id);
+                await user.save();
             }
-
-            await user.save();
         }
     }
     catch(err){
