@@ -14,7 +14,7 @@ https://re-arrows.herokuapp.com/
 2. Open Command Prompt 
 3. Navigate to project folder
 4. Install dependencies: `npm install`
-5. To use the application locally, a `.env` file is required.  The file was not commited to git as it contains sensitive information.  A link to the `.env` file would be specified in the comments in the canvas submission of the project. Downloading the file may cause a random filename to the `.env` file. If so, remove the filename and set it to ".env".  Place the `.env` file in the root direcoty of the project
+5. To use the application locally, a `.env` file is required.  The file was not commited to git as it contains sensitive information.  A link to the `.env` file would be specified in the comments in the canvas submission of the project. Downloading the file may cause a random filename to the `.env` file. If so, remove the filename and set it to ".env".  Place the `.env` file in the root directory of the project
 
 ## Running Application:
 1. Open Command Prompt 
