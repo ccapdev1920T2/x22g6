@@ -21,7 +21,7 @@ exports.sendTimeSlots = async function(req, res){
         res.status(200).send(toSend);
     }
     catch(err){
-        res.status(500).send("NOT IMPLEMENTED: Getting time-slots for trip");
+        res.status(500).send("Cannot get time slots at this time");
     }
    
 }
