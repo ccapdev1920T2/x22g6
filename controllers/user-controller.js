@@ -64,8 +64,9 @@ exports.sendStudentRegistrationPage = function(req, res){
 
 // For registering students
 exports.registerStudent = async function(req, res){
+    let user;
     try{
-        await User.createUser(
+        user = await User.createUser(
             req.body["id-number"], 
             req.body["first-name"], 
             req.body["last-name"], 
@@ -78,6 +79,14 @@ exports.registerStudent = async function(req, res){
         res.status(201).send();
     }
     catch(err){
+        if(user){
+            user.remove(function(err){
+                if(err)
+                    console.log("Cannot remove user: " + user._id);
+                else
+                    console.log("Removed user: " + user._id);
+            });
+        }
         if(err.keyPattern && err.keyPattern._id === 1){
             User.find({email: req.body.email}, function(err, docs){
                 if(err) res.status(500).send("Cannot register at this time");
